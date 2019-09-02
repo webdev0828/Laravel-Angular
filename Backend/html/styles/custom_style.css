@@ -1,0 +1,137 @@
+
+.admin #content .navbar-default .container-fluid .navbar-collapse .navbar-nav li{
+padding:12px 9px 0 !important;}
+.landing-page-modals .subscriptions-box-desktop-and-tablets .cell {
+border-right: 1px solid #191919 !important;}
+.homepage .navbar-default .navbar-collapse ul li:last-child,
+.landing-page-track .navbar-default .navbar-collapse ul li:last-child ,
+.landing-page-track .track-wrapper .red-button,
+.admin #content #artist .red-button ,
+.landing-page-modals .navbar-default .navbar-collapse ul li:last-child,
+.landing-page-track-recommended .navbar-default .navbar-collapse ul li:last-child,
+.landing-page-track-recommended .track-wrapper .red-button,
+.landing-page-track-recommended .track-wrapper .red-button,
+.admin #content #label-release .box .red-button ,.homepage #about .tabs .tab-content .tab-pane .red-button{
+border-bottom: none !important;}
+.page #dashboard a .subpage-link .opacity-mask h3 {
+color: #ffffff !important;}
+
+#remix-competitions #current-competition .current-competition-body .video-track .assets .buttons, #remix-competitions #current-competition .original-track-body .video-track .assets .buttons, #remix-competitions #original-track .current-competition-body .video-track .assets .buttons, #remix-competitions #original-track .original-track-body .video-track .assets .buttons {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top:none !important;
+   	 padding: 0 10px 3px !important;
+}
+#remix-competitions #current-competition .current-competition-body .video-track .assets p, #remix-competitions #current-competition .original-track-body .video-track .assets p, #remix-competitions #original-track .current-competition-body .video-track .assets p, #remix-competitions #original-track .original-track-body .video-track .assets p {
+    margin-top: 15px !important;}
+
+#remix-competitions #current-competition .dates {
+    margin-top: 20px !important;}
+
+
+
+
+
+
+
+ .custom_footer {
+  background: #13171a;
+  padding: 35px 0;
+  overflow-x: hidden;
+}
+ .custom_footer ul li {
+  float: left;
+}
+ .custom_footer ul li a {
+  display: block;
+  background: #eb1c24;
+  width: 38px;
+  height: 38px;
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+}
+ .custom_footer  ul li a i {
+  color: #fff;
+  font-size: 20px;
+}
+ .custom_footer .col-md-8 > span {
+  color: #949495;
+  text-align: right;
+  font-weight: 500;
+  font-style: normal;
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  display: block;
+  margin-top: 15px;
+}
+ .custom_footer  .col-md-8 > span {
+    color: #949495;
+    display: block;
+    font-family: Raleway,sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    margin-top: 15px;
+    text-align: right;
+}
+@media (max-width: 767px) {
+ .custom_footer  .col-md-8 > span {
+    text-align: left;
+    margin-top: 35px;
+  }
+}
+
+ footer {
+  background: #13171a;
+  margin-top: 30px;
+  padding: 35px 0;
+}
+ footer ul li {
+  float: left;
+}
+footer ul li a {
+  display: block;
+  background: #eb1c24;
+  width: 38px;
+  height: 38px;
+  float: left;
+  margin-right: 10px;
+  text-align: center;
+}
+ footer ul li a i {
+  color: #fff;
+  font-size: 20px;
+}
+ footer span {
+  color: #949495;
+  text-align: right;
+  font-weight: 500;
+  font-style: normal;
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+  display: block;
+  margin-top: 15px;
+}
+@media (max-width: 767px) {
+ footer span {
+    text-align: left;
+    margin-top: 35px;
+  }
+}
+
+.download-btn {
+  width: 50% !important;
+    border: 2px solid red !important;
+    border-radius: 3px;
+    display: inline-block;
+    color: red;
+    border-bottom: 2px solid #9a2226;
+    font-weight: 700;
+    font-style: normal;
+    font-family: Open Sans, sans-serif;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 10px 0;
+}

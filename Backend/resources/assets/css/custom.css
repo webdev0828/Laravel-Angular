@@ -1,0 +1,190 @@
+.dataTables_wrapper .dataTables_processing{
+	background:no-repeat!important;
+	margin-left: -58%!important;
+	top: 25%!important;
+}
+
+.overlay-close-btn{position: absolute;right: 5px;cursor: pointer;top: -5px;color: #979797}
+/*.info-page img{
+    height:200px;
+    width: 100%;
+}*/
+.sort-date{display: none;}
+.menu.accordion-menu ul li a{color: #5f5f5f !important;}
+.menu.accordion-menu ul li.active >a{color: #22BAA0 !important;}
+.video-close{z-index: 1;position: relative;color: #fff;text-shadow: 0 1px 0 #009be3;opacity: .7;margin: 0px 5px;top: 20px;left: 42px;}
+.video-close:hover{color: #f8fdff;}
+#jp_video_0{position: absolute;}
+.m-t-10{margin-top: 10px;}
+.table-bottom-bordered tr:not(:last-child) td{border-bottom: 1px solid #ddd;border-top: 0px solid #ddd !important;}
+#profile-upload-btn{margin: 10px 0px;}
+.btn-label{width: 90px}
+.default-img-sm{max-height:150px; width: 200px;}
+.default-img-lg{max-height:200px; width: 300px;}
+#competitionPhoto-error{display: block}
+textarea {resize: vertical;}
+.ellipsis{text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
+table.detail-table td, table.social-table td {text-transform: capitalize;}
+select.custom-filter, select.campaign-custom-filter, select.remix-custom-filter{width:200px;}
+.filter-form{padding:10px 0px;}
+.filter-form div{display: inline-block;vertical-align: top;}
+.decoration-none:hover, .decoration-none:focus{color:transparent;text-decoration: none}
+.img_loader{width: 68px;}
+.td.tdrow.player.light.shrink span{display: none;}
+.tdrow.social{display: none;}
+.tdrow.playlist{display: none;}
+.td.tdrow.player.light{ 
+		bottom: 0;
+		left: 0;
+		max-width: 100% !important;
+		overflow: hidden;
+		position: fixed;
+		z-index: 10000;
+		background-color: #f2f2f2;
+}
+.tdicon-td_logo-link{display: none;}
+.tdcolumns.tdlarge-2.tdsmall-12.mini-connect{display: none;}
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.slimScrollDiv{
+    display: inline !important;
+    overflow: hidden !important;
+    position: static !important;}
+.header-bg{padding:5px 0px 5px 0px; /*background:#;*/}
+
+.Dropdown{height: auto !important;}
+
+.solid-border{
+    border-bottom: 1px solid #e5e5e5 !important;
+}
+
+.top-padding{
+    padding: 20px !important;
+}
+
+.footer-solid-border{
+    padding: 20px !important;
+    border-top: 1px solid #e5e5e5;
+}
+
+.background-color{
+    background-color: #777 !important;
+}
+
+.top-video, .spootLight{
+    cursor: pointer;
+}
+
+.trackApprove, .trackReject, .videoApprove, .videoReject,.trackApprove-remix, .trackReject-remix, .trackReject-repost, .trackApprove-repost, .trackApprove-quality, .open-soundcloud, .trackReject-quality, .dripFeed, .dripFeed-remix, .videoDripFeed{
+    cursor: pointer;
+}
+
+.row-size{
+    width: 250px;
+}
+
+.radio-filter{
+    opacity: 1 !important;
+    margin: 0px 0px 0px -20px !important;
+}
+
+/*.remove-cover-image{
+    margin: 4px !important;
+}*/
+
+/*.original_track{  opacity: 0.8;
+    filter: alpha(opacity=10);
+}*/
+
+/* Soundcloud Gating Section */
+.admin #socials * {outline-color: #fff!important;}
+.admin #socials ul {list-style: none;}
+.admin #socials ul li:first-child {background: #f7540e;}
+.admin #socials ul li{float: left;width: 18%;margin-right: 2.5%;height: 130px;text-align: center;}
+.vertical-center {position: relative;top: 50%;-webkit-transform: translateY(-50%);transform: translateY(-50%);}
+.admin #socials ul li i {display: block;font-size: 32px;color: #fff;margin-bottom: 10px;}
+
+
+.preview-img{
+    height:150px;
+    width: auto;
+}
+
+.fix-width{
+    width:200px;
+}
+
+.select2-size{
+    height:34px !important;
+    overflow: hidden;
+}
+.btn-top-margin{
+    margin-top: 20px;
+}
+.loading {
+  background-color: #f4f4f4;
+  opacity: 0.6;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 999999;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-image: url('/frontweb/assets/images/loader.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.msg-div{
+  text-align: center;
+}
+
+.label-width{
+  width: 22%;
+}
+
+.div-content-width{
+  width: 43.333333%;
+}
+
+@media (max-width: 768px){
+  .label-width{
+    width: 100%;
+  }
+
+  .div-content-width{
+    width: 100%;
+  }
+}
+
+.error_message{
+  display: none;
+  color:red;
+}
+
+.submit-btn{
+  display: none;
+}
+
+
+.discover-status .fa.fa-times {
+    color: #eb1c24;
+}
+.discover-status .fa.fa-check {
+    color: #00ad08;
+}

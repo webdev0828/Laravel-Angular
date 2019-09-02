@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <!-- Title -->
+        <title>Sore Thumb Media | Artists</title>
+        
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta charset="UTF-8">
+        <meta name="description" content="Admin Dashboard Template" />
+        <meta name="keywords" content="admin,dashboard" />
+        <meta name="author" content="Steelcoders" />
+        
+        <!-- Styles -->
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700' rel='stylesheet' type='text/css'>
+        <link href="assets/plugins/pace-master/themes/blue/pace-theme-flash.css" rel="stylesheet"/>
+        <link href="assets/plugins/uniform/css/uniform.default.min.css" rel="stylesheet"/>
+        <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/plugins/fontawesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/plugins/line-icons/simple-line-icons.css" rel="stylesheet" type="text/css"/>	
+        <link href="assets/plugins/waves/waves.min.css" rel="stylesheet" type="text/css"/>	
+        <link href="assets/plugins/switchery/switchery.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/plugins/3d-bold-navigation/css/style.css" rel="stylesheet" type="text/css"/>	
+        <link href="assets/plugins/slidepushmenus/css/component.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/plugins/datatables/css/jquery.datatables.min.css" rel="stylesheet" type="text/css"/>	
+        <link href="assets/plugins/datatables/css/jquery.datatables_themeroller.css" rel="stylesheet" type="text/css"/>	
+        <link href="assets/plugins/x-editable/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" type="text/css">
+        <link href="assets/plugins/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" type="text/css"/>
+        
+        <!-- Theme Styles -->
+        <link href="assets/css/modern.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/css/custom.css" rel="stylesheet" type="text/css"/>
+        
+        <script src="assets/plugins/3d-bold-navigation/js/modernizr.js"></script>
+        
+        
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        
+    </head>
+    <body class="page-header-fixed compact-menu page-horizontal-bar">
+        <div class="overlay"></div>
+        <main class="page-content content-wrap">
+            <div class="navbar">
+                <div class="navbar-inner container">
+                    <div class="sidebar-pusher">
+                        <a href="javascript:void(0);" class="waves-effect waves-button waves-classic push-sidebar">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                    </div>
+                    <div class="logo-box">
+                        <span class="logo-text"><img src="assets/logo.png" border="0" alt=""></span>
+                    </div><!-- Logo Box -->
+                    <div class="search-button">
+                        <a href="javascript:void(0);" class="waves-effect waves-button waves-classic show-search"><i class="fa fa-search"></i></a>
+                    </div>
+                    <div class="topmenu-outer">
+                        <div class="top-menu">
+                            <ul class="nav navbar-nav navbar-left">
+                                <li>		
+                                    <a href="javascript:void(0);" class="waves-effect waves-button waves-classic sidebar-toggle"><i class="fa fa-bars"></i></a>
+                                </li>
+                               
+                                <li>		
+                                    <a href="javascript:void(0);" class="waves-effect waves-button waves-classic toggle-fullscreen"><i class="fa fa-expand"></i></a>
+                                </li>
+							</ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                                        <span class="user-name">David<i class="fa fa-angle-down"></i></span>
+                                        <img class="img-circle avatar" src="assets/images/avatar1.png" width="40" height="40" alt="">
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-list" role="menu">
+                                        <li role="presentation"><a href="profile.html"><i class="fa fa-user"></i>Profile</a></li>
+                                        <li role="presentation" class="divider"></li>
+                                        <li role="presentation"><a href="index.html"><i class="fa fa-sign-out m-r-xs"></i>Log out</a></li>
+                                    </ul>
+                                </li>
+                              
+                            </ul><!-- Nav -->
+                        </div><!-- Top Menu -->
+                    </div>
+                </div>
+            </div><!-- Navbar -->
+            <div class="page-sidebar sidebar horizontal-bar">
+                <div class="page-sidebar-inner">
+                    <ul class="menu accordion-menu">
+                        <li class="nav-heading"><span>Navigation</span></li>
+                        <li><a href="dashboard.html"><span class="menu-icon icon-speedometer"></span><p>Dashboard</p></a></li>
+						<li class="droplink"><a href="#"><span class="menu-icon icon-user"></span><p>Users</p><span class="arrow"></span></a>
+                            <ul class="sub-menu">
+								<li><a href="artist.html"><p>Artists</p></a></li>
+								<li><a href="stm_users.html"><p>STM Users</p></a></li>
+								<li><a href="admin_users.html"><p>Admin users</p></a></li>
+                            </ul>
+                        </li>
+						<li class="droplink"><a href="#"><span class="menu-icon icon-briefcase"></span><p>Settings</p><span class="arrow"></span></a>
+                            <ul class="sub-menu">
+                                <li><a href="categories.html">Manage Categories</a></li>
+                                <li><a href="genres.html">Manage genres</a></li>
+                            </ul>
+                        </li>
+						<li><a href="queue.html"><span class="menu-icon icon-speedometer"></span><p>Listening Queue</p></a></li>
+						<li><a href="payment.html"><span class="menu-icon icon-credit-card"></span><p>Payments</p></a></li>
+                    </ul>
+                </div><!-- Page Sidebar Inner -->
+            </div><!-- Page Sidebar -->
+            <div class="page-inner">
+                <div class="page-breadcrumb">
+                    <ol class="breadcrumb container">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">Payments</li>
+                    </ol>
+                </div>
+                <div class="page-title">
+                    <div class="container">
+                        <h3>Payments</h3>
+                    </div>
+                </div>
+                <div id="main-wrapper" class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-white">
+                                <div class="panel-body">
+                                    <!-- Modal -->
+									<form id="add-row-form" action="javascript:void(0);">
+                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title" id="myModalLabel">STM Users</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <input type="text" id="name-input" class="form-control" placeholder="Name" value="Joe Doe" required>
+                                                        </div>
+														 <div class="form-group">
+                                                            <input type="text" id="name-input" class="form-control" placeholder="User name" required value="joedoe" >
+                                                        </div>
+														 <div class="form-group">
+                                                            <input type="password" id="name-input" class="form-control" placeholder="password" required>
+                                                        </div>
+														 <div class="form-group">
+                                                            <input type="text" id="name-input" class="form-control" placeholder="Email" required value="joe@email.com" >
+                                                        </div>
+														 <div class="form-group">
+                                                            <input type="text" id="name-input" class="form-control" placeholder="Phone number" required value="0800 1111">
+                                                        </div>
+														 <div class="form-group">
+                                                           <select class="form-control">
+															<option>Active</option>
+															<option>Inactive</option>
+														   </select>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                    <button type="submit" id="add-row" class="btn btn-success">Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+									</form>
+									
+									<div class="search p bg-light m-b-sm">
+										<form action="#" method="GET" data-default="150">
+											<div class="row">
+												
+												<div class="col-md-2">
+													<input type="text" name="search" class="form-control input-search" placeholder="Start Date">
+												</div>
+												<div class="col-md-2">
+													<input type="text" name="search" class="form-control input-search" placeholder="End Date">
+												</div>
+												<div class="col-md-2">
+													<select class="form-control input-search" >
+														<option>Payment Status</option>
+														<option>SUCCESS</option>
+														<option>FAILED</option>
+													</select>
+												</div>
+												<div class="col-md-2">
+													<select class="form-control input-search" >
+														<option>Subscription</option>
+														<option>PREMIUM</option>
+														<option>UNLIMITED</option>
+														<option>PRO PREMIUM</option>
+														<option>PRO UNLIMITED</option>
+													</select>
+												</div>
+												
+												<div class="col-md-2">
+													<button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+												</div>
+											</div>
+                                             
+											
+                                            
+                                     </form><!-- Search Form -->
+                                </div>
+
+                                   <div class="table-responsive">
+                                    <table id="example" class="display table" style="width: 100%; cellspacing: 0;">
+                                        <thead>
+                                            <tr>
+                                              <th>Transcation #</th>
+												 <th>Date</th>
+                                                <th>Payment By</th>
+                                                <th>Subscription</th>
+												<th>Amount</th>
+												<th>Status</th>
+                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>365325643</td>
+                                                <td>16-10-15</td>
+                                                <td>James Ansell</td>
+												<td>PREMIUM</td>
+												<td>&euro;3.99</td>
+												<td>SUCCESS</td>
+                                             </tr>
+                                            <tr>
+												<td>439854387</td>
+                                                <td>16-10-15</td>
+                                                <td><a href="view_artist_profile.html">Joe Doe</a></td>
+												<td>PRO PREMIUM</td>
+												<td>&euro;6.99</td>
+												<td>FAILED</td>
+                                             </tr>
+                                            
+                                        </tbody>
+                                       </table>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- Row -->
+                </div><!-- Main Wrapper -->
+                <div class="page-footer">
+                    <div class="container">
+                        <p class="no-s">2015 &copy; Sore Thumb Media by Code23.</p>
+                    </div>
+                </div>
+            </div><!-- Page Inner -->
+        </main><!-- Page Content -->
+        <nav class="cd-nav-container" id="cd-nav">
+            <header>
+                <h3>Navigation</h3>
+                <a href="#0" class="cd-close-nav">Close</a>
+            </header>
+            <ul class="cd-nav list-unstyled">
+                <li class="cd-selected" data-menu="index">
+                    <a href="javsacript:void(0);">
+                        <span>
+                            <i class="glyphicon glyphicon-home"></i>
+                        </span>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li data-menu="profile">
+                    <a href="javsacript:void(0);">
+                        <span>
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        <p>Profile</p>
+                    </a>
+                </li>
+                <li data-menu="inbox">
+                    <a href="javsacript:void(0);">
+                        <span>
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </span>
+                        <p>Mailbox</p>
+                    </a>
+                </li>
+                <li data-menu="#">
+                    <a href="javsacript:void(0);">
+                        <span>
+                            <i class="glyphicon glyphicon-tasks"></i>
+                        </span>
+                        <p>Tasks</p>
+                    </a>
+                </li>
+                <li data-menu="#">
+                    <a href="javsacript:void(0);">
+                        <span>
+                            <i class="glyphicon glyphicon-cog"></i>
+                        </span>
+                        <p>Settings</p>
+                    </a>
+                </li>
+                <li data-menu="calendar">
+                    <a href="javsacript:void(0);">
+                        <span>
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </span>
+                        <p>Calendar</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="cd-overlay"></div>
+	
+
+        <!-- Javascripts -->
+        <script src="assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+        <script src="assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <script src="assets/plugins/pace-master/pace.min.js"></script>
+        <script src="assets/plugins/jquery-blockui/jquery.blockui.js"></script>
+        <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="assets/plugins/switchery/switchery.min.js"></script>
+        <script src="assets/plugins/uniform/jquery.uniform.min.js"></script>
+        <script src="assets/plugins/classie/classie.js"></script>
+        <script src="assets/plugins/waves/waves.min.js"></script>
+        <script src="assets/plugins/3d-bold-navigation/js/main.js"></script>
+        <script src="assets/plugins/jquery-mockjax-master/jquery.mockjax.js"></script>
+        <script src="assets/plugins/moment/moment.js"></script>
+        <script src="assets/plugins/datatables/js/jquery.datatables.min.js"></script>
+        <script src="assets/plugins/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
+        <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script src="assets/js/modern.min.js"></script>
+        <script src="assets/js/pages/table-data.js"></script>
+        
+    </body>
+</html>

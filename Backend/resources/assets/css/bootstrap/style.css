@@ -1,0 +1,84 @@
+.st-panel{
+    background-color: #F3F3F3;
+    border-radius: 0px;
+}
+.st-panel > .panel-heading{
+	border: none;
+}
+.banner{
+    height: 115px;
+}
+.st-avatar{
+    margin: 0px 20px 20px;
+    top: 225px;
+}
+
+#demo-form label{
+	color:#848282;
+	font-size: 13px;
+	display: inline-block;
+}
+#demo-form input[type="checkbox"]{
+    margin: 0px 10px;
+    display: inline-block;
+}
+.btn-file{
+    position: relative;
+    overflow: hidden;
+    margin: 10px 0px;
+}
+.btn{
+    font-size: 13px;
+    background-color: #22BAA0; 
+    border-radius: 0px;
+    padding: 4px 24px;
+    font-weight: bolder;
+    box-shadow: 1px 2px 3px #846464;
+    text-shadow: 1px 1px #8A7373;
+}
+.st-btn{
+	color: #FFFFFF;
+    background-color: #000000;
+    border-color: #000000;
+}.
+.btn-danger {
+    color: #fff;
+    background-color: #EB1C22;
+    border: 1px solid transparent;
+}
+.btn-danger:hover{
+    color: #fff;
+    background-color: #D62222;
+    border-color: #E82E2E;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+.panel-title{
+	font-size: 18px;
+}
+.form-title{
+	margin: 10px;
+	font-size: 18px;
+}
+.selectParent{
+    overflow:hidden;
+}
+.selectParent select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent url("http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png") no-repeat 220px center;
+}
