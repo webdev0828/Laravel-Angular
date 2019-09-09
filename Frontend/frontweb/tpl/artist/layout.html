@@ -1,0 +1,99 @@
+<div  ng-include=" 'frontweb/tpl/blocks/navbar.html' " include-replace></div>
+<div class="background-image parallax-window" data-parallax="scroll" data-bleed="50" data-image-src="" ng-src="{{ artist.cover }}" data-position="center" ng-model="artist.cover">
+
+    <div class="black-gradient"></div><!-- /.black-gradient -->
+    <div class="container-fluid">
+      <div class="stats">
+        <div class="row">
+          <div class="upload-button" ng-show="artist.slug == _user.slug">
+            <!--<input id="upload" name="left_upload_artwork" accept="image/*" type="file" name="banner_artwork" class="upload"  file-model  style="display: none;" ng-model="artist.update_banner" custom-on-change="updateBannerImage" >-->
+              <input id="upload" name="left_upload_artwork" accept="image/*" type="file" name="banner_artwork" class="upload"  file-model  style="display: none;" ng-model="artist.update_banner" custom-on-change="cropImageModal" >
+            <button type="button" class="btn-default uploadfile" ><i class="fa fa-camera" aria-hidden="true"></i> Update Banner Image</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12" id="admin-say">            
+            <ul>
+              <li ui-sref="app.artist.followings({slug:artist.slug})" class="title-artist">
+                <span class="number" ng-bind="appScope.followingCount" count-number></span>
+                <span class="title">Following</span>
+              </li>
+              <li ui-sref="app.artist.fans({slug:artist.slug})" class="title-artist">
+                <span class="number" ng-bind="appScope.fanCount" count-number></span>
+                <span class="title">Fans</span>
+              </li>
+              <li ui-sref="app.artist.favourites({slug:artist.slug})" class="title-artist">
+                <span class="number" ng-bind="appScope.likeCount" count-number></span>
+                <span class="title">Likes</span>
+              </li>
+              <li ui-sref="app.artist.tracks({slug:artist.slug})" class="title-artist">
+                <span class="number" ng-bind="appScope.trackCount" count-number></span>
+                <span class="title">Tracks</span>
+              </li>
+            </ul> 
+          </div><!-- /.col-md-12 -->
+        </div><!-- /.row -->
+      </div><!-- /.stats -->
+    </div><!-- /.container-fluid -->
+</div><!-- /.background-image background-cover -->
+
+<section id="content" ng-init="getSlug(_user.slug)">
+    <div ng-include=" 'frontweb/tpl/artist/left-side.html' " include-replace></div>
+    <div class="center-side">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12" ui-view autoscroll="false">
+                </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.center-side -->
+    <div ng-include=" 'frontweb/tpl/artist/right-side.html' " include-replace></div>
+    <div class="clearfix"></div><!-- /.clearfix -->
+</section><!-- /.content -->
+<div class="footer-height"></div>
+<footer>
+    <div class="container-fluid">
+      <div class="col-sm-6 col-xs-12">
+        <ul>
+          <li>
+              <a ng-href="{{ globalObj.socialLinks.soundcloud }}" target="_blank">
+                  <div class="vertical-center">
+                      <i class="fa fa-soundcloud"></i>
+                  </div><!-- /.vertical-center -->
+              </a>
+          </li>
+          <li>
+              <a ng-href="{{ globalObj.socialLinks.facebook }}" target="_blank">
+                  <div class="vertical-center">
+                      <i class="fa fa-facebook"></i>
+                  </div><!-- /.vertical-center -->
+              </a>
+          </li>
+          <li>
+              <a ng-href="{{ globalObj.socialLinks.twitter }}" target="_blank">
+                  <div class="vertical-center">
+                      <i class="fa fa-twitter"></i>
+                  </div><!-- /.vertical-center -->
+              </a>
+          </li>
+          <li>
+              <a ng-href="{{ globalObj.socialLinks.youtube }}" target="_blank">
+                  <div class="vertical-center">
+                      <i class="fa fa-youtube"></i>
+                  </div><!-- /.vertical-center -->
+              </a>
+          </li>
+          <li>
+              <a ng-href="{{ globalObj.socialLinks.instagram }}" target="_blank">
+                  <div class="vertical-center">
+                      <i class="fa fa-instagram"></i>
+                  </div><!-- /.vertical-center -->
+              </a>
+          </li>
+        </ul>
+      </div><!-- /.col-sm-6 -->
+      <div class="col-sm-6 col-xs-12">
+        <span><!-- <button class="btn btn-xs btn-warning" ng-click="startTour()">Guided tour</button>&nbsp; --><a class="text-grey" ui-sref="app.page.terms" target="_blank"> Terms & Conditions</a>&nbsp;| © {{ currentDate | date:'yyyy' }} <a class="text-grey" ui-sref="app.page.dashboard">{{ globalObj.appName }}</a> All Rights Reserved</span>
+      </div><!-- /.col-sm-6 -->
+    </div><!-- /.container-fluid -->
+</footer>

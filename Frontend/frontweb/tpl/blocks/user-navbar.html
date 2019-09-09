@@ -1,0 +1,73 @@
+<nav class="navbar navbar-default navbar-top no-animate">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navigation" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ui-sref="index"><img  ng-src="{{cropimage('frontweb/assets/images/stm_logo-black.png',254)}}" alt="Sore Thumb Media Throbbing with talent" /></a>
+    </div>
+
+
+    <div class="notifications">
+      <ul class="nav navbar-nav" ng-if="_user">
+        <!-- <li><a href="javascript:;"><i class="fa fa-envelope"></i><span class="badge">1</span></a></li> -->
+        <li>
+          <a href="javascript:;" id="dLabel" role="button" data-toggle="dropdown" data-target="#">
+           <i class="fa fa-bell"></i><span class="badge" ng-if="notifications.length">{{notifications.length}}</span>
+          </a>
+           <ul class="dropdown-menu notifications_dash flexcroll-notification" role="menu" aria-labelledby="dLabel" >
+
+              <div class="notification-heading"><h4 class="menu-title">Notifications</h4>
+              </div>
+              <!-- <li class="divider"></li> -->
+             <div class="notifications-wrapper">
+               <div class="content"  ng-repeat="notification in notifications">
+                 <div class="notification-item">
+                  <!-- <h4 class="item-title">Evaluation Deadline 1 · day ago</h4> -->
+                  <p class="item-info" ng-click="removeNotifications(notification)" ng-bind-html="notification.comments">{{notification.comments}}</p>
+                </div>
+               </div>
+               <div class="content"  ng-if="!notifications.length">
+                 <div class="notification-item cursor-none">
+                  <!-- <h4 class="item-title">Evaluation Deadline 1 · day ago</h4> -->
+                  <p class="item-info">No notifications.</p>
+                </div>
+               </div>
+
+             </div>
+             <!--  <li class="divider"></li> -->
+              <!-- <div class="notification-footer"><h4 class="menu-title">View all<i class="glyphicon glyphicon-circle-arrow-right"></i></h4></div> -->
+            </ul>
+        </li>
+        <li role="presentation" class="dropdown">
+          <a class="dropdowntoggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="false">
+            <span>{{_user.name | capitalize | cut:true:15:' ...'}}</span>
+
+            <span class="caret"></span>
+            <img ng-src="{{ cropimage(_user.avatar ? _user.avatar : _defaults.default_profile_image, 250, 250) }}" image-error="frontweb/assets/images/admin/empty_profile.jpg" class="img-circle hidden-xs" alt="{{_user.first_name}} {{_user.last_name}}" />
+          </a>
+          <ul class="dropdown-menu">
+            <li><a ui-sref="app.user.profile">Settings</a></li>
+            <li><a href="javascript:;" ng-controller="AuthCtrl" ng-click="logout()">Sign out</a></li>
+          </ul>
+        </li>
+      </ul><!-- /.nav navbar-nav -->
+
+      <a ng-if="!_user" class="btn" id="joinus" href="javascript:;" ng-click="reset()" onClick="$('#joinUsUserModal').modal()">JOIN US / SIGN IN</a>
+    </div><!-- /.notifications -->
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse " id="header-navigation">
+      <ul class="nav navbar-nav navigation-tour">
+        <li ng-if="_user"><a ui-sref="app.user.favourites({slug:_user.slug})">My Profile</a></li>
+        <li><a ui-sref="app.page.dashboard">Dashboard</a></li>
+        <li><a href="javascript:;" ng-click="showIntercom()">Help & Support</a></li>
+        <!-- <li><a href="javascript:;">Contact Us</a></li> -->
+        <li ng-controller="AuthCtrl"><a href="javascript:;" ng-click="reset()" onclick="$('#contactUsModal').modal()">Contact Us</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

@@ -1,0 +1,235 @@
+<div class="modal fade" id="submitYourDemoModal" tabindex="-1" role="dialog" aria-labelledby="submitYourDemoModalLabel"
+	 ng-init="_currentPlanDetails.plan.plan_id == 3 ? tabName = 'remix' : tabName = 'discover'">
+  	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+		        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+		        <h2 class="modal-title" id="submitYourDemoModalLabel">Submit Your Demo </h2>
+	      	</div>
+	      	<div class="modal-body">
+	      		<h3>Are you submitting a track for</h3>
+	      		<div>
+			  		<ul class="nav nav-tabs reset-ul" role="tablist">
+					    <li ng-show="_currentPlanDetails.plan.plan_id != 3 && _user.subscriptionFeatures.indexOf('submit_discover') != -1" role="presentation" ng-class="{'active': tabName=='discover'}" class="default-pointer">
+					    	<a aria-controls="discover" role="tab" data-toggle="tab" ng-click="tabName = 'discover';reset(); ">Discover</a>
+					    </li>
+
+					    <li ng-show="_user.subscriptionFeatures.indexOf('submit_repost') != -1" role="presentation" ng-class="{'active': tabName=='remix'}" class="default-pointer">
+					    	<a aria-controls="remix" role="tab" data-toggle="tab" ng-click="tabName = 'remix';reset();">Repost</a>
+					    </li>
+
+					    <li ng-show="_currentPlanDetails.plan.plan_id != 3 && _user.subscriptionFeatures.indexOf('submit_stm_releases') != -1" role="presentation" ng-class="{'active': tabName=='music-video'}" class="default-pointer">
+					    	<a aria-controls="music-video" role="tab" data-toggle="tab" ng-click="tabName = 'music-video'; reset(); getSoundcloudRemix();">STM Releases</a>
+					    </li>
+				  	</ul>
+
+				  	<!-- Tab panes -->
+				  	<div class="tab-content">
+					    <div ng-show="tabName=='discover'" role="tabpanel" class="" id="discover">
+							<p>Discover carries no signature sound. We aim to cover the whole spectrum of electronic music here, ranging from commercial right through to underground!</p>
+
+							<h3 ng-if="_currentPlanDetails.plan.discover_demo_limit - _currentPlanDetails.demoCount > 0">Number of submissions remaining this month</h3>
+							<h3 ng-if="_currentPlanDetails.plan.discover_demo_limit - _currentPlanDetails.demoCount <= 0" class="text-red" >Your monthly demo limit has been reached!
+								<!-- <span class="default-pointer weight-sm" ng-click="closeModal('#submitYourDemoModal');"> Click here to buy.
+								</span> -->
+							</h3>
+							<span class="number-counter" style="width:92px">{{ _currentPlanDetails.plan.discover_demo_limit - _currentPlanDetails.demoCount}}</span>
+
+							<h3>Select demo to submit</h3>
+							<p>Please be aware, although we do accept the majority of tracks submitted to Discover, we may not feature tracks which:</p>
+							<ul>
+								<li>Are poorly mixed / mastered</li>
+								<li>Do not meet certain creative standards</li>
+								<li>Have poor quality and / or unprofessional artwork</li>
+							</ul>
+
+							<form ng-submit="submitDemoForm.$valid && submitDemo(track,'discover')" name="submitDemoForm" id="submitDemoForm" novalidate>
+								<select name="trackName" id="trackName" ng-model="track.slug" required style="font-size: 11px !important">
+				        			<option value="" >Select Original Campaign Track</option>
+				        			<!-- <option value="track1">Demo track name here</option>
+				        			<option value="track2">Demo track name here</option> -->
+				        			<option  ng-if="tracks.type == 'original' " ng-repeat="tracks in campaigns track by $index" value="{{tracks.slug}}" >{{tracks.track_name}}</option>
+				        		</select>
+				        		<span class="text-red" ng-if="submitDemoForm.$submitted">
+					                <div ng-if="submitDemoForm.trackName.$error.required" class="error mt-none">
+					                	<span>Please select demo track.</span>
+					            	</div>
+					             </span>
+					            <div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input type="checkbox" ng-init="demoTermCheck2=0" ng-model="demoTermCheck2" ng-true-value="1" ng-false-value="0" value="None" id="music-video-accept-send-demo" name="check" />
+										<label class="label-asset" for="music-video-accept-send-demo"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="music-video-accept-send-demo">
+										I accept my track may not feature in discover
+									</label>
+								</div><!-- /.checkbox-wrapper --> 
+
+								<div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input ng-init="demoTermCheck=0" ng-model="demoTermCheck" ng-true-value="1" ng-false-value="0" type="checkbox" value="None" id="disover-criteria-send-demo" name="check" required/>
+										<label class="label-asset" for="disover-criteria-send-demo"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="disover-criteria-send-demo">
+					        			Please tick this box to confirm that the above criteria has been followed and understood
+					        		</label>
+								</div><!-- /.checkbox-wrapper -->
+
+								<div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input type="checkbox" ng-init="demoTermCheck1=0" ng-model="demoTermCheck1" ng-true-value="1" ng-false-value="0" value="None" id="discover-terms-and-conditions-send-demo" name="check" />
+										<label class="label-asset" for="discover-terms-and-conditions-send-demo"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="discover-terms-and-conditions-send-demo">
+					        			I have read and accepted the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a>
+					        		</label>
+								</div><!-- /.checkbox-wrapper -->
+								<!-- <input type="submit" value="Submit track" /> -->
+								<input type="submit" 
+								ng-class="{'disabled-submit-demo':form.$invalid || isSubmitting ? true : false || !demoTermCheck ||  demoTermCheck1 == 0 || demoTermCheck2 ==0 || _currentPlanDetails.plan.discover_demo_limit - _currentPlanDetails.demoCount == 0 }"
+								ng-disabled="form.$invalid || isSubmitting ? true : false || !demoTermCheck ||  demoTermCheck1 == 0 || demoTermCheck2 == 0 || _currentPlanDetails.plan.discover_demo_limit - _currentPlanDetails.demoCount == 0 " value="{{ isSubmitting ? 'Processing...' : 'Submit track' }}" />
+							</form>
+					    </div>
+
+					    <div ng-show="tabName=='remix'" role="tabpanel" class="" id="remix">
+							<p>We don’t want great-sounding remix to be missed by your fans so, similar to Discover, Repost submissions carry no signature sound and aim to repost your remix through Soundcloud! </p>
+							
+
+							<h3 ng-if="_currentPlanDetails.plan.remix_demo_limit - _currentPlanDetails.remixCount > 0">Number of submissions remaining this month</h3>
+							<h3 ng-if="_currentPlanDetails.plan.remix_demo_limit - _currentPlanDetails.remixCount <= 0" class="text-red">Your monthly demo limit has been reached!
+								<!-- <span class="default-pointer weight-sm" ng-click="closeModal('#submitYourDemoModal');">Click here to buy.
+								</span> -->
+							</h3>
+
+							<span class="number-counter" style="width:92px">
+								{{_currentPlanDetails.plan.remix_demo_limit - _currentPlanDetails.remixCount}}</span>
+
+							<h3>Select demo to submit</h3>
+							<p>Please be aware, although we do accept the majority of tracks submitted for repost, we may not feature tracks which:</p>
+							<ul>
+								<li>Are poorly mixed / mastered</li>
+								<li>Do not meet certain creative standards</li>
+								<li>Have poor quality and / or unprofessional artwork</li>
+							</ul>
+
+							<form ng-submit="DemoForm.$valid && submitDemo(track,'remix')" name="DemoForm" id="DemoForm" novalidate>
+								<select name="videoName" id="videoName" ng-model="track.slug" style="font-size: 11px !important" required>
+				        			<option value="" >Select Remix Campaign Track</option>
+				        			<option  ng-if="tracks.type == 'remix' " ng-repeat="tracks in campaigns track by $index" value="{{tracks.slug}}" >{{tracks.track_name}}</option>
+				        		</select>
+				        		<span class="text-red" ng-if="DemoForm.$submitted">
+					                <div ng-if="DemoForm.videoName.$error.required" class="error mt-none">
+					                	<span>Please select demo track.</span>
+					            	</div>
+					             </span>
+
+					            <div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input type="checkbox" ng-init="demoTermCheckCondition = 0" ng-model="demoTermCheckCondition" ng-true-value="1" ng-false-value="0" value="None" id="demoTermCheckCondition" name="check" />
+										<label class="label-asset" for="demoTermCheckCondition"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="demoTermCheckCondition">
+					        			I accept my track may not feature in discover
+					        		</label>
+								</div><!-- /.checkbox-wrapper -->
+
+					             <div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input type="checkbox" ng-init="demoTermCheck4=0" ng-model="demoTermCheck4" ng-true-value="1" ng-false-value="0"  value="None" id="remix-criteria-send-demo" name="check" />
+										<label class="label-asset" for="remix-criteria-send-demo"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="remix-criteria-send-demo">
+					        			Please tick this box to confirm that the above criteria has been followed and understood
+					        		</label>
+								</div><!-- /.checkbox-wrapper -->
+
+								<div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input type="checkbox" ng-init="demoTermCheck3=0" ng-model="demoTermCheck3" ng-true-value="1" ng-false-value="0" value="None" id="remix-terms-and-conditions-send-demo" name="check" />
+										<label class="label-asset" for="remix-terms-and-conditions-send-demo"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="remix-terms-and-conditions-send-demo">
+					        			I have read and accepted the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a>
+					        		</label>
+								</div><!-- /.checkbox-wrapper -->
+
+								<input type="submit" ng-class="{'disabled-submit-demo':form.$invalid || isSubmitting ? true : false || demoTermCheck3 == 0 || demoTermCheckCondition == 0 ||  demoTermCheck4 == 0 || _currentPlanDetails.plan.remix_demo_limit - _currentPlanDetails.remixCount == 0 }"	ng-disabled="form.$invalid || isSubmitting ? true : false || demoTermCheck3 == 0 ||  demoTermCheck4 == 0 || demoTermCheckCondition == 0 || _currentPlanDetails.plan.remix_demo_limit - _currentPlanDetails.remixCount == 0 " value="{{ isSubmitting ? 'Processing...' : 'Submit track' }}" />
+							</form>
+					    </div>
+
+					    <div ng-show="tabName=='music-video'" role="tabpanel" class="" id="music-video">
+							<p>Here’s your chance to impress the Sore Thumb Media team, and have your track released exclusively by us. Here’s the 3 levels which you will be submitting for:</p>
+							<ul class="music-video-info">
+								<li>Music Videos: If your track blows us away you could be one of the fortunate few artists to have a free music video, complete with actors and storyline, created for your track!</li>
+								<li>Discover Videos: A journey based video which could incorporate footage from scenic locations, sports and more</li>
+								<li>Digital FX Video: A video created from digital graphics which pumps your track using algorithms. </li>
+							</ul>
+
+							<h3 ng-if="_currentPlanDetails.plan.video_demo_limit - _currentPlanDetails.videoCount > 0">Number of submissions remaining this month</h3>
+							<h3 ng-if="_currentPlanDetails.plan.video_demo_limit - _currentPlanDetails.videoCount <= 0" class="text-red" >Your monthly demo limit has been reached!
+								<!-- <span class="default-pointer weight-sm" ng-click="closeModal('#submitYourDemoModal');"> Click here to buy.
+								</span> -->
+							</h3>
+							<span class="number-counter" style="width:92px">{{ _currentPlanDetails.plan.video_demo_limit - _currentPlanDetails.videoCount}}</span>
+
+							<h3>Select demo to submit</h3>
+							<p>Before you send your demo, your track must:</p>
+							<ul>
+								<!--<li>Be private on Soundcloud with download enabled<br/>(Enable downloads must be ticked in Soundcloud permissions settings)</li>-->
+								<li>Be set to private on Soundcloud (preferably).</li>
+								<li>Not have been circulated, sent to any other record labels, promotional channels etc.</li>
+								<li>Be 100% original (do not use bootleg vocals, use royalty free samples only etc)</li>
+							</ul><br>
+							<span class="font-raleway"> Refresh soundcloud tracks </span> 
+							<i class="fa fa-refresh ml-lg-10 default-pointer" ng-click="getSoundcloudRemix()" aria-hidden="true">
+		                      <span ng-show="loading" class="ml-lg-10 font-raleway font14"> Loading ... </span>
+		                    </i>
+							<form ng-submit="submitVideoForm.$valid && submitDemo(track,'video')" name="submitVideoForm" id="submitVideoForm" novalidate>
+								<select name="videoName" id="videoName" ng-model="track.slug" required ng-options="tracks.sc_id as tracks.track_name for tracks in soundcloudRemix" style="font-size: 11px !important">
+				        			<option value="" disabled selected hidden>Select Soundcloud Track</option>
+				        			<!-- <option  ng-repeat="tracks in soundcloudRemix track by $index " value="{{tracks.sc_id}}" >{{tracks.track_name}}</option> -->
+				        		</select>
+
+				        		<!-- <select ng-model="track.soundcloud_track" name="trackName"
+                          id="trackName"
+                          class="form-control sc-tracks" ng-options="tracks.sc_id as tracks.track_name for tracks in soundCloudTracks" required>
+                    <option value="" disabled selected hidden>Select Track</option> -->
+
+
+				        		<span class="text-red" ng-if="submitVideoForm.$submitted">
+					                <div ng-if="submitVideoForm.videoName.$error.required" class="error mt-none">
+					                	<span>Please select demo track.</span>
+					            	</div>
+					             </span>
+
+								<div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input type="checkbox" ng-init="demoTermCheck6=0" ng-model="demoTermCheck6" ng-true-value="1" ng-false-value="0"  value="None" id="music-video-criteria-send-demo" name="check" />
+										<label class="label-asset" for="music-video-criteria-send-demo"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="music-video-criteria-send-demo">
+					        			Please tick this box to confirm that the above criteria has been followed and understood
+					        		</label>
+								</div><!-- /.checkbox-wrapper -->
+								<div class="checkbox-wrapper">
+									<div class="checkbox-input">
+										<input type="checkbox" ng-init="demoTermCheck5=0" ng-model="demoTermCheck5" ng-true-value="1" ng-false-value="0" value="None" id="music-video-terms-and-conditions-send-demo" name="check" />
+										<label class="label-asset" for="music-video-terms-and-conditions-send-demo"></label>
+									</div><!-- /.checkbox-input -->
+									<label class="checkbox-label" for="music-video-terms-and-conditions-send-demo">
+					        			I have read and accepted the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a>
+					        		</label>
+								</div><!-- /.checkbox-wrapper -->
+
+
+						<!-- 		<input type="submit" ng-class="{'disabled-submit-demo':form.$invalid || isSubmitting ? true : false || demoTermCheck5 == 0 ||  demoTermCheck6 == 0 || _currentPlanDetails.plan.remix_demo_limit - _currentPlanDetails.remixCount == 0  }" ng-disabled="form.$invalid || isSubmitting ? true : false || demoTermCheck5 == 0 ||  demoTermCheck6 == 0 || _currentPlanDetails.plan.remix_demo_limit - _currentPlanDetails.remixCount == 0 "	 value="{{ isSubmitting ? 'Processing...' : 'Submit track' }}" /> -->
+
+								<input type="submit" ng-class="{'disabled-submit-demo':form.$invalid || isSubmitting ? true : false || demoTermCheck5 == 0 ||  demoTermCheck6 == 0 || _currentPlanDetails.plan.video_demo_limit - _currentPlanDetails.videoCount == 0 }" ng-disabled="form.$invalid || isSubmitting ? true : false || demoTermCheck5 == 0 ||  demoTermCheck6 == 0 || _currentPlanDetails.plan.video_demo_limit - _currentPlanDetails.videoCount == 0 " value="{{ isSubmitting ? 'Processing...' : 'Submit track' }}" />
+							</form>
+					    </div>
+				  	</div>
+				</div>
+	      	</div>
+	    </div>
+ 	</div>
+</div>

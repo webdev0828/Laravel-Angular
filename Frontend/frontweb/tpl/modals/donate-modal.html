@@ -1,0 +1,211 @@
+<!-- <div class="modal custom-modal fade" id="DonateModal" tabindex="-1" role="dialog" aria-labelledby="DonateModalLabel"> -->
+  	<!-- <div class="modal-dialog" role="document">
+	    <div class="modal-content text-left"> -->
+	      	<div class="modal-header base-font font16">
+	      		<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+		        <h2 class="modal-title" id="DonateModalLabel">Donate</h2>
+	      	</div>
+	      	<div class="modal-body" id="DonateModal">
+	      		<span ng-show="!artist.paypal_email" class="text-red">
+	                <div class="font14 base-font">
+	                	<span>PayPal email address not found.</span>
+	            	</div>
+	            </span>
+	      		 <form name="_xclick" ng-submit="donate(donate.amount)" ng-class="{ 'mt-sm' : !artist.paypal_email  }" action="https://www.paypal.com/yt/cgi-bin/webscr" method="post">
+
+	      		<!-- <form  ng-submit="donateForm.$valid && donation(donate)"  id="donateForm" name="donateForm"  novalidate> -->
+		            <div class="row donate_btn">
+		                <div class="col-md-6 col-sm-6" >
+		                    <button data-ng-click="donate.amount=1;amount=''" id="1" type="button" class="btn btn-amount btn-success btn-block">£1 </button>
+		                </div>
+		                <div class="col-md-6 col-sm-6" >
+		                    <button data-ng-click="donate.amount=5;amount=''" id="5" type="button" class="btn btn-amount btn-success btn-block">£5</button>
+		                </div>
+		                 <div class="col-md-6 col-sm-6" >
+		                    <button data-ng-click="donate.amount=10;amount=''" id="10" type="button" class="btn btn-amount btn-success btn-block">£10</button>
+		                </div>
+		                <!-- <div class="col-md-6 col-sm-6" >
+		                    <button data-ng-click="donate.amount=100;amount=''" id="100" type="button" class="btn btn-amount btn-success btn-block">$100</button>
+		                </div> -->
+		                <!-- <div class="col-md-6 col-sm-6" >
+		                    <button data-ng-click="donate.amount=125;amount=''" id="125" type="button" class="btn btn-amount btn-success btn-block">$125</button>
+		                </div> -->
+		                <div class="col-md-6 col-sm-6">
+		                    <div class=" form-group">
+		                        <div class="input-group ">
+		                            <span class="input-group-addon primary"><span class="glyphicon glyphicon-gbp"></span></span>
+		                            <input type="number" 
+		                            ng-model="donate.amount"
+		                            name="amount" 
+		                            id="amount"
+		                            placeholder="Other"
+		                            class="form-control padding-sm amount-box"
+		                            min ="1" />
+		                        </div>
+		                        <div ng-show="artist.paypal_email" class="mt-sm-3">
+					                <span ng-show="error" class="text-red base-font font14">
+					                	<span>Please select/enter amount.</span>
+					            	</span>
+					            	<span ng-show="donate.amount < 1 " class="text-red base-font font14">
+					                	<span>Please select/enter amount.</span>
+					            	</span>
+					            </div>
+	                   		</div>
+		                </div>
+		            </div>
+
+		           
+					<input type="hidden" name="cmd" value="_xclick">
+					<input type="hidden" name="business" value="{{artist.paypal_email}}">
+					<input type="hidden" name="item_name" value="{{artist.full_name}} Donation">
+					<input type="hidden" name="currency_code" value="GBP">
+					<input type="hidden" name="amount" value="{{donate.amount}}">
+					<input type="hidden" name="return" value="{{artist.returnRedirect}}">
+					<div class="row">
+		                <div class="col-xs-12">
+		                    <input type="submit" class="text-uppercase br-sm subscribe btn btn-success btn-lg btn-block"  ng-disabled="isSubmitting || !donate.amount || !artist.paypal_email" value="{{ isSubmitting ? 'Processing...' : 'Donate' }}">
+		                </div>
+		            </div>
+
+
+ 
+
+
+		           <!--  <div ng-show="serverPaymentResponse" class="row">
+		            	<span class="col-sm-11 text-red mb-sm">{{serverPaymentResponse}}</span>
+		          	</div>
+		          	<div class="row"></div>
+		            <div class="row">
+		                <div class="col-xs-12 col-md-12">
+ 		                    <div class="panel panel-default credit-card-box custom-bg">
+		                        <div class="panel-heading display-table custom-bg" style="width:100%;" >
+		                            <div class="row display-tr" >
+		                                <h3 class="panel-title display-td text-left" >Payment Details</h3>
+		                                <div class="display-td" >                            
+                                                <img class="img-responsive pull-right cards" src="http://i76.imgup.net/accepted_c22e0.png">
+                                            </div>
+		                            </div>                    
+		                        </div>
+		                        <div class="panel-body">
+		                                <div class="row">
+		                                    <div class="col-xs-12">
+		                                        <div class="form-group">
+		                                            <label for="cardNumber" class="mb-sm mt-lg-10">FULL NAME</label>
+		                                            <input placeholder="Enter Full Name" 
+		                                            ng-model="user.name" 
+		                                            value="{{user.name}}" 
+		                                            type="text" 
+		                                            class="form-control" 
+		                                            id="name" 
+		                                            name="name" 
+		                                            required>
+		                                            <span class="text-red" ng-if="donateForm.$submitted">
+										                <div ng-if="donateForm.name.$error.required" class="pages-error">
+										                	<span>Please enter name.</span>
+										            	</div>
+										             </span>
+		                                        </div>                            
+		                                    </div>
+		                                </div>
+		                                <div class="row">
+		                                    <div class="col-xs-12">
+		                                        <div class="form-group">
+		                                            <label for="cardNumber" class="mb-sm mt-lg-10">CARD NUMBER</label>
+		                                            <input ng-model="donate.card_number"
+
+		                                            name="card_number" 
+		                                            id="card_number" 
+		                                            type="number" 
+		                                            class="form-control" 
+		                                            placeholder="Valid Card Number" 
+		                                            data-stripe="number"
+		                                             required>
+		                                            <span class="text-red" ng-if="donateForm.$submitted">
+										            	<span class="pages-error" ng-show="donateForm.card_number.$error.required">
+													      Please enter card number.</span>
+													    <span class="pages-error" ng-show="donateForm.card_number.$error.number">
+													      Please enter valid number.</span>
+										             </span>
+		                                        </div>                            
+		                                    </div>
+		                                </div>
+		                                
+										<div class="row">
+											<div class="col-xs-7 col-md-7">
+												<div class="form-group">
+													<label for="cardExpiry" class="mb-sm mt-lg-10">
+														<span class="hidden-xs">EXPIRATION</span>
+														<span class="visible-xs-inline">EXP</span> DATE</label>
+													<div class="row">
+														<div class="col-md-5">
+															<input data-stripe="exp-month" ng-model="donate.month" name="expire_month" id="expire_month"
+															type="tel" 
+															class="form-control" 
+															placeholder="MM"
+															autocomplete="cc-exp"
+															required />
+															<span class="text-red" ng-if="donateForm.$submitted">
+																<span class="pages-error" ng-show="donateForm.expire_month.$error.required">
+																	Please enter month.
+																</span>
+															</span>
+														</div>
+														<div class="col-md-7">
+															<input data-stripe="exp-year" ng-model="donate.expire_year" name="expire_year" id="expire_year" 
+															type="tel" class="form-control" 
+															placeholder="YYYY" 
+															autocomplete="cc-exp" 
+															required  />
+															<span class="text-red" ng-if="donateForm.$submitted">
+																<span class="pages-error" ng-show="donateForm.expire_year.$error.required">
+																	Please enter year.
+																</span>
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-xs-5 col-md-5 pull-right">
+												<div class="form-group">
+													<label for="cardCVC" class="mb-sm mt-lg-10">CVC CODE</label>
+													<input data-stripe="cvc" ng-model="donate.cvc" name="cvc" name="cvc"
+													    type="tel" 
+													    class="form-control" 
+													    placeholder="CVC"
+													    autocomplete="cc-csc"
+													    required />
+													<span class="text-red" ng-if="donateForm.$submitted">
+													    <span class="pages-error" ng-show="donateForm.cvc.$error.required">
+													    	Please enter CVC.
+													    </span>
+													</span>
+												</div>
+											</div>
+										</div> 
+		                                <div class="row">
+		                                    <div class="col-xs-12">
+		                                        <div class="form-group">
+		                                            <label for="couponCode" class="mb-sm mt-lg-10">COMMENT</label>
+		                                            <textarea ng-model="donate.comment" 
+		                                            name="comment" 
+		                                            id="comment" 
+		                                            class="form-control custom-bg" 
+		                                            rows="3"></textarea>
+		                                        </div>
+		                                    </div>                        
+		                                </div>
+		                                
+		                            </form>
+		                        </div>
+		                    </div>            
+ 		                </div>            
+		            </div> -->
+		        </form>
+	        </div>
+	    <!-- </div>
+ 	</div> -->
+<!-- </div> -->
+ 

@@ -1,0 +1,1263 @@
+<div class="modals base-font" id="createModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="createModalLabel">{{track.action == 'add' ?  'Create New Campaign' : 'Edit Campaign'}}</h4>
+        </div>
+        <div ng-class="{'padding-top-0' : track.action == 'edit'}"
+             ng-init="track.action == 'edit' ? setStep('second') : setStep('first'); track.action == 'edit' ? setType(track.type) : setType('original'); getSoundcloudTracks();"></div>
+
+        <div ng-switch="stepName">
+            <div ng-switch-when="first">
+                <!-- Check Type Part for Original and Remix -->
+                <div class="modal-body text-center">
+                    <div class=="row" ng-show="!track.type">
+                        <div class="col-md-6 campaign-type">
+                            <button ng-click="setType('original'); reset();" ng-class="{'active': typeName=='original'}" type="button" id="your-campaign-type" class="btn btn-primary btn-block">Original</button>
+                        </div>
+                        <div class="col-md-6 campaign-type  ">
+                            <button ng-click="setType('remix'); reset();"  ng-class="{'active': typeName=='remix'}" type="button" id="your-campaign-type" class="btn btn-primary btn-block">Remix</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div ng-switch="typeName">
+                    <div ng-switch-when="original">
+                        <div class="modal-body">
+                            <form name="campaignForm" id="trackForm" ng-submit="!campaignForm.agree.$error.required && !campaignForm.not_signed.$error.required && !campaignForm.free_sample.$error.required && moveSecondStep()" novalidate>
+                                <div class="form-wrapper campaign-genre">
+                                    <div class="original-text mt-sm text-uppercase" ng-if="!track.type">
+                                        <ul>
+                                            <li class="li-padding-top">Hosted by STM</li>
+                                            <li class="li-padding-top">Submittable for Discover promotion</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row checkbox_padding" ng-if="!track.type">
+                                        <div class="col-md-12">
+                                            <label class="mb-sm" for="track-name">Before Creating Your Campaign Please Confirm That Your Track:</label>
+                                            <input class=" check-status original_checkbox" id="free_sample" ng-true-value="1" ng-false-value="0" type="checkbox" name="free_sample" ng-model="track.free_sample" required>
+                                            <label for="free_sample" class="check-label">Includes only 100% royalty free samples</label>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <input class=" check-status" id="not_signed" ng-true-value="1" ng-false-value="0"  type="checkbox" name="not_signed" ng-model="track.not_signed" required>
+                                            <label for="not_signed" class="check-label">IS NOT signed or registered with a collection society</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input class=" check-status" id="agree" ng-true-value="1" ng-false-value="0"  type="checkbox" name="agree" ng-model="track.agree" required>
+                                            <label for="agree" class="check-label">I agree to the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a></label><br>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-danger" ng-show="campaignForm.$submitted">
+                                                <span mb-sm ng-if="campaignForm.agree.$error.required || campaignForm.not_signed.$error.required || campaignForm.free_sample.$error.required"> Please check all conditions before add campaign </span>
+                                            </span>
+                                            <label class="mt-sm mb-sm text-red font11 font-weight-100">
+                                                <span class="text-red "> * </span>
+                                                If your original track submission gets approved for Discover section, and later on gets signed, please contact Sore Thumb Media immediately so that we can remove the track
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Next Button Part -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="buttons-wrapper">
+                                                <button type="submit" class="red-button">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div ng-switch-when="remix">
+                        <div class="modal-body">
+                            <form name="campaignForm" id="trackForm" ng-submit="!campaignForm.agree.$error.required && moveSecondStep()" novalidate>
+                                <div class="form-wrapper campaign-genre">
+                                    <div class="original-text mt-sm text-uppercase" ng-if="!track.type">
+                                        <ul>
+                                            <li class="li-padding-top">Hosted by Soundcloud</li>
+                                            <li class="li-padding-top">Submittable for Soundcloud repost</li>
+                                        </ul>
+                                    </div>
+                                    <div class="row" ng-if="!track.type">
+                                        <div class="col-md-12 remix_canbe">
+                                            <label class="mb-sm" for="">Can Be:</label>
+                                            <ul class="bullet-remix">
+                                                <li> <label class="check-label">Signed</label> </li>
+                                                <li> <label class="check-label">Remix, bootleg or original</label> </li>
+                                                <li> <label class="check-label">Registered with a collection society</label> </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-12 padding-top">
+                                            <input class="check-status" id="agree" ng-true-value="1" ng-false-value="0"  type="checkbox" name="agree" ng-model="track.agree" required>
+                                            <label for="agree" class="check-label">I agree to the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a></label>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <span class="text-danger" ng-show="campaignForm.$submitted">
+                                                <span ng-if="campaignForm.agree.$error.required">Please check all conditions before add campaign</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Next Button Part -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="buttons-wrapper">
+                                                <button type="submit" class="red-button">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-switch-when="second">
+                <div class="modal-body">
+                    <div class="form-wrapper campaign-genre">
+                        <form name="campaignForm" id="trackForm" ng-submit="(!duration || duration <= 60 * 10) && !imageSizeValidation && campaignForm.$valid && !audioFileTypeError && moveThirdStep(track)" novalidate>
+                            <!-- Soundcloud Track Part-->
+                            <label for="track-name">Soundcloud Track  <span class="text-red"> * </span>
+                                <i class="fa fa-refresh ml-lg-10 default-pointer" ng-click="getSoundcloudTracks()" aria-hidden="true">
+                                    <span ng-show="loading" class="ml-lg-10 font"> Loading ... </span>
+                                </i>
+                            </label>
+                            <select ng-if="track.action=='add'" ng-model="track.soundcloud_track" name="trackName"
+                                    id="trackName"
+                                    class="form-control sc-tracks" ng-options="tracks.sc_id as tracks.track_name for tracks in soundCloudPublicTracks" required ng-change="findSoundcloudImage(track.soundcloud_track)">
+                                <option value="" disabled selected hidden>Select Track</option>
+                            </select>
+                            <select ng-show="showMp3" ng-model="track.soundcloud_track" name="trackName"
+                                    id="trackName"
+                                    class="form-control sc-tracks" ng-options="tracks.sc_id as tracks.track_name for tracks in soundCloudPublicTracks" required ng-change="findSoundcloudImage(track.soundcloud_track)">
+                                <option value="" disabled selected hidden>Select Track</option>
+                            </select>
+                            <div class="mt-lg-10" ng-show="track.action != 'add' " >{{ souncloudTrackName }}
+                                <span class="file-upload-buttons default-pointer" ng-click="showMp3 = !showMp3;!showMp3 ? clearFileInput('mp3') : '' "> {{ showMp3 ? 'Cancel' : 'Change Track'}} </span>
+                            </div>
+                            <span class="text-danger" ng-show="campaignForm.$submitted">
+                                <span ng-if="campaignForm.trackName.$error.required">Please select soundcloud track.</span>
+                            </span>
+
+                            <!-- Upload Your MP3 Track Part -->
+                            <label for="mp3">Upload Your MP3 Track<span class="text-red"> * </span></label>
+
+                            <input ng-show="track.action=='add'" type="file" file-model ng-model="track.mp3_file" name="mp3_file" accept='.mp3' ng-required="!track.mp3_file" class="mb-sm-3" audio-file audio-file-duration="duration" audio-file-type = "audioFileTypeError">
+                            <input ng-show="showMp3" type="file"  file-model ng-model="track.mp3_file" name="mp3_file" accept='.mp3' class="mb-sm-3 upload_mp3" audio-file audio-file-duration="duration" audio-file-type = "audioFileTypeError">
+
+                            <div class="mt-lg-10" ng-show="track.action != 'add' " >{{ mp3_file_name }}
+                                <span class="file-upload-buttons default-pointer" ng-click="showMp3 = !showMp3;!showMp3 ? clearFileInput('mp3') : '' "> {{ showMp3 ? 'Cancel' : 'Change Track'}} </span>
+                            </div>
+
+                            <span class="text-danger" ng-if="audioFileTypeError">Please select mp3 file.</span>
+
+                            <span class="text-danger" ng-if="campaignForm.$submitted">
+                                <span ng-if="campaignForm.mp3_file.$error.required">Please select track.</span>
+                                <span ng-if="duration > 60 * 10">Track play time should be less than 10 minutes </span>
+                            </span>
+
+                            <!-- Upload Your Track Artwork Part-->
+                            <label for="upload-track-artwork">Upload Your Track Artwork</label>
+                            <label class="check-label font11">ARTWORK HAS BEEN TAKEN FROM SOUNDCLOUD, ALTERNATIVELY UPLOAD YOUR OWN IMAGE.<br/></label>
+                            <label class="check-label font11">RECOMMENDED SIZE 500px X 500px</label>
+
+                            <input ng-if="track.action=='add'" type="file" id="campaign-artwork" file-model ng-model="track.artwork" class="mb-sm-3" name="upload_artwork" accept='image/*' onchange="angular.element(this).scope().setFile(this)" >
+                            <input ng-if="track.action=='edit'" ng-show="showArtwork" type="file" id="campaign-artwork" file-model ng-model="track.artwork" class="mb-sm-3 upload_artwork" name="upload_artwork" accept='image/*' ng-required="!track.artwork" onchange="angular.element(this).scope().setFile(this)">
+
+                            <div class="mt-lg-10 mb-lg-10" ng-show="track.action != 'add' " >
+                                <span class="file-upload-buttons default-pointer" ng-click="showArtwork = !showArtwork;!showArtwork ? clearFileInput('artwork') : '' "> {{ showArtwork ? 'Cancel' : 'Change Artwork'}} </span>
+                            </div>
+
+                            <img ng-if="image_source" ng-src="{{ image_source }}" class="campaign_img_height" id="campaign_image"/><br>
+                            <span class="text-danger" ng-if="campaignForm.$submitted">
+                                <span ng-if="campaignForm.upload_artwork.$error.required && !imageSizeValidation">Please select track artwork file.</span>
+                                <span class="text-danger" ng-if="error_artwork_file && !track.artwork">
+                                    Please select track artwork file.
+                                </span>
+                            </span>
+
+                            <!-- Next Button Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="buttons-wrapper">
+                                        <button type="submit" class="red-button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-switch-when="third">
+                <div class="modal-body">
+                    <div class="form-wrapper campaign-genre">
+                        <form name="campaignForm" id="trackForm" ng-submit="campaignForm.$valid && moveFourthStep(track)" novalidate>
+                            <!-- Genre Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label ng-if='!disabled' for="soundcloud-account"> Please Select Genre <span class="text-red"> * </span></label>
+                                    <label  ng-if='!disabled'  class="check-label font11">PLEASE NOTE ONCE YOUR CAMPAIGN HAS BEEN CREATED TAGS SELECTED ARE IRREVERSIBLE!!</label>
+                                    <label ng-if='disabled && campaignGenreModel.length > 0' for="soundcloud-account">Your Selected Genre</label>
+                                    <ul class="list-inline" ng-hide="disabled">
+                                        <li class="dropdown dropdown-genre col-sm-4" >
+                                            <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="campaignGenreData"  selected-model="campaignGenreModel" extra-settings="campaignGenreSettings" translation-texts="campaignGenreText" events="campaignGenreEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                                        </li>
+                                    </ul>
+                                    <ul ng-if='disabled && campaignGenreModel'>
+                                        <li class="genrelist">
+                                            <a class="genre-edit" href="javascript:;">{{campaignGenreModel}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && !campaignGenreModel.id && !disabled">
+                                    <span ng-if="!campaignGenreModel.id">Please select genre.</span>
+                                </span>
+                            </div>
+
+                            <!-- Sub Genre Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label ng-if='!disabled && subGenreData.length > 0' for="soundcloud-account">Please Select Sub-genre</label>
+                                    <label ng-if='disabled && subGenreModel.length > 0' for="soundcloud-account">Your Selected Sub-genre</label>
+
+                                    <ul class="list-inline" ng-hide="disabled || !subGenreData.length > 0">
+                                        <li class="dropdown dropdown-genre col-sm-4">
+                                            <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="subGenreData"  selected-model="subGenreModel" extra-settings="campaignGenreSettings" translation-texts="subGenreText" events="subGenreEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                                        </li>
+                                    </ul>
+                                    <ul ng-if='disabled && subGenreModel'>
+                                        <li class="genrelist">
+                                            <a class="genre-edit" href="javascript:;">{{subGenreModel}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Vibe Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label ng-if='!disabled' for="soundcloud-account"> Please Select Vibe <span class="text-red"> * </span></label>
+                                    <label ng-if='disabled && vibeModel.length > 0' for="soundcloud-account">Your Selected Vibe</label>
+
+                                    <ul class="list-inline" ng-hide="disabled">
+                                        <li class="dropdown dropdown-genre col-sm-4">
+                                            <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="vibeData"  selected-model="vibeModel" extra-settings="campaignGenreSettings" translation-texts="vibeText" events="vibeEvents" data-toggle="dropdown" aria-expanded="false" onclick="return false"></a>
+                                        </li>
+                                    </ul>
+                                    <ul ng-if='disabled && vibeModel'>
+                                        <li class="genrelist">
+                                            <a class="genre-edit" href="javascript:;">{{vibeModel}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && !vibeModel.id  && !disabled">
+                                    <span ng-if="!vibeModel.id">Please select vibe.</span>
+                                </span>
+                            </div>
+
+                            <!-- Next Button Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="buttons-wrapper">
+                                        <button type="submit" class="red-button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-switch-when="fourth">
+                <div class="modal-body">
+                    <div class="form-wrapper campaign-genre">
+                        <form name="campaignForm" id="trackForm" ng-submit="campaignForm.$valid && moveFifthStep(track)" novalidate>
+                            <!-- Spotify Part -->
+                            <div  class="social spotify" ng-if="social_state.spotify">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fa fa-spotify"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="option">
+                                            <h3>Follow</h3>
+                                            <input type="checkbox" ng-disabled="!social_state.spotify" name="checkbox-social" ng-init="track.spotifyFollow == true ? true : false" ng-model="track.spotifyFollow"  button-switch autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <!--<label>Add More Spotify Accounts (MAX 4)</label>-->
+                                    <h3>Add More Spotify Accounts (MAX 4)</h3>
+                                    <ui-select multiple limit="4" id="spotify-genres" name="artists" tagging ng-model="track.spotify_artists" theme="bootstrap" class="test discover-min">
+                                        <ui-select-match placeholder="Start typing to search for an artist to add (DO NOT ADD YOUR ACCOUNT)">{{$item.name}}</ui-select-match>
+                                        <ui-select-choices refresh="getSpotifyArtists($select.search)" refresh-delay="0" repeat="artist in spotifyArtists.artists.items | filter:$select.search">{{artist.name}}</ui-select-choices>
+                                    </ui-select>
+                                    <!--<label>Add your Spotify Playlists</label>-->
+                                    <h3>Add A Playlist</h3>
+                                    <input type="text" name="playlists_link" id="playlists_link"  class="mb-sm-3 artist-links"  ng-model="track.playlists_link" placeholder="Enter the URL To Your Spotify Playlist" http-prefix ng-pattern="checkUrl2">
+                                    <!--<label>Add Spotify Track or Album to Save</label>-->
+                                    <h3>Add A Song</h3>
+                                    <input type="text" name="track_link" id="track_link"  class="mb-sm-3 artist-links"  ng-model="track.track_link" placeholder="Enter the URL To Your Spotify Song" http-prefix ng-pattern="checkUrl2">
+                                    <h3>Add An Album</h3>
+                                    <input type="text" name="album_link" id="album_link"  class="mb-sm-3 artist-links"  ng-model="track.album_link" placeholder="Enter the URL To Your Spotify Album" http-prefix ng-pattern="checkUrl2">
+                                </div>
+                            </div>
+
+                            <!-- Soundcloud Part -->
+                            <div class="social soundcloud" ng-if="social_state.soundcloud">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fa fa-soundcloud"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="option">
+                                            <h3>Follow</h3>
+                                            <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudFollow == true ? true : false" ng-model="track.soundcloudFollow" button-switch autocomplete="off">
+                                        </div>
+                                        <div class="option">
+                                            <h3>Like</h3>
+                                            <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudLike == true ? true : false" ng-model="track.soundcloudLike" button-switch autocomplete="off">
+                                        </div>
+                                        <div class="option">
+                                            <h3>Repost</h3>
+                                            <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudRepost == true ? true : false" ng-model="track.soundcloudRepost" button-switch class="" autocomplete="off">
+                                        </div>
+                                        <div class="option">
+                                            <h3>Comment</h3>
+                                            <!--<button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>-->
+                                            <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudComment == true ? true : false" ng-model="track.soundcloudComment" button-switch class="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <!--<label>Add More Soundcloud Accounts (MAX 4)</label>-->
+                                    <h3>Add More Soundcloud Accounts (MAX 4)</h3>
+                                    <ui-select multiple limit="4" id="soundcloud-genre" name="artists" tagging ng-model="track.sc_artists" theme="bootstrap" class="test discover-min">
+                                        <ui-select-match placeholder="Start typing to search for an artist to add (DO NOT ADD YOUR ACCOUNT)">{{$item.username}}</ui-select-match>
+                                        <ui-select-choices refresh="getScArtists($select.search)" refresh-delay="0" repeat="artist in scArtists | filter:$select.search">{{artist.username}}</ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+
+                            <!-- Twitter Part -->
+                            <div class="social twitter" ng-if="social_state.twitter">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fa fa-twitter"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="option">
+                                            <h3>Follow</h3>
+                                            <input type="checkbox" name="checkbox-social" ng-init="track.twitterFollow == true ? true : false" ng-model="track.twitterFollow" button-switch class="" autocomplete="off">
+                                        </div>
+                                        <div class="option">
+                                            <h3>Tweet</h3>
+                                            <input type="checkbox" name="checkbox-social" ng-init="track.twitterTweet == true ? true : false" ng-model="track.twitterTweet" button-switch class="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Facebook Part -->
+                            <div class="social facebook" ng-if="social_state.facebook">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fa fa-facebook"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="option">
+                                            <h3>Like</h3>
+                                            <input type="checkbox" name="checkbox-social" ng-init="track.facebookLike == true ? true : false" ng-model="track.facebookLike" button-switch class="" autocomplete="off">
+                                        </div>
+                                        <div class="option">
+                                            <h3>Share</h3>
+                                            <input type="checkbox" name="checkbox-social" ng-init="track.facebookShare == true ? true : false" ng-model="track.facebookShare" button-switch class="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Youtube Part -->
+                            <div class="social youtube" ng-if="social_state.youtube">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fa fa-youtube"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="option">
+                                            <h3>Subscribe</h3>
+                                            <input type="checkbox" name="checkbox-social" ng-init="track.youtubeSubscribe == true ? true : false" ng-model="track.youtubeSubscribe" button-switch class="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Instagram Part -->
+                            <div class="social instagram" ng-if="social_state.instagram">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <i class="fa fa-instagram"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="option">
+                                            <h3>Subscribe</h3>
+                                            <input type="checkbox" name="checkbox-social" ng-init="track.instagramSubscribe == true ? true : false" ng-model="track.instagramSubscribe" button-switch class="" autocomplete="off">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next Button Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="buttons-wrapper">
+                                        <button type="submit" class="red-button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-switch-when="fifth">
+                <div class="modal-body">
+                    <div class="form-wrapper campaign-genre">
+                        <form name="campaignForm" id="trackForm" ng-submit="!imageSizeValidation && !BackImageError && campaignForm.$valid && addCampaign(track)" novalidate>
+                            <div class="page-background">
+                                <label>Please Choose A Page Background Or Upload Your Own <span class="text-red"> * </span></label>
+                                <data-dashboard-owl id="owl-demo" class="owl-carousel owl-theme" data-options="{navigation: false, pagination: true, rewindNav : false,singleItem : true}">
+                                    <div owl-dashboard-item="" name="background_img" ng-repeat="image in images" class="item radio-btn" ng-click="track.backgroundImg = image" ng-model="track.backgroundImg" ng-required="!track.background">
+                                        <input type="radio" class="hidden mb-sm-3" ng-checked="track.backgroundImg == image" ng-model="track.backgroundImg" id="{{$index}}" name="radio-btn">
+                                        <label for="{{$index}}">
+                                            <img ng-src="{{ cropimage(image , 110,110) }}" class="campaign-banner" alt=""/>
+                                        </label>
+                                    </div>
+                                    <span class="text-danger" ng-if="campaignForm.$submitted">
+                                        <span ng-if="campaignForm.background_img.$error.required">Please choose your page background.</span>
+                                    </span>
+                                </data-dashboard-owl>
+                            </div>
+                            <label for="upload-own-background">  Upload Your Page Background <span class="text-red"> * </span></label>
+                            <label class="check-label font11">RECOMMENDED SIZE 1600px X 615px</label>
+
+                            <input ng-if="track.action=='add'" type="file" class="mb-sm-3" name="background" file-model ng-model="track.background" accept='image/*' ng-required="!track.backgroundImg" onchange="angular.element(this).scope().setBackground(this)"/>
+                            <input ng-show="showPageBackground" type="file" class="mb-sm-3 upload_background" name="background" file-model ng-model="track.background" accept='image/*' ng-required="!track.backgroundImg" onchange="angular.element(this).scope().setBackground(this)"/>
+
+                            <div class="mt-lg-10 mb-lg-10" ng-show="track.action != 'add' " >
+                                <span class="file-upload-buttons default-pointer" ng-click="showPageBackground = !showPageBackground;!showPageBackground ? clearFileInput('page-background') : '' "> {{ showPageBackground ? 'Cancel' : 'Change'}} </span>
+                            </div>
+                            <img ng-if="image_source_background" ng-src="{{ image_source_background }}" class="campaign_img_height" id="campaign_image"/><br>
+
+                            <span class="text-danger" ng-if="campaignForm.$submitted">
+                                <span ng-if="campaignForm.background.$error.required && !BackImageError  && completed !='true'">Please select your page background.
+                                </span>
+                            </span>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input class="check-status" id="blur"  ng-true-value="1" ng-false-value="0" type="checkbox" name="blur" ng-model="track.blur">
+                                    <label for="blur" class="check-label ie-label-padding font11">Blur Background</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="" for="track-name">By Ticking This Box Your Track Will Be Visible On Your Profile</label>
+                                    <input class="check-status" id="status"  ng-true-value="1" ng-false-value="0" type="checkbox" name="status" ng-model="track.status">
+                                    <label for="status" class="check-label ie-label-padding font11">UNTICK THE BOX AT ANYTIME TO HIDE THIS TRACK FROM YOUR PROFILE</label>
+                                </div>
+                            </div>
+
+                            <!-- Next Button Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="buttons-wrapper">
+                                        <button type="button" class="black-button" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+                                        <button type="submit" class="red-button">Save Campaign</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="modal-body text-center" ng-class="{'padding-top-0' : track.action == 'edit'}" ng-init="setType('original')">
+          <div class=="row" ng-show="!track.type">
+            <div class="col-md-6 campaign-type">
+              <button ng-click="tabName='original';reset();" ng-class="{'active': tabName=='original'}" type="button" id="your-campaign-type" class="btn btn-primary btn-block">Original</button>
+            </div>
+            <div class="col-md-6 campaign-type  ">
+              <button ng-click="tabName='remix';reset(track.type); getSoundcloudTracks();"  ng-class="{'active': tabName=='remix'}" type="button" id="your-campaign-type" class="btn btn-primary btn-block">Remix</button>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div ng-if="track.type && track.type=='original'" ng-init="setType('original')">
+        </div>
+        <div ng-if="track.type && track.type=='remix'" ng-init="setType('remix')">
+        </div>
+
+        <div ng-switch="tabName">
+
+          <div ng-switch-when="original">
+            &lt;!&ndash; <div ng-include="'frontweb/tpl/artist/modals/original-campaign.html'" ></div> &ndash;&gt;
+            <div class="modal-body">
+              <div class="form-wrapper campaign-genre">
+                <form name="campaignForm" id="trackForm" ng-submit="(!duration || duration <= 60 * 10) && !imageSizeValidation && !BackImageError && campaignForm.$valid && !audioFileTypeError && addCampaign(track,'original')" enctype="multipart/form-data" novalidate>
+
+               &lt;!&ndash;  <form name="campaignForm" id="trackForm" ng-submit="addCampaign(track,'original')" enctype="multipart/form-data" novalidate> &ndash;&gt;
+                  <input type="hidden" name="campaignId" ng-model="track.id">
+                  <input type="hidden" name="trackId" ng-model="track.track_id">
+                  <input type="hidden" name="trackType" ng-model="track.type">
+                  &lt;!&ndash; <div class="original-text mt-sm text-uppercase">
+                    Music uploaded here must be royalty free and you must hold all rights to the track. sore thumb media will host these tracks and they will be submittable to sore thumb media for promotion.
+                  </div> &ndash;&gt;
+                  <div class="original-text mt-sm text-uppercase" ng-if="!track.type">
+                    <ul>
+                      &lt;!&ndash; <li class="li-padding-top">Music uploaded here must be royalty free and you must hold all rights to the track. sore thumb media will host these tracks and they will be submittable to sore thumb media for promotion.</li> &ndash;&gt;
+                      <li class="li-padding-top">Hosted by STM</li>
+                      <li class="li-padding-top">Submittable for Discover promotion</li>
+                    </ul>
+                  </div>
+                  <div class="row checkbox_padding" ng-if="!track.type">
+                    <div class="col-md-12">
+                      <label class="mb-sm" for="track-name">Before Creating Your Campaign Please Confirm That Your Track:</label>
+                      <input class=" check-status original_checkbox" id="free_sample" ng-true-value="1" ng-false-value="0" type="checkbox" name="free_sample" ng-model="track.free_sample" required>
+                      <label for="free_sample" class="check-label">Includes only 100% royalty free samples</label>
+                    </div>
+
+                    <div class="col-md-12">
+                      <input class=" check-status" id="not_signed" ng-true-value="1" ng-false-value="0"  type="checkbox" name="not_signed" ng-model="track.not_signed" required>
+                      <label for="not_signed" class="check-label">IS NOT signed or registered with a collection society</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input class=" check-status" id="agree" ng-true-value="1" ng-false-value="0"  type="checkbox" name="agree" ng-model="track.agree" required>
+                      <label for="agree" class="check-label">I agree to the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a></label><br>
+                    </div>
+                    <div class="col-md-12">
+                      <span class="text-danger" ng-show="campaignForm.$submitted">
+                        <span mb-sm ng-if="campaignForm.agree.$error.required || campaignForm.not_signed.$error.required || campaignForm.free_sample.$error.required"> Please check all conditions before add campaign </span>
+                      </span>
+                      <label class="mt-sm mb-sm text-red font11 font-weight-100">
+                      <span class="text-red "> * </span>
+                      If your original track submission gets approved for Discover section, and later on gets signed, please contact Sore Thumb Media immediately so that we can remove the track
+                    </label>
+                    </div>
+                  </div>
+
+                 <label for="track-name"> Track Name <span class="text-red"> * </span></label>
+                  <input type="text" class="mb-sm-3" name="trackName" ng-model="track.track_name" placeholder="Add the track name" required>
+                  <span class="text-danger" ng-show="campaignForm.$submitted">
+                    <span ng-if="campaignForm.trackName.$error.required">Please enter track name.</span>
+                  </span>
+
+                  <label for="mp3">Upload Your MP3 Track<span class="text-red"> * </span></label>
+
+                  <input ng-show="track.action=='add'" type="file" file-model ng-model="track.mp3_file" name="mp3_file" accept='.mp3' ng-required="!track.mp3_file" class="mb-sm-3" audio-file audio-file-duration="duration" audio-file-type = "audioFileTypeError">
+                  <input ng-show="showMp3" type="file"  file-model ng-model="track.mp3_file" name="mp3_file" accept='.mp3' class="mb-sm-3 upload_mp3" audio-file audio-file-duration="duration" audio-file-type = "audioFileTypeError">
+
+                  <div class="mt-lg-10" ng-show="track.action != 'add' " >{{ mp3_file_name }}
+                    <span class="file-upload-buttons default-pointer" ng-click="showMp3 = !showMp3;!showMp3 ? clearFileInput('mp3') : '' "> {{ showMp3 ? 'Cancel' : 'Change Track'}} </span>
+                  </div>
+
+                  <span class="text-danger" ng-if="audioFileTypeError">Please select mp3 file.</span>
+
+                  <span class="text-danger" ng-if="campaignForm.$submitted">
+                    <span ng-if="campaignForm.mp3_file.$error.required">Please select track.</span>
+                    <span ng-if="duration > 60 * 10">Track play time should be less than 10 minutes </span>
+                  </span>
+                  <label for="upload-track-artwork">Upload Your Track Artwork <span class="text-red"> * </span></label>
+                  <label class="check-label font11">RECOMMENDED SIZE 500px X 500px</label>
+
+                  <input ng-if="track.action=='add'"  type="file" id="campaign-artwork" file-model ng-model="track.artwork" class="mb-sm-3" name="upload_artwork" accept='image/*' ng-required="!track.artwork" onchange="angular.element(this).scope().setFile(this)">
+
+                  <input ng-show="showArtwork" type="file" id="campaign-artwork" file-model ng-model="track.artwork" class="mb-sm-3 upload_artwork" name="upload_artwork" accept='image/*' ng-required="!track.artwork" onchange="angular.element(this).scope().setFile(this)">
+
+                  <div class="mt-lg-10 mb-lg-10" ng-show="track.action != 'add' " >
+                    <span class="file-upload-buttons default-pointer" ng-click="showArtwork = !showArtwork;!showArtwork ? clearFileInput('artwork') : '' "> {{ showArtwork ? 'Cancel' : 'Change Artwork'}} </span>
+                  </div>
+
+                  <img ng-if="image_source" ng-src="{{ image_source }}" class="campaign_img_height" id="campaign_image"/><br>
+                  &lt;!&ndash; <div class="mt-lg-10" ng-show="track.action != 'add' " >
+                    <span class="file-upload-buttons default-pointer" ng-click="showArtwork = !showArtwork"> Change </span>
+                  </div> &ndash;&gt;
+
+                  <span class="text-danger" ng-if="campaignForm.$submitted">
+                    <span ng-if="campaignForm.upload_artwork.$error.required && !imageSizeValidation">Please select track artwork file.</span>
+                  </span>
+                  &lt;!&ndash; <span class="text-danger" ng-if="campaignForm.$submitted">
+                    <span ng-if="imageSizeValidation">Recommended size 500px X 500px or more.</span>
+                  </span> &ndash;&gt;
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label ng-if='!disabled' for="soundcloud-account">Please Select Genre <span class="text-red"> * </span></label>
+                      <label  ng-if='!disabled'  class="check-label font11">PLEASE NOTE ONCE YOUR CAMPAIGN HAS BEEN CREATED TAGS SELECTED ARE IRREVERSIBLE!!</label>
+                      <label ng-if='disabled && campaignGenreModel' for="soundcloud-account">Your Selectd Genre</label>
+                      <ul class="list-inline" ng-hide="disabled">
+                        <li class="dropdown dropdown-genre col-sm-4" >
+                          <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="campaignGenreData"  selected-model="campaignGenreModel" extra-settings="campaignGenreSettings" translation-texts="campaignGenreText" events="campaignGenreEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                        </li>
+                      </ul>
+                      <ul ng-if='disabled && campaignGenreModel'>
+                        <li class="genrelist">
+                          <a class="genre-edit" href="javascript:;">{{campaignGenreModel}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && !campaignGenreModel.id && !disabled">
+                      <span ng-if="!campaignGenreModel.id">Please select genre.</span>
+                    </span>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+
+                      <label ng-if='!disabled && subGenreData.length > 0' for="soundcloud-account">Please Select Sub-Genre
+                        </label>
+                        &lt;!&ndash; <span class="text-red"> * </span> &ndash;&gt;
+                      <label ng-if='disabled && subGenreModel' for="soundcloud-account">Your Selected Sub-genre</label>
+
+                      <ul class="list-inline" ng-hide="disabled || !subGenreData.length > 0">
+                        <li class="dropdown dropdown-genre col-sm-4">
+                          <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="subGenreData"  selected-model="subGenreModel" extra-settings="campaignGenreSettings" translation-texts="subGenreText" events="subGenreEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                        </li>
+                      </ul>
+                      <span ng-hide="disabled || !subGenreData.length > 0" class="text-red font11 font-weight-100 sub-genre-option">← YOU DO NOT HAVE TO CHOOSE A SUB GENRE!</span>
+                      <ul ng-if='disabled && subGenreModel'>
+                        <li class="genrelist">
+                          <a class="genre-edit" href="javascript:;">{{subGenreModel}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                    &lt;!&ndash; <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && (subGenreData.length > 0 && !subGenreModel.id) && !disabled">
+                      <span ng-if="!subGenreModel.id">Please select sub-genre.</span>
+                    </span> &ndash;&gt;
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label ng-if='!disabled' for="soundcloud-account">Please Select Vibe <span class="text-red"> * </span></label>
+                      <label ng-if='disabled && vibeModel' for="soundcloud-account">Your Selected Vibe</label>
+                      <ul class="list-inline" ng-hide="disabled">
+                        <li class="dropdown dropdown-genre col-sm-4">
+                          <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="vibeData"  selected-model="vibeModel" extra-settings="campaignGenreSettings" translation-texts="vibeText" events="vibeEvents" data-toggle="dropdown" aria-expanded="false" onclick="return false"></a>
+                        </li>
+                      </ul>
+                      <ul ng-if='disabled && vibeModel'>
+                        <li class="genrelist">
+                          <a class="genre-edit" href="javascript:;">{{vibeModel}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                    <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && !vibeModel.id  && !disabled">
+                      <span ng-if="!vibeModel.id">Please select vibe.</span>
+                    </span>
+                  </div>
+
+                  <div  class="social spotify" ng-if="social_state.spotify">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <i class="fa fa-spotify"></i>
+                        <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                      <div class="col-md-9">
+                        <div class="option">
+                          <h3>Follow</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button> &ndash;&gt;
+                          <input type="checkbox" ng-disabled="!social_state.spotify" name="checkbox-social" ng-init="track.spotifyFollow == true ? true : false" ng-model="track.spotifyFollow"  button-switch autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                        &lt;!&ndash; <div class="option">
+                          <h3>Like</h3>
+                          <button tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button>
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.soundcloud" default="track.soundcloudLike" ng-model="track.soundcloudLike" button-switch class="" >
+                        </div> &ndash;&gt;&lt;!&ndash; /.option &ndash;&gt;
+                        &lt;!&ndash; <div class="option">
+                          <h3>Comment</h3>
+                          <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.soundcloud" default="track.soundcloudComment" ng-model="track.soundcloudComment" button-switch class="" >
+                        </div> &ndash;&gt;&lt;!&ndash; /.option &ndash;&gt;
+                        &lt;!&ndash; <div class="option">
+                          <h3>Repost</h3>
+                          <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.soundcloud" default="track.soundcloudRepost" ng-model="track.soundcloudRepost" button-switch class="" >
+                        </div> &ndash;&gt;&lt;!&ndash; /.option &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                    </div>&lt;!&ndash; /.row &ndash;&gt;
+                  </div>&lt;!&ndash; /.social spotify &ndash;&gt;
+                  <label>Add More Spotify Accounts (MAX 4)</label>
+                  <ui-select multiple limit="4" id="spotify-genres" name="artists" tagging ng-model="track.spotify_artists" theme="bootstrap" class="test discover-min">
+                    <ui-select-match placeholder="Start typing to search for an artist to add (DO NOT ADD YOUR ACCOUNT)">{{$item.name}}</ui-select-match>
+                    <ui-select-choices refresh="getSpotifyArtists($select.search)" refresh-delay="0" repeat="artist in spotifyArtists.artists.items | filter:$select.search">{{artist.name}}</ui-select-choices>
+                  </ui-select>
+                  <label>Add your Spotify Playlists</label>
+                  <input type="text" name="playlists_link" id="playlists_link"  class="mb-sm-3 artist-links"  ng-model="track.playlists_link" placeholder="Enter the link to your Spotify playlist" http-prefix ng-pattern="checkUrl2">
+                  <label>Add Spotify Track or Album to Save</label>
+                  <input type="text" name="track_album_link" id="track_album_link"  class="mb-sm-3 artist-links"  ng-model="track.track_album_link" placeholder="Enter the URL to your Spotify Track or Album" http-prefix ng-pattern="checkUrl2">
+
+                  &lt;!&ndash; <input type="text" name="soundcloud-account" ng-model="track.genres" required placeholder="Start typing the name" /> &ndash;&gt;
+                  <div  class="social soundcloud" ng-if="social_state.soundcloud">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <i class="fa fa-soundcloud"></i>
+                        <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                      <div class="col-md-9">
+                        <div class="option">
+                          <h3>Follow</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button> &ndash;&gt;
+                          <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudFollow == true ? true : false" ng-model="track.soundcloudFollow"  button-switch autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                        &lt;!&ndash; <div class="option">
+                          <h3>Like</h3>
+                          <button tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button>
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.soundcloud" default="track.soundcloudLike" ng-model="track.soundcloudLike" button-switch class="" >
+                        </div> &ndash;&gt;&lt;!&ndash; /.option &ndash;&gt;
+                        &lt;!&ndash; <div class="option">
+                          <h3>Comment</h3>
+                          <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.soundcloud" default="track.soundcloudComment" ng-model="track.soundcloudComment" button-switch class="" >
+                        </div> &ndash;&gt;&lt;!&ndash; /.option &ndash;&gt;
+                        &lt;!&ndash; <div class="option">
+                          <h3>Repost</h3>
+                          <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.soundcloud" default="track.soundcloudRepost" ng-model="track.soundcloudRepost" button-switch class="" >
+                        </div> &ndash;&gt;&lt;!&ndash; /.option &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                    </div>&lt;!&ndash; /.row &ndash;&gt;
+                  </div>&lt;!&ndash; /.social soundcloud &ndash;&gt;
+                  <label>Add More Soundcloud Accounts (MAX 4)</label>
+                  <ui-select multiple limit="4" id="genresggg" name="artists" tagging ng-model="track.sc_artists" theme="bootstrap" class="test discover-min">
+                    <ui-select-match placeholder="Start typing to search for an artist to add (DO NOT ADD YOUR ACCOUNT)">{{$item.username}}</ui-select-match>
+                    <ui-select-choices refresh="getScArtists($select.search)" refresh-delay="0" repeat="artist in scArtists | filter:$select.search">{{artist.username}}</ui-select-choices>
+                  </ui-select>
+
+                  <div  class="social twitter" ng-if="social_state.twitter">
+                    <div class="row">
+                      <div class="col-md-3">
+                         <i class="fa fa-twitter"></i>
+                         <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                      <div class="col-md-9">
+                        <div class="option">
+                          <h3>Follow</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                         <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.twitter" ng-init="track.twitterFollow == true ? true : false" ng-model="track.twitterFollow" button-switch class="" autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                        <div class="option">
+                          <h3>Tweet</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.twitter" ng-init="track.twitterTweet == true ? true : false" ng-model="track.twitterTweet" button-switch class="" autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                    </div>&lt;!&ndash; /.row &ndash;&gt;
+                  </div>&lt;!&ndash; /.social twitter &ndash;&gt;
+                  <div  class="social facebook" ng-if="social_state.facebook">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <i class="fa fa-facebook"></i>
+                        <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                      <div class="col-md-9">
+                        <div class="option">
+                          <h3>Like</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                           <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.facebook" ng-init="track.facebookLike == true ? true : false" ng-model="track.facebookLike" button-switch class="" autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                        <div class="option">
+                          <h3>Share</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.facebook" ng-init="track.facebookShare == true ? true : false" ng-model="track.facebookShare" button-switch class="" autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                    </div>&lt;!&ndash; /.row &ndash;&gt;
+                  </div>&lt;!&ndash; /.social facebook &ndash;&gt;
+                  <div  class="social youtube" ng-if="social_state.youtube">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <i class="fa fa-youtube"></i>
+                        <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                      <div class="col-md-9">
+                        <div class="option">
+                          <h3>Subscribe</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.youtube" ng-init="track.youtubeSubscribe == true ? true : false" ng-model="track.youtubeSubscribe" button-switch class="" autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                    </div>&lt;!&ndash; /.row &ndash;&gt;
+                  </div>&lt;!&ndash; /.social youtube &ndash;&gt;
+                  <div  class="social instagram" ng-if="social_state.instagram">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <i class="fa fa-instagram"></i>
+                        <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                      <div class="col-md-9">
+                        <div class="option">
+                          <h3>Subscribe</h3>
+                          &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                          <input type="checkbox" name="checkbox-social" ng-disabled="!social_state.instagram" ng-init="track.instagramSubscribe == true ? true : false" ng-model="track.instagramSubscribe" button-switch class="" autocomplete="off">
+                        </div>&lt;!&ndash; /.option &ndash;&gt;
+                      </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                    </div>&lt;!&ndash; /.row &ndash;&gt;
+                  </div>&lt;!&ndash; /.social instagram &ndash;&gt;
+
+                  <div class="page-background">
+                    <label>Please Choose A Page Background Or Upload Your Own <span class="text-red"> * </span></label>
+                    <data-dashboard-owl id="owl-demo" class="owl-carousel owl-theme" data-options="{navigation: false, pagination: true, rewindNav : false,singleItem : true}">
+                      <div owl-dashboard-item="" name="background_img" ng-repeat="image in images" class="item radio-btn" ng-click="track.backgroundImg = image" ng-model="track.backgroundImg" ng-required="!track.background">
+                        <input type="radio" class="hidden mb-sm-3" ng-checked="track.backgroundImg == image" ng-model="track.backgroundImg" id="{{$index}}" name="radio-btn">
+                        <label for="{{$index}}">
+                          <img ng-src="{{ cropimage(image , 110,110) }}" class="campaign-banner" alt=""/>
+                        </label>
+                      </div>
+                      <span class="text-danger" ng-if="campaignForm.$submitted">
+                        <span ng-if="campaignForm.background_img.$error.required">Please choose your page background.</span>
+                      </span>
+                    </data-dashboard-owl>
+                  </div>&lt;!&ndash; /.page-background &ndash;&gt;
+                  <label for="upload-own-background">  Upload Your Page Background <span class="text-red"> * </span></label>
+                  <label class="check-label font11">RECOMMENDED SIZE 1600px X 615px</label>
+
+                  <input ng-if="track.action=='add'" type="file" class="mb-sm-3" name="background" file-model ng-model="track.background" accept='image/*' ng-required="!track.backgroundImg" onchange="angular.element(this).scope().setBackground(this)"/>
+
+                  <input ng-show="showPageBackground" type="file" class="mb-sm-3 upload_background" name="background" file-model ng-model="track.background" accept='image/*' ng-required="!track.backgroundImg" onchange="angular.element(this).scope().setBackground(this)"/>
+
+                  <div class="mt-lg-10 mb-lg-10" ng-show="track.action != 'add' " >
+                    <span class="file-upload-buttons default-pointer" ng-click="showPageBackground = !showPageBackground;!showPageBackground ? clearFileInput('page-background') : '' "> {{ showPageBackground ? 'Cancel' : 'Change'}} </span>
+                  </div>
+                  <img ng-if="image_source_background" ng-src="{{ image_source_background }}" class="campaign_img_height" id="campaign_image"/><br>
+
+                  <span class="text-danger" ng-if="campaignForm.$submitted">
+                    <span ng-if="campaignForm.background.$error.required && !BackImageError  && completed !='true'">Please select your page background.
+                    </span>
+                  </span>
+                  &lt;!&ndash; <span class="text-danger" ng-if="campaignForm.$submitted">
+                    <span ng-if="BackImageError">Please select image from 1600X615px and more.</span>
+                  </span> &ndash;&gt;
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <input class="check-status" id="blur"  ng-true-value="1" ng-false-value="0" type="checkbox" name="blur" ng-model="track.blur">
+                      <label for="blur" class="check-label ie-label-padding font11">Blur Background</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label class="" for="track-name">By Ticking This Box Your Track Will Be Visible On Your Profile</label>
+                      <input class="check-status" id="status"  ng-true-value="1" ng-false-value="0" type="checkbox" name="status" ng-model="track.status">
+                      <label for="status" class="check-label ie-label-padding font11">UNTICK THE BOX AT ANYTIME TO HIDE THIS TRACK FROM YOUR PROFILE</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-md-12" ng-class="{'mb-sm-5':isSubmitting && track.action == 'add'}">
+                    <div class="buttons-wrapper">
+                      <button type="button" class="black-button" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+                      <button type="submit"
+                      ng-class="{'disabled-submit-demo':isSubmitting ? true : false}"
+                      ng-disabled="isSubmitting ? true : false" class="red-button">Save Campaign
+                      </button>
+                    </div>&lt;!&ndash; /.buttons-wrapper &ndash;&gt;
+                  </div>
+                  </div>
+                  <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                </form>
+              </div>&lt;!&ndash; /.form-wrapper &ndash;&gt;
+            </div>
+          </div>-->
+
+
+        <!--<div ng-switch-when="remix">
+          &lt;!&ndash; <div ng-include="'frontweb/tpl/artist/modals/remix-campaign.html'" ></div> &ndash;&gt;
+          <div class="modal-body">
+            <div class="form-wrapper campaign-genre">
+              <form name="campaignForm" id="trackForm" ng-submit="!imageSizeValidation && campaignForm.$valid && !BackImageError && addCampaign(track,'remix')" enctype="multipart/form-data" novalidate>
+                <input type="hidden" name="campaignId" ng-model="track.id">
+                <input type="hidden" name="trackId" ng-model="track.track_id">
+                <input type="hidden" name="trackType" ng-model="track.type">
+                &lt;!&ndash; <div class="original-text mt-sm text-uppercase">
+
+                  Music uploaded here must be anything other than original track.Tracks here can be hosted by soundcloud but will be unsubmittable  sore thumb media for promotion.
+                </div> &ndash;&gt;
+
+                <div class="original-text mt-sm text-uppercase" ng-if="!track.type">
+                  <ul>
+                    &lt;!&ndash; <li class="li-padding-top">Music uploaded here must be royalty free and you must hold all rights to the track. sore thumb media will host these tracks and they will be submittable to sore thumb media for promotion.</li> &ndash;&gt;
+                    <li class="li-padding-top">Hosted by Soundcloud</li>
+                    <li class="li-padding-top">Submittable for Soundcloud repost</li>
+                  </ul>
+                </div>
+
+                &lt;!&ndash; <div class="row">
+                  <div class="col-md-12 padding-top">
+                    <label class="mb-sm" for="track-name">Can be:</label>
+                    <ul>
+                      <li class="mb-sm">Signed</li>
+                      <li class="mb-sm">Remix, bootleg or original</li>
+                      <li class="mb-sm">Registered with a collection society</li>
+                    </ul>
+                  </div>
+
+                  <div class="col-md-12 padding-top">
+                    <input class="mb-sm check-status" id="agree" ng-true-value="1" ng-false-value="0"  type="checkbox" name="agree" ng-model="track.agree" required>
+                    <label for="agree" class="check-label">I agree to the terms and conditions</label>
+                  </div>
+                </div> &ndash;&gt;
+
+                <div class="row" ng-if="!track.type">
+                  <div class="col-md-12 remix_canbe">
+                    <label class="mb-sm" for="">Can Be:</label>
+                    <ul class="bullet-remix">
+                      <li> <label class="check-label">Signed</label> </li>
+                      <li> <label class="check-label">Remix, bootleg or original</label> </li>
+                      <li> <label class="check-label">Registered with a collection society</label> </li>
+                    </ul>
+                  </div>
+
+                  <div class="col-md-12 padding-top">
+                    <input class="check-status" id="agree" ng-true-value="1" ng-false-value="0"  type="checkbox" name="agree" ng-model="track.agree" required>
+                    <label for="agree" class="check-label">I agree to the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a></label>
+                  </div>
+
+                  <div class="col-md-12">
+                    <span class="text-danger" ng-show="campaignForm.$submitted">
+                      <span ng-if="campaignForm.agree.$error.required">Please check all conditions before add campaign</span>
+                    </span>
+                  </div>
+                </div>
+
+                <label for="track-name">Soundcloud Track  <span class="text-red"> * </span>
+                  <i class="fa fa-refresh ml-lg-10 default-pointer" ng-click="getSoundcloudTracks()" aria-hidden="true">
+                    <span ng-show="loading" class="ml-lg-10 font"> Loading ... </span>
+                  </i>
+                </label>
+                &lt;!&ndash; <label for="track-name">Soundcloud Track</label> &ndash;&gt;
+                &lt;!&ndash; <a href="javascript:;" class="pull-right" ng-click="getSoundcloudTracks()">
+                  <h2 class="font font14">Create Campaign</h2>
+                </a> &ndash;&gt;
+                <select ng-if="track.action=='add'" ng-model="track.soundcloud_track" name="trackName"
+                        id="trackName"
+                        class="form-control sc-tracks" ng-options="tracks.sc_id as tracks.track_name for tracks in soundCloudPublicTracks" required ng-change="findSoundcloudImage(track.soundcloud_track)">
+                  <option value="" disabled selected hidden>Select Track</option>
+                </select>
+                <select ng-show="showMp3" ng-model="track.soundcloud_track" name="trackName"
+                        id="trackName"
+                        class="form-control sc-tracks" ng-options="tracks.sc_id as tracks.track_name for tracks in soundCloudPublicTracks" required ng-change="findSoundcloudImage(track.soundcloud_track)">
+                  <option value="" disabled selected hidden>Select Track</option>
+                </select>
+                <div class="mt-lg-10" ng-show="track.action != 'add' " >{{ souncloudTrackName }}
+                  <span class="file-upload-buttons default-pointer" ng-click="showMp3 = !showMp3;!showMp3 ? clearFileInput('mp3') : '' "> {{ showMp3 ? 'Cancel' : 'Change Track'}} </span>
+                </div>
+                &lt;!&ndash; <img ng-if="soundcloudArtwork" ng-src="{{soundcloudArtwork}}" class="soundcloud_img_height" id="userPhoto"> &ndash;&gt;
+                <span class="text-danger" ng-show="campaignForm.$submitted">
+                  <span ng-if="campaignForm.trackName.$error.required">Please select soundcloud track.</span>
+                </span>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <label for="track-name">Free Download Link (Dropbox only)<span class="text-red"> * </span></label>
+                      <input type="text" name="external_link" id="external_link"  class="mb-sm-3 artist-links"  ng-model="track.external_link" placeholder="Add external link" http-prefix ng-pattern="checkUrl2" required>
+                      <span class="text-danger" ng-show="campaignForm.$submitted">
+                        &lt;!&ndash; <span ng-if="error_external_link && !campaignForm.external_link.$error.pattern">
+                          {{ message_external_link }}
+                        </span> &ndash;&gt;
+                        <span class="text-danger" ng-show="campaignForm.$submitted">
+                          <span ng-if="campaignForm.external_link.$error.required">Please enter external link (Dropbox only).</span>
+                        </span>
+                        <span ng-if="campaignForm.external_link.$error.pattern">
+                          Please enter valid external link (Dropbox only).
+                        </span>
+                      </span>
+                  </div>
+                </div>
+
+
+                &lt;!&ndash; <label for="upload-track-artwork">Upload Your Track Artwork</label>
+                <input type="file" file-model ng-model="track.artwork" class="mb-sm-3" name="upload_artwork" accept='image/*'>
+                  <span class="text-danger" ng-if="error_artwork_file && !track.artwork">Please select track artwork file.
+                  </span> &ndash;&gt;
+
+                <label for="upload-track-artwork">Upload Your Track Artwork</label>
+                <label class="check-label font11">ARTWORK HAS BEEN TAKEN FROM SOUNDCLOUD, ALTERNATIVELY UPLOAD YOUR OWN IMAGE.<br/></label>
+                <label class="check-label font11">RECOMMENDED SIZE 500px X 500px</label>
+
+                <input ng-if="track.action=='add'" type="file" id="campaign-artwork" file-model ng-model="track.artwork" class="mb-sm-3" name="upload_artwork" accept='image/*' onchange="angular.element(this).scope().setFile(this)" >
+
+                <input ng-if="track.action=='edit'" ng-show="showArtwork" type="file" id="campaign-artwork" file-model ng-model="track.artwork" class="mb-sm-3 upload_artwork" name="upload_artwork" accept='image/*' ng-required="!track.artwork" onchange="angular.element(this).scope().setFile(this)">
+
+                <div class="mt-lg-10 mb-lg-10" ng-show="track.action != 'add' " >
+                  <span class="file-upload-buttons default-pointer" ng-click="showArtwork = !showArtwork;!showArtwork ? clearFileInput('artwork') : '' "> {{ showArtwork ? 'Cancel' : 'Change Artwork'}} </span>
+                </div>
+
+                <img ng-if="image_source" ng-src="{{ image_source }}" class="campaign_img_height" id="campaign_image"/><br>
+                <span class="text-danger" ng-if="campaignForm.$submitted">
+                  <span ng-if="campaignForm.upload_artwork.$error.required && !imageSizeValidation">Please select track artwork file.</span>
+                  <span class="text-danger" ng-if="error_artwork_file && !track.artwork">
+                    Please select track artwork file.
+                  </span>
+                </span>
+
+                &lt;!&ndash; <span class="text-danger" ng-if="campaignForm.$submitted">
+                  <span ng-if="imageSizeValidation">Recommended size 500px X 500px or more.</span>
+                </span> &ndash;&gt;
+                <label>Add More Soundcloud Accounts (MAX 4)</label>
+                <ui-select multiple limit="4" id="genres" name="artists" tagging ng-model="track.sc_artists" theme="bootstrap" class="test discover-min">
+                  <ui-select-match placeholder="Start typing to search for an artist to add (DO NOT ADD YOUR ACCOUNT)">{{$item.username}}</ui-select-match>
+                  <ui-select-choices refresh="getScArtists($select.search)" refresh-delay="0" repeat="artist in scArtists | filter:$select.search">{{artist.username}}</ui-select-choices>
+                </ui-select>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <label ng-if='!disabled' for="soundcloud-account"> Please Select Genre <span class="text-red"> * </span></label>
+                    <label  ng-if='!disabled'  class="check-label font11">PLEASE NOTE ONCE YOUR CAMPAIGN HAS BEEN CREATED TAGS SELECTED ARE IRREVERSIBLE!!</label>
+                    <label ng-if='disabled && campaignGenreModel.length > 0' for="soundcloud-account">Your Selected Genre</label>
+                     <ul class="list-inline" ng-hide="disabled">
+                      <li class="dropdown dropdown-genre col-sm-4" >
+                        <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="campaignGenreData"  selected-model="campaignGenreModel" extra-settings="campaignGenreSettings" translation-texts="campaignGenreText" events="campaignGenreEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                      </li>
+                    </ul>
+                    <ul ng-if='disabled && campaignGenreModel'>
+                      <li class="genrelist">
+                        <a class="genre-edit" href="javascript:;">{{campaignGenreModel}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && !campaignGenreModel.id && !disabled">
+                    <span ng-if="!campaignGenreModel.id">Please select genre.</span>
+                  </span>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label ng-if='!disabled && subGenreData.length > 0' for="soundcloud-account"> Please Select Sub-genre &lt;!&ndash; <span class="text-red"> * </span></label> &ndash;&gt;
+                    <label ng-if='disabled && subGenreModel.length > 0' for="soundcloud-account">Your Selected Sub-genre</label>
+
+                    <ul class="list-inline" ng-hide="disabled || !subGenreData.length > 0">
+                      <li class="dropdown dropdown-genre col-sm-4">
+                        <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="subGenreData"  selected-model="subGenreModel" extra-settings="campaignGenreSettings" translation-texts="subGenreText" events="subGenreEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                      </li>
+                    </ul>
+                    <ul ng-if='disabled && subGenreModel'>
+                      <li class="genrelist">
+                        <a class="genre-edit" href="javascript:;">{{subGenreModel}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                  &lt;!&ndash; <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && (subGenreData.length > 0 && !subGenreModel.id) && !disabled">
+                    <span ng-if="!subGenreModel.id">Please select sub-genre.</span>
+                  </span> &ndash;&gt;
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label ng-if='!disabled' for="soundcloud-account"> Please Select Vibe <span class="text-red"> * </span></label>
+                    <label ng-if='disabled && vibeModel.length > 0' for="soundcloud-account">Your Selected Vibe</label>
+                    <ul class="list-inline" ng-hide="disabled">
+                      <li class="dropdown dropdown-genre col-sm-4">
+                        <a href="javascript:;" class="dropdown-toggle dropdown-effect text-uppercase"  ng-dropdown-multiselect="" options="vibeData"  selected-model="vibeModel" extra-settings="campaignGenreSettings" translation-texts="vibeText" events="vibeEvents" data-toggle="dropdown" aria-expanded="false" onclick="return false"></a>
+                      </li>
+                    </ul>
+                    <ul ng-if='disabled && vibeModel'>
+                      <li class="genrelist">
+                        <a class="genre-edit" href="javascript:;">{{vibeModel}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <span class="text-danger col-md-12" ng-show="campaignForm.$submitted && !vibeModel.id  && !disabled">
+                    <span ng-if="!vibeModel.id">Please select vibe.</span>
+                  </span>
+                </div>
+
+
+                &lt;!&ndash; <input type="text" name="soundcloud-account" ng-model="track.genres" required placeholder="Start typing the name" /> &ndash;&gt;
+                <div class="social soundcloud" ng-if="social_state.soundcloud">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <i class="fa fa-soundcloud"></i>
+                      <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                    <div class="col-md-9">
+                      <div class="option">
+                        <h3>Follow</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button> &ndash;&gt;
+                        <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudFollow == true ? true : false" ng-model="track.soundcloudFollow" button-switch autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                      <div class="option">
+                        <h3>Like</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button> &ndash;&gt;
+                        <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudLike == true ? true : false" ng-model="track.soundcloudLike" button-switch autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                      &lt;!&ndash; <div class="option">
+                        <h3>Comment</h3>
+                        <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+                        <input type="checkbox" name="checkbox-social" default="track.soundcloudComment" ng-model="track.soundcloudComment" button-switch class="" >
+                      </div> &ndash;&gt;&lt;!&ndash; /.option &ndash;&gt;
+                      <div class="option">
+                        <h3>Repost</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                        <input type="checkbox" ng-disabled="!social_state.soundcloud" name="checkbox-social" ng-init="track.soundcloudRepost == true ? true : false" ng-model="track.soundcloudRepost" button-switch class="" autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                  </div>&lt;!&ndash; /.row &ndash;&gt;
+                </div>&lt;!&ndash; /.social soundcloud &ndash;&gt;
+                <div class="social twitter" ng-if="social_state.twitter">
+                  <div class="row">
+                    <div class="col-md-3">
+                       <i class="fa fa-twitter"></i>
+                       <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                    <div class="col-md-9">
+                      <div class="option">
+                        <h3>Follow</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                       <input type="checkbox" name="checkbox-social" ng-init="track.twitterFollow == true ? true : false" ng-model="track.twitterFollow" button-switch class="" autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                      <div class="option">
+                        <h3>Tweet</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                        <input type="checkbox" name="checkbox-social" ng-init="track.twitterTweet == true ? true : false" ng-model="track.twitterTweet" button-switch class="" autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                  </div>&lt;!&ndash; /.row &ndash;&gt;
+                </div>&lt;!&ndash; /.social twitter &ndash;&gt;
+                <div class="social facebook" ng-if="social_state.facebook">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <i class="fa fa-facebook"></i>
+                      <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                    <div class="col-md-9">
+                      <div class="option">
+                        <h3>Like</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                         <input type="checkbox" name="checkbox-social" ng-init="track.facebookLike == true ? true : false" ng-model="track.facebookLike" button-switch class="" autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                      <div class="option">
+                        <h3>Share</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                        <input type="checkbox" name="checkbox-social" ng-init="track.facebookShare == true ? true : false" ng-model="track.facebookShare" button-switch class="" autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                  </div>&lt;!&ndash; /.row &ndash;&gt;
+                </div>&lt;!&ndash; /.social facebook &ndash;&gt;
+                <div class="social youtube" ng-if="social_state.youtube">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <i class="fa fa-youtube"></i>
+                      <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                    <div class="col-md-9">
+                      <div class="option">
+                        <h3>Subscribe</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                        <input type="checkbox" name="checkbox-social" ng-init="track.youtubeSubscribe == true ? true : false" ng-model="track.youtubeSubscribe" button-switch class="" autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                  </div>&lt;!&ndash; /.row &ndash;&gt;
+                </div>&lt;!&ndash; /.social youtube &ndash;&gt;
+                <div class="social instagram" ng-if="social_state.instagram">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <i class="fa fa-instagram"></i>
+                      <div class="clearfix"></div>&lt;!&ndash; /.clearfix &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-3 &ndash;&gt;
+                    <div class="col-md-9">
+                      <div class="option">
+                        <h3>Subscribe</h3>
+                        &lt;!&ndash; <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button> &ndash;&gt;
+                        <input type="checkbox" name="checkbox-social" ng-init="track.instagramSubscribe == true ? true : false" ng-model="track.instagramSubscribe" button-switch class="" autocomplete="off">
+                      </div>&lt;!&ndash; /.option &ndash;&gt;
+                    </div>&lt;!&ndash; /.col-md-9 &ndash;&gt;
+                  </div>&lt;!&ndash; /.row &ndash;&gt;
+                </div>&lt;!&ndash; /.social instagram &ndash;&gt;
+
+
+                <div class="page-background">
+                  <label>Please Choose A Page Background Or Upload Your Own <span class="text-red"> * </span></label>
+                  <data-dashboard-owl id="owl-demo" class="owl-carousel owl-theme" data-options="{navigation: false, pagination: true, rewindNav : false,singleItem : true}">
+                    <div owl-dashboard-item="" name="background_img" ng-repeat="image in images" class="item radio-btn" ng-click="track.backgroundImg = image" ng-model="track.backgroundImg" ng-required="!track.background">
+                      <input type="radio" class="hidden mb-sm-3" ng-checked="track.backgroundImg == image" ng-model="track.backgroundImg" id="{{$index}}" name="radio-btn">
+                      <label for="{{$index}}">
+                        <img ng-src="{{ cropimage(image , 110,110) }}" class="campaign-banner" alt=""/>
+                      </label>
+                    </div>
+                    <span class="text-danger" ng-if="campaignForm.$submitted">
+                      <span ng-if="campaignForm.background_img.$error.required">Please choose your page background.</span>
+                    </span>
+                  </data-dashboard-owl>
+                </div>&lt;!&ndash; /.page-background &ndash;&gt;
+                <label for="upload-own-background">Upload Your Page Background <span class="text-red"> * </span></label>
+                <label class="check-label font11">RECOMMENDED SIZE 1600px X 615px</label>
+
+                <input ng-if="track.action=='add'" type="file" class="mb-sm-3" name="background" file-model ng-model="track.background" accept='image/*' ng-required="!track.backgroundImg" onchange="angular.element(this).scope().setBackground(this)"/>
+
+                <input ng-show="showPageBackground" type="file" class="mb-sm-3 upload_background" name="background" file-model ng-model="track.background" accept='image/*' ng-required="!track.backgroundImg" onchange="angular.element(this).scope().setBackground(this)"/>
+
+                <div class="mt-lg-10 mb-lg-10" ng-show="track.action != 'add' " >
+                  <span class="file-upload-buttons default-pointer" ng-click="showPageBackground = !showPageBackground;!showPageBackground ? clearFileInput('page-background') : '' "> {{ showPageBackground ? 'Cancel' : 'Change'}} </span>
+                </div>
+
+                <img ng-if="image_source_background" ng-src="{{ image_source_background }}" class="campaign_img_height" id="campaign_image"/><br>
+                &lt;!&ndash; <span class="text-danger" ng-if="campaignForm.$submitted">
+                  <span ng-if="campaignForm.background.$error.required && !BackImageError && completed !='true'">
+                    Please select your page background.</span>
+                </span> &ndash;&gt;
+                &lt;!&ndash; <span class="text-danger" ng-if="campaignForm.$submitted">
+                  <span ng-if="BackImageError">Please select image from 1600X615px and more.</span>
+                </span> &ndash;&gt;
+
+                &lt;!&ndash; <div class="row">
+                  <div class="col-md-12">
+                    <label class="mb-sm" for="track-name">Select Publish Status</label>
+                    <input class="mb-sm check-status" id="status" type="checkbox" name="status" value="1"  ng-model="track.status">
+                    <label for="status" class="check-label">Please tick this box to publish your campaign </label>
+                  </div>
+                </div> &ndash;&gt;
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <input class="check-status" id="blur"  ng-true-value="1" ng-false-value="0" type="checkbox" name="blur" ng-model="track.blur">
+                    <label for="blur" class="check-label ie-label-padding font11">Blur Background</label>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <label class="" for="track-name">By Ticking This Box Your Track Will Be Visible On Your Profile</label>
+                    <input class="check-status" id="status" ng-true-value="1"  ng-false-value="0"  type="checkbox" name="status"   ng-model="track.status" autocomplete="off">
+                    <label for="status" class="check-label ie-label-padding font11">UNTICK THE BOX AT ANYTIME TO HIDE THIS TRACK FROM YOUR PROFILE</label>
+                  </div>
+                </div>
+                <div class="buttons-wrapper" ng-class="{'mb-sm-5':isSubmitting && track.action == 'add'}">
+                  <button type="button" class="black-button" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+                  <button type="submit"
+                  ng-class="{'disabled-submit-demo':isSubmitting ? true : false}"
+                  ng-disabled="isSubmitting ? true : false"
+                  class="red-button">Save Campaign</button>
+                </div>&lt;!&ndash; /.buttons-wrapper &ndash;&gt;
+                <div class="clearfix">
+                </div>&lt;!&ndash; /.clearfix &ndash;&gt;
+              </form>
+            </div>&lt;!&ndash; /.form-wrapper &ndash;&gt;
+          </div>
+        </div>
+
+      </div>-->
+    </div>
+</div>

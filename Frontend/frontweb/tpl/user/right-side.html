@@ -1,0 +1,237 @@
+<div class="right-side">
+  
+  <section id="activity-feed">
+    <h2>Recent Activity</h2>
+    <div ng-class="{'box fix-height flexcroll' : activities.length, 'box flexcroll' : !activities.length}">
+      <ul ng-if="activities.length">
+        <li ng-repeat="activity in activities | limitTo:3">
+          
+          <a  ng-if="activity.object_type != 'following' && activity.object_type != 'follower' && activity.owner.user_type == 'stm_user' " ui-sref="app.user.favourites({slug:activity.owner.slug})">
+            <img  ng-src="{{ cropimage(activity.owner.avatar ? activity.owner.avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object_type != 'following' && activity.object_type != 'follower' && activity.owner.user_type == 'artist' " ui-sref="app.artist.tracks({slug:activity.owner.slug})">
+            <img  ng-src="{{ cropimage(activity.owner.avatar ? activity.owner.avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object_type == 'follower' && activity.follower.user_type == 'stm_user' " ui-sref="app.user.favourites({slug:activity.follower.slug})">
+            <img  ng-src="{{ cropimage(activity.follower.avatar ? activity.follower.avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object_type == 'follower' && activity.follower.user_type == 'artist' " ui-sref="app.artist.tracks({slug:activity.follower.slug})">
+            <img  ng-src="{{ cropimage(activity.follower.avatar ? activity.follower.avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object_type == 'following' && activity.following.user_type == 'stm_user' " ui-sref="app.user.favourites({slug:activity.following.slug})">
+            <img  ng-src="{{ cropimage(activity.following.avatar ? activity.following.avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object_type == 'following' && activity.following.user_type == 'artist' " ui-sref="app.artist.tracks({slug:activity.following.slug})">
+            <img  ng-src="{{ cropimage(activity.following.avatar ? activity.following.avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object == 'favourite' && activity.object_type == 'campaign' " ui-sref="app.artist.tracks({slug:activity.favourite_campaign.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.favourite_campaign.artist_avatar ? activity.favourite_campaign.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object == 'favourite' && activity.object_type == 'track' " ui-sref="app.artist.tracks({slug:activity.track.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.track.artist_avatar ? activity.track.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object == 'favourite' && activity.object_type == 'remix' " ui-sref="app.artist.tracks({slug:activity.favourite_remix.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.favourite_remix.artist_avatar ? activity.favourite_remix.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object == 'favourite' && activity.object_type == 'music_video' " ui-sref="app.artist.tracks({slug:activity.favourite_video.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.favourite_video.artist_avatar ? activity.favourite_video.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+
+          <a  ng-if="activity.object == 'download' && activity.object_type == 'campaign' " ui-sref="app.artist.tracks({slug:activity.download_campaign.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.download_campaign.artist_avatar ? activity.download_campaign.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object == 'download' && activity.object_type == 'track' " ui-sref="app.artist.tracks({slug:activity.download_track.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.download_track.artist_avatar ? activity.download_track.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object == 'download' && activity.object_type == 'remix' " ui-sref="app.artist.tracks({slug:activity.download_remix.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.download_remix.artist_avatar ? activity.download_remix.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <a  ng-if="activity.object == 'download' && activity.object_type == 'music_video' " ui-sref="app.artist.tracks({slug:activity.download_video.artist_slug})">
+            <img  ng-src="{{ cropimage(activity.download_video.artist_avatar ? activity.download_video.artist_avatar : _defaults.default_profile_image, 70, 70) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle" />
+          </a>
+
+          <p>
+            <strong> 
+              
+              <!-- Start  -->
+              <a  ng-if="activity.owner.user_type == 'artist' "  class="color-link" ui-sref="app.artist.tracks({slug:activity.owner.slug})" href="javascript:;">
+
+                <span ng-if="activity.owner.slug == _user.slug && activity.object_type != 'follower'" > You </span>
+                <span ng-if="activity.owner.slug != _user.slug && activity.object_type != 'follower'" > {{ activity.owner.name | cut:true:10:' ...'  }} </span>
+              </a>
+
+
+              <a ng-if="activity.owner.user_type == 'stm_user' " class="color-link" href="javascript:;" ui-sref="app.user.favourites({slug:activity.owner.slug})">
+                <span ng-if="activity.owner.slug == _user.slug && activity.object_type != 'follower'" > You </span>
+                <span ng-if="activity.owner.slug != _user.slug && activity.object_type != 'follower'" > {{ activity.owner.name | cut:true:10:' ...'  }} </span>
+              </a>
+
+
+              <!-- End  -->
+
+
+
+
+              <!-- Start  -->
+              <a ng-if="activity.owner.user_type != 'artist'  && activity.follower.user_type == 'artist' " class="color-link" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >
+                <span ng-if="activity.owner.slug != artist.slug && activity.object_type != 'follower'"> 
+                  {{ activity.follower.name | cut:true:10:' ...' }}</span>
+              </a>
+
+
+              <a ng-if="activity.owner.user_type != 'stm_user' && activity.follower.user_type == 'stm_user' " class="color-link" >
+                <span ng-if="activity.owner.slug != artist.slug && activity.object_type != 'follower'"> 
+                  {{ activity.follower.name | cut:true:10:' ...' }}</span>
+              </a>
+
+              <!-- End  -->
+
+              <!-- Start  -->
+
+              <a ng-if="activity.follower.user_type == 'artist' && _user.slug != activity.follower.slug " class="color-link" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >
+                <span ng-if="activity.object_type == 'follower'"> 
+                  {{ activity.follower.name | cut:true:10:' ...' }}
+                </span>
+              </a>
+
+              <a ng-if="activity.follower.user_type == 'artist' && _user.slug == activity.follower.slug " class="color-link" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >
+                <span ng-if="activity.object_type == 'follower'"> 
+                  You
+                </span>
+              </a>
+
+              <a ng-if="activity.follower.user_type == 'stm_user' && _user.slug == activity.follower.slug" class="color-link">
+                <span ng-if="activity.object_type == 'follower'"> 
+                  You
+                </span>
+              </a>
+
+              <a ng-if="activity.follower.user_type == 'stm_user' && _user.slug != activity.follower.slug" class="color-link">
+                <span ng-if="activity.object_type == 'follower'"> 
+                  {{ activity.follower.name | cut:true:10:' ...' }}
+                </span>
+              </a>
+
+
+
+              <!-- End  -->
+
+
+              <br>
+            </strong>
+            {{activity.message}} 
+
+            <!-- Start -->
+
+            <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'artist' && _user.slug == activity.following.slug" href="javascript:;" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >You</a>
+
+            <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'artist' && _user.slug != activity.following.slug" href="javascript:;" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >{{ activity.following.name | cut:true:10:' ...'  }}</a>
+
+            <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'stm_user' && _user.slug == activity.following.slug " href="javascript:;" >You</a>
+
+            <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'stm_user' && _user.slug != activity.following.slug " href="javascript:;" >{{ activity.following.name | cut:true:10:' ...'  }}</a>
+
+            <!-- End -->
+
+            <!-- Start  -->
+
+            <a ng-if="activity.object_type == 'follower' && activity.owner.slug == _user.slug && activity.owner.user_type == 'artist' " href="javascript:;" ui-sref="app.artist.tracks({slug:activity.owner.slug})" > You </a>
+
+
+            <a ng-if="activity.object_type == 'follower' && activity.owner.slug == _user.slug &&  activity.owner.user_type == 'stm_user' " href="javascript:;" > You </a>
+
+            <!-- End  -->
+
+            <!-- Stat -->
+
+            <a ng-if="activity.object_type == 'follower' && activity.owner.slug != _user.slug && activity.owner.user_type == 'artist'" href="javascript:;" ui-sref="app.artist.tracks({slug:activity.owner.slug})" > {{ activity.owner.name | cut:true:10:' ...'  }} </a>
+
+            <a ng-if="activity.object_type == 'follower' && activity.owner.slug != _user.slug && activity.owner.user_type == 'stm_user' " href="javascript:;"> {{ activity.owner.name | cut:true:10:' ...'  }} </a>
+
+            <!-- End  -->
+
+            <a target="_blank" ui-sref="app.single_track({trackId:activity.track.slug})" ng-if="activity.object_type == 'add'">
+              {{ activity.track.track_name | cut:true:15:' ...'  }}
+            </a>
+
+            <a target="_blank" ui-sref="app.single_track({trackId:activity.track.slug})" ng-if="activity.object == 'favourite'  && activity.object_type == 'track'">
+            {{ activity.track.track_name | cut:true:15:' ...'  }}
+            </a>
+
+            <a target="_blank" ui-sref="app.single_campaign({trackId:activity.favourite_campaign.slug})" ng-if="activity.object == 'favourite' && activity.object_type == 'campaign'">
+              {{ activity.favourite_campaign.track_name | cut:true:15:' ...'  }}
+            </a>
+
+            <a  ng-if="activity.object == 'favourite' && activity.object_type == 'remix'">
+              {{ activity.favourite_remix.track_name | cut:true:15:' ...'  }}
+            </a>
+
+            <a  ng-if="activity.object == 'favourite' && activity.object_type == 'music_video'">
+              {{ activity.favourite_video.track_name | cut:true:15:' ...'  }}
+            </a>
+
+            <!-- For download actions  -->
+
+            <a target="_blank" ui-sref="app.single_track({trackId:activity.download_track.slug})" ng-if="activity.object == 'download'  && activity.object_type == 'track'">
+              {{ activity.download_track.track_name | cut:true:15:' ...'  }}<br>
+            </a>
+
+           <a target="_blank" ui-sref="app.single_campaign({trackId:activity.download_campaign.slug})" ng-if="activity.object == 'download' && activity.object_type == 'campaign'">
+            {{ activity.download_campaign.track_name | cut:true:15:' ...'  }}<br>
+           </a>
+
+           <a  ng-if="activity.object == 'download' && activity.object_type == 'remix'">
+            {{ activity.download_remix.track_name | cut:true:15:' ...'  }}<br>
+           </a>
+
+           <a  ng-if="activity.object == 'download' && activity.object_type == 'music_video'">
+            {{ activity.download_video.track_name | cut:true:15:' ...'  }}<br>
+            </a>
+
+            <!-- End for download actions  -->
+            
+          </p>
+        </li>
+      </ul>
+      <span ng-if="!activities.length" class="font-sm  font font14">No recent activity</span>
+      <!-- <a ng-if="activities.length > 3" ui-sref="app.user.activity({slug:artist.slug})" class="view-all">View all
+      </a> -->
+    </div><!-- /.box -->
+      <!-- <a ui-sref="artist.activities"><button class="button-red">View All</button></a> -->
+  </section><!-- /#activity-feed -->
+
+  <section id="following" ng-show="artist.user_type =='stm_user' ">
+    <h2>Following</h2>
+    <div ng-class="{'box fix-height flexcroll' : followers.length, 'box flexcroll' : !followers.length}">
+      <ul ng-if="followers.length">
+        <li ng-repeat="follower in followers | limitTo:3" >
+          <img ui-sref="app.artist.tracks({slug:follower.slug})" ng-src="{{follower.avatar}}" image-error="{{_defaults.default_profile_image}}" class="img-circle stm-pointer" />
+          <div class="details">
+            <a class="color-link" ui-sref="app.artist.tracks({slug:follower.slug})"><h3>{{follower.name}}</h3></a>
+            <i class="fa fa-users"></i><span>{{follower.follower_count}}</span>
+          </div><!-- /.details -->
+        </li>
+      </ul>
+      <ul ng-if="!followers.length" class="font-sm font font14"> No Following</ul>
+      <a ng-if="followers.length > 3" ui-sref="app.user.followings({slug:artist.slug})" class="view-all">View all</a>
+    </div><!-- /.box -->
+    <div class="landing-page-modals">
+        <div data-ng-include=" 'frontweb/tpl/modals/submitYourDemoModal.html' "></div>
+    </div> 
+  </section><!-- /#following -->
+
+  <div class="clearfix"></div><!-- /.clearfix -->
+</div><!-- /.right-side -->

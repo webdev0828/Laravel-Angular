@@ -1,0 +1,19 @@
+<div id="cropImageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="cropImageModalLabel" class="modal-title text-capitalize">{{user.name}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="crop-wrap img-responsive img-align" />
+                <div class="crop-note">
+                    Note: This representation is not 100% correct due to the nature of parallax banners
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                <button class="btn btn-primary" ng-click="updateCroppedImage()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

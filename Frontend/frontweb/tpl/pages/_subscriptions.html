@@ -1,0 +1,1918 @@
+<div class="">
+<style>
+strike{font-size: 14px;}
+</style>
+	<div class="background-blur-image"></div><!-- /.background-blur-image -->
+
+	<!-- Navigation -->
+    <nav class="navbar navbar-default wow fadeInDown" data-wow-duration="1s" role="navigation">
+        <h2 class="hide">Main navigation</h2><!-- /.hide -->
+        <div class="container single-track-container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="page-scroll" ui-sref="app.page.dashboard"><img ng-src="{{cropimage('frontweb/assets/images/stm_logo.png',254)}}" alt="Sore Thumb Media Throbbing with talent" /></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-if="_user">
+                        <a ng-if="_user.user_type =='stm_user'" ui-sref="app.user.profile"> Go back to profile
+                        </a>
+                        <a ng-if="_user.user_type =='artist'" ui-sref="app.artist.profile"> Go back to profile
+                        </a>
+                    </li>
+                    <li ng-if="!_user">
+                        <a ui-sref="index"> Go back to profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div class="container">
+    	<div class="row">
+    		<div class="col-xs-12">
+    			<div class="subscriptions-box-desktop-and-tablets hidden-xs">
+					<div class="row">
+						<div class="col-sm-4  row-header cell row-subscription-method">
+							<span class="row-header-title">
+								Subscription Method
+							</span>
+						</div>
+						<div class="col-sm-8">
+							<div class="row">
+								<div class="row-height">
+									<div ng-repeat="plan in plans" class="col-sm-2 col-sm-height col-header cell">
+										<!-- <i class="fa fa-volume-up"></i> -->
+										<img ng-src="{{subscriptionLogos[$index]}}" class="subscription_logos">
+										<span class="col-header-title">
+											{{plan.name}}
+										</span>
+										<!-- <a href="javascript:;" class="read-more">Read more</a> -->
+									</div>
+									<!-- <div class="col-sm-2 col-sm-height col-middle col-header cell">
+										<span class="col-header-title">
+											"Stick Out Like a Sore Thumb"
+										</span>
+									</div> -->
+								</div><!-- /.row-height -->
+							</div><!-- /.row -->
+						</div><!-- /.col-sm-9 col-sm-offset-3 -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Monthly Price<br><br>
+									<span class="text-red">*Please note: Although subscriptions are price-locked, subscription costs will increase by 20% after Sore Thumb Media has become VAT registered.</span>
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div ng-repeat="plan in plans" class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-big-price" ng-class="{'cell-small-price':plan.stripe_plan_key =='gating' || plan.stripe_plan_key == 'gating2' }">
+												<span ng-if="plan.stripe_plan_key != 'gating2'">{{plan.amount == 0 ? 'Free' : '£' + plan.amount}}</span>
+												<span ng-if="plan.stripe_plan_key == 'gating'" class="display-initial font-weight-700">
+													<!-- <br>(£4.99 introductory offer) -->
+												</span>
+												<span ng-if="plan.stripe_plan_key == 'gating2'" class="display-initial">
+													<!-- <br>(£6.99 introductory offer) -->
+													<strike >£13.98</strike><br><br>
+													<span class="text-red">£{{ plan.amount }} (50% off Launch Discount!)<br><br>
+													Price increase after 200 sign ups on this subscription</span>
+												</span>
+												<!-- {{ plan.stripe_plan_key == 'gating' ? '(£4.99 for first 250 members!)': ''}} -->
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<!-- <div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<div class="clearfix"></div>
+							</div>
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<div class="clearfix"></div>
+										</div>
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<div class="clearfix"></div>
+										</div>
+										<div class="col-sm-4 col-sm-height col-middle cell">
+											<span class="cell-content font-weight-700">
+												(Introductory offer available up to 30 days after launch)
+											</span>
+										<div class="clearfix"></div>
+										</div>				
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Subscription price lock
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Number of Gates
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												5
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												Infinite
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												Infinite
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												Infinite
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Gating options for: Soundcloud, Facebook, Twitter, Instagram, Youtube
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Donate Button on your profile
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Chance for your music to feature on Sore Thumb Media's favourited tracks
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Ability to join remix competitions
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Ability to submit your tracks to Discover
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Ability to submit your tracks for Repost
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<!-- <div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Ability to submit your track for STM Releases and qualify for a music video, discover video or digital FX video*
+								</span>
+							</div>
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div>
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div>
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div>
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Amount of tracks which you can submit to Discover
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div ng-repeat="plan in plans" class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+
+												<i ng-if="!plan.discover_demo_limit" class="fa fa-times"></i>
+												{{plan.discover_demo_limit ? plan.discover_demo_limit : '' }}
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Amount of tracks which you can submit to Repost
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div ng-repeat="plan in plans" class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+
+												<i ng-if="!plan.remix_demo_limit" class="fa fa-times"></i>
+												{{plan.remix_demo_limit ? plan.remix_demo_limit : '' }}
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Chance for Discover submissions to receive a spotlight position
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Advertise one of your tracks on your profile through label release promo box
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Chance for your track to be signed as a STM exclusive release
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Amount of tracks which you can submit for STM exclusive release per month
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div ng-repeat="plan in plans" class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+
+												<i ng-if="!plan.video_demo_limit" class="fa fa-times"></i>
+												{{plan.video_demo_limit ? plan.video_demo_limit : '' }}
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Chance for your track to be 'suggested' on a gated track page
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+						<div class="row-height">
+							<div class="col-sm-4 col-sm-height col-middle row-header cell">
+								<span class="row-header-title">
+									Able to qualify for a tailor-made music video*<br><br>
+									<span class="text-red">*This is not a guaranteed feature on the applicable subscription. You have to be in it to win it and successful submissions will be chosen by us!</span>
+								</span>
+							</div><!-- /.col-sm-3 col-sm-height col-middle row-header cell -->
+							<div class="col-sm-8 col-sm-height col-middle row-cells">
+								<div class="row">
+									<div class="row-height">
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-times"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+										<div class="col-sm-2 col-sm-height col-middle cell">
+											<span class="cell-content">
+												<i class="fa fa-check"></i>
+											</span>
+										</div><!-- /.col-sm-2 col-sm-height col-middle cell -->
+
+									</div><!-- /.row-height -->
+								</div><!-- /.row -->
+							</div><!-- /.col-sm-9 col-sm-height col-middle row-cells -->
+						</div><!-- /.row-height -->
+					</div><!-- /.row -->
+					<div class="row">
+
+						<div class="col-sm-8 col-sm-offset-4 row-cells">
+							<div class="row">
+								<div class="row-height">
+
+									<div ng-repeat="plan in plans" class="col-sm-2 col-sm-height col-middle cell">
+										<span class="cell-content">
+											<a ng-if="plan.id != 1" href="javascript:;" class="select" ng-click="plan.id != _currentPlanDetails.plan.plan_id && addSubscriptionModal(plan);" 
+											ng-class="{'active_plan' : plan.id == _currentPlanDetails.plan.plan_id}" >{{ plan.id == _currentPlanDetails.plan.plan_id ? 'Current' : 'Select' }}
+											</a>
+
+											<a ng-if="plan.id == 1" href="javascript:;" class="select disable-plan disabled-select-plan" 
+											>Free
+											</a>
+										</span>
+									</div>
+
+								</div><!-- /.row-height -->
+							</div><!-- /.row -->
+						</div><!-- /.col-sm-9 row-cells -->
+					</div><!-- /.row -->
+    			</div><!-- /.subscriptions-box -->
+    		</div><!-- /.col-xs-12 -->
+    	</div><!-- /.row -->
+    	<div class="row">
+    		<div class="col-xs-12">
+    			<div class="subscriptions-box-mobile visible-xs">
+                    <div class="plan">
+                        <div class="row">
+                            <div class="col-xs-12 plan-header">
+                                <img ng-src="{{subscriptionLogos[0]}}" class="subscription_logos">
+                                <span class="plan-header-title">
+                                    {{plans[0].name}}
+                                </span>
+                                <!-- <a href="javascript:;" class="read-more">Read more</a> -->
+                            </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Monthly Price<br><br>
+										<span class="text-red">*Please note: Although subscriptions are price-locked, subscription costs will increase by 20% after Sore Thumb Media has become VAT registered.</span>
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        Free
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Subscription price lock
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Number of Gates
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        5
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Gating options for: Soundcloud, Facebook, Twitter, Instagram, Youtube
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Donate Button on your profile
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your music to feature on Sore Thumb Media's favourited tracks
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to join remix competitions
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+
+                        <!-- <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your track for STM Releases and qualify for a music video, discover video or digital FX video*
+                                        </span>
+                                </div>
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[0].discover_demo_limit" class="fa fa-times"></i>
+                                        {{plans[0].discover_demo_limit ? plans[0].discover_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[0].remix_demo_limit" class="fa fa-times"></i>
+                                        {{plans[0].remix_demo_limit ? plans[0].remix_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for Discover submissions to receive a spotlight position
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Advertise one of your tracks on your profile through label release promo box
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be signed as a STM exclusive release
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit for STM exclusive release per month
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[0].video_demo_limit" class="fa fa-times"></i>
+                                        {{plans[0].video_demo_limit ? plans[0].video_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be 'suggested' on a gated track page
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Able to qualify for a tailor-made music video*<br><br>
+                                        <span class="text-red">
+                                        	*This is not a guaranteed feature on the applicable subscription. You have to be in it to win it and successful submissions will be chosen by us!
+                                        </span>
+                                    </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <div class="clearfix"></div><!-- /.clearfix -->
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <a href="javascript:;" class="select disable-plan disabled-select-plan">Free</a>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                    </div><!-- /.pla-->
+
+                    <div class="plan">
+                        <div class="row">
+                            <div class="col-xs-12 plan-header">
+                                <img ng-src="{{subscriptionLogos[1]}}" class="subscription_logos">
+                                <span class="plan-header-title">
+                                    {{ plans[1].name}}
+                                </span>
+                                <!-- <a href="javascript:;" class="read-more">Read more</a> -->
+                            </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Monthly Price<br><br>
+										<span class="text-red">*Please note: Although subscriptions are price-locked, subscription costs will increase by 20% after Sore Thumb Media has become VAT registered.</span>
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <!-- £3.99 -->
+                                        {{'£' +  plans[1].amount}}
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Subscription price lock
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Number of Gates
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        Infinite
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Gating options for: Soundcloud, Facebook, Twitter, Instagram, Youtube
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Donate Button on your profile
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your music to feature on Sore Thumb Media's favourited tracks
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to join remix competitions
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <!-- <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+										Ability to submit your track for STM Releases and qualify for a music video, discover video or digital FX video*
+                                        </span>
+                                </div>
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="! plans[1].discover_demo_limit" class="fa fa-times"></i>
+                                        {{ plans[1].discover_demo_limit ?  plans[1].discover_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="! plans[1].remix_demo_limit" class="fa fa-times"></i>
+                                        {{ plans[1].remix_demo_limit ?  plans[1].remix_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for Discover submissions to receive a spotlight position
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Advertise one of your tracks on your profile through label release promo box
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be signed as a STM exclusive release
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                         <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit for STM exclusive release per month
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="! plans[1].video_demo_limit" class="fa fa-times"></i>
+                                        {{ plans[1].video_demo_limit ?  plans[1].video_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be 'suggested' on a gated track page
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Able to qualify for a tailor-made music video*<br><br>
+                                        <span class="text-red">
+                                        	*This is not a guaranteed feature on the applicable subscription. You have to be in it to win it and successful submissions will be chosen by us!
+                                        </span>
+                                    </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <div class="clearfix"></div><!-- /.clearfix -->
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <a  href="javascript:;" class="select" ng-click=" plans[1].id != _currentPlanDetails.plan.plan_id && addSubscriptionModal(plans[1]);" 
+                                        ng-class="{'active_plan' :  plans[1].id == _currentPlanDetails.plan.plan_id}" >{{  plans[1].id == _currentPlanDetails.plan.plan_id ? 'Current' : 'Select' }}
+                                        </a>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                    </div><!-- /.pla-->
+
+                    <div class="plan">
+                        <div class="row">
+                            <div class="col-xs-12 plan-header">
+                                <img ng-src="{{subscriptionLogos[2]}}" class="subscription_logos">
+                                <span class="plan-header-title">
+                                    {{ plans[2].name}}
+                                </span>
+                                <!-- <a href="javascript:;" class="read-more">Read more</a> -->
+                            </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Monthly Price<br><br>
+										<span class="text-red">*Please note: Although subscriptions are price-locked, subscription costs will increase by 20% after Sore Thumb Media has become VAT registered.</span>
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-small-price">
+                                        {{'£' + plans[2].amount}}
+                                        <!-- <br><span class="font-weight-700">(£4.99 introductory offer)</span> -->
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Subscription price lock
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Number of Gates
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        Infinite
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Gating options for: Soundcloud, Facebook, Twitter, Instagram, Youtube
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                       Donate Button on your profile
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your music to feature on Sore Thumb Media's favourited tracks
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to join remix competitions
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <!-- <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your track for STM Releases and qualify for a music video, discover video or digital FX video*
+                                        </span>
+                                </div><
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[2].discover_demo_limit" class="fa fa-times"></i>
+                                        {{plans[2].discover_demo_limit ? plans[2].discover_demo_limit : '' }}
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[2].remix_demo_limit" class="fa fa-times"></i>
+                                        {{plans[2].remix_demo_limit ? plans[2].remix_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for Discover submissions to receive a spotlight position
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Advertise one of your tracks on your profile through label release promo box
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be signed as a STM exclusive release
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                         <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                       Amount of tracks which you can submit for STM exclusive release per month
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[2].video_demo_limit" class="fa fa-times"></i>
+                                        {{plans[2].video_demo_limit ? plans[2].video_demo_limit : '' }}
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be 'suggested' on a gated track page
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Able to qualify for a tailor-made music video*<br><br>
+                                        <span class="text-red">
+                                        	*This is not a guaranteed feature on the applicable subscription. You have to be in it to win it and successful submissions will be chosen by us!
+                                        </span>
+                                    </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <div class="clearfix"></div><!-- /.clearfix -->
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <a  href="javascript:;" class="select" ng-click="plans[2].id != _currentPlanDetails.plan.plan_id && addSubscriptionModal(plans[2]);" 
+                                        ng-class="{'active_plan' : plans[2].id == _currentPlanDetails.plan.plan_id}" >{{ plans[2].id == _currentPlanDetails.plan.plan_id ? 'Current' : 'Select' }}
+                                        </a>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                    </div><!-- /.plan -->
+
+                    <div class="plan">
+                        <div class="row">
+                            <div class="col-xs-12 plan-header">
+                                <img  ng-src="{{subscriptionLogos[3]}}" class="subscription_logos">
+                                <span class="plan-header-title">
+                                {{plans[3].name}}
+                                </span>
+                                <!-- <a href="javascript:;" class="read-more">Read more</a> -->
+                            </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Monthly Price<br><br>
+										<span class="text-red">*Please note: Although subscriptions are price-locked, subscription costs will increase by 20% after Sore Thumb Media has become VAT registered.</span>
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-small-price">
+                                        <!-- <strike>{{'£' + plans[3].amount}}</strike> -->
+                                        <!-- <br><span class="font-weight-700">(£6.99 introductory offer)</span> -->
+                                        <strike >£13.98</strike><br><br>
+										<span class="text-red">£6.99 (50% off Launch Discount!)<br><br>
+										Price increase after 200 sign ups on this subscription</span>
+
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Subscription price lock
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Number of Gates
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        Infinite
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Gating options for: Soundcloud, Facebook, Twitter, Instagram, Youtube
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Donate Button on your profile
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your music to feature on Sore Thumb Media's favourited tracks
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to join remix competitions
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your tracks to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <!-- <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Ability to submit your track for STM Releases and qualify for a music video, discover video or digital FX video*
+                                        </span>
+                                </div>
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Discover
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[3].discover_demo_limit" class="fa fa-times"></i>
+                                        {{plans[3].discover_demo_limit ? plans[3].discover_demo_limit : '' }}
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit to Repost
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[3].remix_demo_limit" class="fa fa-times"></i>
+                                        {{plans[3].remix_demo_limit ? plans[3].remix_demo_limit : '' }}
+                                    </span>
+
+
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for Discover submissions to receive a spotlight position
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Advertise one of your tracks on your profile through label release promo box
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be signed as a STM exclusive release
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Amount of tracks which you can submit for STM exclusive release per month
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i ng-if="!plans[3].video_demo_limit" class="fa fa-times"></i>
+                                        {{plans[3].video_demo_limit ? plans[3].video_demo_limit : '' }}
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Chance for your track to be 'suggested' on a gated track page
+                                        </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <span class="row-header-title">
+                                        Able to qualify for a tailor-made music video*<br><br>
+                                        <span class="text-red">
+                                        	*This is not a guaranteed feature on the applicable subscription. You have to be in it to win it and successful submissions will be chosen by us!
+                                        </span>
+                                    </span>
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-8 col-height col-middle row-header">
+                                    <div class="clearfix"></div><!-- /.clearfix -->
+                                </div><!-- /.col-xs-8 col-height col-middle row-header -->
+                                <div class="col-xs-4 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        <a  href="javascript:;" class="select" ng-click="plans[3].id != _currentPlanDetails.plan.plan_id && addSubscriptionModal(plans[3]);" 
+                                        ng-class="{'active_plan' : plans[3].id == _currentPlanDetails.plan.plan_id}" >{{ plans[3].id == _currentPlanDetails.plan.plan_id ? 'Current' : 'Select' }}
+                                        </a>
+                                    </span>
+                                </div><!-- /.col-xs-4 col-height col-middle cell -->
+                            </div><!-- /.row-height -->
+                        </div><!-- /.row -->
+                    </div><!-- /.plan -->
+
+                    <!-- <div class="plan">
+                        <div class="row">
+                            <div class="col-xs-12 plan-header">
+                                <span class="plan-header-title">
+                                    Stick Out Like a Sore Thumb
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row-height">
+                                <div class="col-xs-12 col-height col-middle cell">
+                                    <span class="cell-content">
+                                        Coming soon
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+    			</div>
+    		</div><!-- /.col-xs-12 -->
+    	</div><!-- /.row -->
+    </div><!-- /.container -->
+</div><!-- /.animsition -->
+<script type="text/ng-template" id="subscription-modal.html">
+    <div class="base-font" data-ng-include=" 'frontweb/tpl/modals/subscription-modal.html' "></div>
+</script>

@@ -1,0 +1,479 @@
+<div ng-init="getTracksData();getDemoTracks()" id="dashboard_ctrl">
+  <div ng-include=" 'frontweb/tpl/artist/sub-navbar.html' " include-replace></div>
+  <div class="landing-page-modals">
+    <div data-ng-include=" 'frontweb/tpl/modals/repostDemoTrackModal.html' "></div>
+  </div>
+
+  <div class="clearfix create-bundle">
+    <a ng-if="(_currentPlanDetails.plan.plan_id != 1) || (_currentPlanDetails.plan.plan_id == 1 && _currentPlanDetails.streamlineCount < 2)" href="javascript:;" class="pull-right" ng-click="openStreamlineModal(null,'add')"><h2 class="font font14 red-color-btn">Create a streamline page</h2></a>
+
+    <a ng-if="(_currentPlanDetails.plan.plan_id == 1) && (_currentPlanDetails.plan.plan_id == 1 && _currentPlanDetails.streamlineCount > 1)" href="javascript:;" class="pull-right" ng-click="showPopup1()"><h2 class="font font14 red-color-btn">Create a streamline page</h2></a>
+
+    <a href="javascript:;" class="pull-right" ng-click="openCampaignModal(null,'add')"><h2 class="font font14 red-color-btn">Create a fan gate</h2></a>
+    <a href="javascript:;" class="pull-right" ng-click="showTutorials()"><h2 class="font font14 grey-color-btn">Tutorials</h2></a>
+  </div>
+
+  <div class="row" id="network-lock">
+    <div class="col-xs-12">
+      <div id="createTab" class="dashboard-tabs">
+        <!-- Tab Names -->
+        <ul class="nav nav-tabs">
+          <li ng-class="{'active' : createType == 'campaign'}" class="col-xs-6">
+            <a ng-click="setCreateType('campaign')">YOUR RUNNING FAN GATES</a>
+          </li>
+          <li ng-class="{'active' : createType == 'streamline'}" class="col-xs-6">
+            <a ng-click="setCreateType('streamline')">YOUR RUNNING STREAMLINE PAGES</a>
+          </li>
+        </ul>
+
+        <div ng-switch="createType">
+          <div ng-switch-when="campaign">
+            <section id="runing-campaigns">
+              <div class="table-header">
+                <div class="row">
+                  <div class="col-md-3">
+                    <span>Campaign Name</span>
+                  </div><!-- /.col-md-4 -->
+                  <div class="col-md-2 text-center">
+                    <span>Date Created</span>
+                  </div><!-- /.col-md-3 -->
+                  <div class="col-md-1 text-center">
+                    <span>Type</span>
+                  </div><!-- /.col-md-1 -->
+                  <div class="col-md-1 text-center">
+                    <span>Status</span>
+                  </div><!-- /.col-md-1 -->
+                  <div class="col-md-1 text-center">
+                    <span>Visits</span>
+                  </div><!-- /.col-md-1 -->
+                  <div class="col-md-2 text-center">
+                    <span>Downloads</span>
+                  </div><!-- /.col-md-2 -->
+                  <div class="col-md-2 text-center">
+                    <span>Actions</span>
+                  </div><!-- /.col-md-2 -->
+                </div><!-- /.row -->
+              </div><!-- /.table-header -->
+              <div class="table-body" ng-if="campaigns.length">
+                <div class="table-row" ng-repeat="campaign in campaigns">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <span>{{ campaign.track_name }}</span>
+                    </div><!-- /.col-md-4 -->
+                    <div class="col-md-2 text-center">
+                      <span ng-bind="formatDate(campaign.created_at) | date:'MMM dd/yyyy'"></span>
+                    </div><!-- /.col-md-3 -->
+                    <div class="col-md-1 text-center">
+                      <span>{{campaign.type == 'original' ? 'Original' : 'Remix' | capitalize}}</span>
+                    </div><!-- /.col-md-1 -->
+                    <div class="col-md-1 text-center">
+                      <span>{{campaign.status == '1' ? 'Published' : '-' | capitalize}}</span>
+                    </div><!-- /.col-md-1 -->
+                    <div class="col-md-1 text-center">
+                      <span> {{ campaign.visit_count }} </span>
+                    </div><!-- /.col-md-1 -->
+                    <div class="col-md-2 text-center">
+                      <span>{{ campaign.download_count ? campaign.download_count : 0  }}</span>
+                    </div><!-- /.col-md-2 -->
+                    <div class="col-md-2">
+                      <ul class="manage-links">
+                        <li ng-if="campaign.status == '1'" >
+                          <a target="_blank" ui-sref="app.single_campaign({trackId : campaign.slug})">
+                            <i class="fa fa-link"></i>
+                          </a>
+                        </li>
+                        <li><a href="javascript:;" ng-click="openCampaignModal(campaign,'edit');"><i class="fa fa-pencil-square-o"></i></a></li>
+                        <li><a href="javascript:;" ng-click="deleteCampaignTrack(campaign.id, $index)"><i class="fa fa-times"></i></a></li>
+                      </ul><!-- /.manage-links -->
+                    </div><!-- /.col-md-2 -->
+                  </div><!-- /.row -->
+                </div><!-- /.table-row -->
+              </div><!-- /.table-body -->
+
+              <uib-pagination
+                      ng-change="getCampaigns()"
+                      class="pull-right"
+                      ng-model="$parent.campaignsCurrentPage"
+                      total-items="totalCampaigns"
+                      max-size="maxSize"
+                      previous-text="&lsaquo;"
+                      next-text="&rsaquo;"
+                      first-text="&laquo;"
+                      last-text="&raquo;"
+                      ng-show= "totalCampaigns > 10">
+              </uib-pagination>
+
+              <div ng-if="!campaigns.length" class="text-center">
+                <div class="table-body">
+                  <div class="row">
+                    <div ng-if="!campaigns" class="col-md-12">
+                      <span> Loading </span>
+                    </div>
+                    <div ng-if="!campaigns.length && campaigns.length ==0 " class="col-md-12">
+                      <span> No Campaigns Running</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--<a href="javascript:;" class="pull-right" ng-click="openCampaignModal(null,'add')"><h2 class="font font14 red-color-btn">Create a fan gate</h2></a>-->
+              <div class="clearfix"></div>
+            </section><!-- /#runing-campaigns -->
+          </div>
+          <div ng-switch-when="streamline">
+            <section id="runing-campaigns">
+              <div class="table-header clearfix">
+                <div class="row">
+                  <div class="col-md-4">
+                    <span>Streamline Name</span>
+                  </div><!-- /.col-md-4 -->
+                  <div class="col-md-3 text-center">
+                    <span>Date Created</span>
+                  </div><!-- /.col-md-3 -->
+                  <div class="col-md-2 text-center">
+                    <span>Status</span>
+                  </div><!-- /.col-md-2 -->
+                  <div class="col-md-1 text-center">
+                    <span>Visits</span>
+                  </div><!-- /.col-md-1 -->
+                  <div class="col-md-2 text-center">
+                    <span>Actions</span>
+                  </div><!-- /.col-md-2 -->
+                </div><!-- /.row -->
+              </div><!-- /.table-header -->
+              <div class="table-body" ng-if="streamlines.length">
+                <div class="table-row" ng-repeat="streamline in streamlines">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <span>{{ streamline.track_name }}</span>
+                    </div><!-- /.col-md-4 -->
+                    <div class="col-md-3 text-center">
+                      <span ng-bind="formatDate(streamline.created_at) | date:'MMM dd/yyyy'"></span>
+                    </div><!-- /.col-md-3 -->
+                    <div class="col-md-2 text-center">
+                      <span>{{streamline.status == '1' ? 'Published' : '-' | capitalize}}</span>
+                    </div><!-- /.col-md-1 -->
+                    <div class="col-md-1 text-center">
+                      <span> {{ streamline.visit_count }} </span>
+                    </div><!-- /.col-md-1 -->
+                    <div class="col-md-2">
+                      <ul class="manage-links">
+                        <li ng-if="streamline.status == '1'" >
+                          <a target="_blank" ui-sref="app.single_streamline({streamlineId : streamline.slug})">
+                            <i class="fa fa-link"></i>
+                          </a>
+                        </li>
+                        <li><a href="javascript:;" ng-click="openStreamlineModal(streamline,'edit');"><i class="fa fa-pencil-square-o"></i></a></li>
+                        <li><a href="javascript:;" ng-click="deleteStreamline(streamline.id, $index)"><i class="fa fa-times"></i></a></li>
+                      </ul><!-- /.manage-links -->
+                    </div><!-- /.col-md-2 -->
+                  </div><!-- /.row -->
+                </div><!-- /.table-row -->
+              </div><!-- /.table-body -->
+
+              <uib-pagination
+                      ng-change="getStreamlines()"
+                      class="pull-right"
+                      ng-model="$parent.streamlinesCurrentPage"
+                      total-items="totalStreamlines"
+                      max-size="maxSize"
+                      previous-text="&lsaquo;"
+                      next-text="&rsaquo;"
+                      first-text="&laquo;"
+                      last-text="&raquo;"
+                      ng-show= "totalStreamlines > 10">
+              </uib-pagination>
+
+              <div ng-if="!streamlines.length" class="text-center">
+                <div class="table-body">
+                  <div class="row">
+                    <div ng-if="!streamlines" class="col-md-12">
+                      <span> Loading </span>
+                    </div>
+                    <div ng-if="!streamlines.length && streamlines.length == 0 " class="col-md-12">
+                      <span> No Streamlines</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--<a href="javascript:;" class="pull-right" ng-click="openStreamlineModal(null,'add')"><h2 class="font font14 red-color-btn">Create a streamline page</h2></a>-->
+              <div class="clearfix"></div>
+            </section><!-- /#runing-campaigns -->
+          </div>
+        </div>
+      </div>
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row -->
+
+  <div class="row">
+    <div class="col-xs-12">
+      <section id="socials">
+        <div class="row">
+          <div class="col-xs-12">
+            <ul>
+              <li>
+                <div class="vertical-center">
+                  <i class="fa fa-spotify"></i>
+
+                  <!-- <input type="checkbox" name="checkbox-social" checked> -->
+                  <input type="checkbox" name="checkbox-social" ng-model="state.spotify" btn-switch ng-change="" ng-disabled="_oauthConfig.spotify == '' || gateUpdating" ng-checked="state.spotify == true" autocomplete="off" button-switch-change="socialStateChange('spotify', state.spotify)" >
+                </div><!-- /.vertical-center -->
+              </li>
+              <li>
+                <div class="vertical-center">
+                  <i class="fa fa-soundcloud"></i>
+
+                  <!-- <input type="checkbox" name="checkbox-social" checked> -->
+                  <input type="checkbox" name="checkbox-social" ng-model="state.soundcloud" btn-switch ng-change="" ng-disabled="_oauthConfig.soundcloud == '' || gateUpdating" ng-checked="state.soundcloud == true" autocomplete="off" button-switch-change="socialStateChange('soundcloud', state.soundcloud)" >
+                </div><!-- /.vertical-center -->
+              </li>
+              <li>
+                <div class="vertical-center">
+                  <i class="fa fa-twitter"></i>
+                  <input type="checkbox" name="checkbox-social" ng-model="state.twitter" btn-switch button-switch-change="socialStateChange('twitter', state.twitter)" ng-disabled="_oauthConfig.twitter == '' || gateUpdating" ng-checked="state.twitter == true" autocomplete="off">
+                </div><!-- /.vertical-center -->
+              </li>
+              <li>
+                <div class="vertical-center">
+                  <i class="fa fa-facebook"></i>
+                  <input type="checkbox" name="checkbox-social" ng-model="state.facebook" btn-switch  button-switch-change="socialStateChange('facebook', state.facebook)" ng-disabled="_oauthConfig.facebook == '' || gateUpdating" ng-checked="state.facebook == true" autocomplete="off">
+                </div><!-- /.vertical-center -->
+              </li>
+              <li>
+                <div class="vertical-center">
+                  <i class="fa fa-youtube"></i>
+                  <input type="checkbox" name="checkbox-social" ng-model="state.youtube" btn-switch  button-switch-change="socialStateChange('youtube', state.youtube)" ng-disabled="_oauthConfig.youtube == '' || gateUpdating" ng-checked="state.youtube == true" autocomplete="off">
+                </div><!-- /.vertical-center -->
+              </li>
+              <li>
+                <div class="vertical-center">
+                  <i class="fa fa-instagram"></i>
+                  <input type="checkbox" name="checkbox-social" ng-model="state.instagram" btn-switch  button-switch-change="socialStateChange('instagram', state.instagram)" ng-disabled="_oauthConfig.instagram == '' || gateUpdating" ng-checked="state.instagram == true" autocomplete="off">
+                </div><!-- /.vertical-center -->
+              </li>
+            </ul>
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+      </section><!-- /#socials -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <section id="your-soundcloud-tracks">
+        <!-- <a  href="javascript:;" class="pull-right" ng-click="resetRepostForm();getDemoTracks()" onClick="$('#repostModal').modal()"><h2 class="font font14">Repost Demo Track</h2></a> -->
+        <div class="title-wrapper">
+          <h2 class="pull-left">Your Demo Tracks</h2><!-- /.pull-left -->
+          <!-- <a href="javascript:;" class="refresh pull-right"><i class="fa fa-refresh"></i> Refresh</a> -->
+          <div class="clearfix"></div><!-- /.clearfix -->
+          <div class="table-header">
+            <div class="row">
+              <div class="col-md-1">
+                <span>#</span>
+              </div><!-- /.col-md-1 -->
+              <div class="col-md-6">
+                <span>Track Name</span>
+              </div><!-- /.col-md-9 -->
+              <div class="col-md-2">
+                <span>Type</span>
+              </div><!-- /.col-md-9 -->
+              <div class="col-md-3">
+                <span>Status</span>
+              </div><!-- /.col-md-2 -->
+              <!-- <div class="col-md-2">
+                <span>Repost</span>
+              </div> -->
+
+            </div><!-- /.row -->
+          </div><!-- /.table-header -->
+          <div class="table-body" ng-if="demoTracks.length">
+            <div class="table-row" ng-repeat="track in demoTracks">
+              <div class="row">
+                <div class="col-md-1">
+                  <span>{{$index+1 + (demoTracksCurrentPage - 1) *10}}</span>
+                </div><!-- /.col-md-1 -->
+                <div class="col-md-6">
+                  <span>{{track.track_name}} <!-- <a href="javascript:;">[FREE DOWNLOAD]</a> --></span>
+                </div><!-- /.col-md-9 -->
+                <div class="col-md-2">
+                  <span>{{track.isSignupTrack?'Quality Control':(track.type | spaceless | capitalize) }} </span>
+                </div><!-- /.col-md-9 -->
+                <div class="col-md-3">
+                  <span>{{track.status | capitalize}}</span>
+                </div><!-- /.col-md-2 -->
+                <!-- <div class="col-md-2">
+                  <span ng-if="track.repost_track_id == null"> - </span>
+                  <span ng-if="track.repost_track_id != null">Repost</span>
+                </div> -->
+
+              </div><!-- /.row -->
+            </div><!-- /.table-row -->
+          </div><!-- /.table-body -->
+          <div ng-if="!demoTracks.length" class="text-center">
+            <div class="table-body">
+              <div class="row">
+                <div ng-if="!demoTracks" class="col-md-12">
+                  <span> Loading</span>
+                </div>
+                <div ng-if="!demoTracks.length && demoTracks.length == 0" class="col-md-12">
+                  <span> No Demo Tracks</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /.title-wrapper -->
+        <uib-pagination
+                ng-change="getTrackDemos()"
+                class="pull-right"
+                ng-model="demoTracksCurrentPage"
+                total-items="totalDemoTracks"
+                max-size="maxSize"
+                previous-text="&lsaquo;"
+                next-text="&rsaquo;"
+                first-text="&laquo;"
+                last-text="&raquo;"
+                ng-show= "totalDemoTracks > 10">
+        </uib-pagination>
+        <div class="clearfix"></div>
+      </section><!-- /#your-demo-tracks -->
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row -->
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="chartTab" class="dashboard-tabs">
+          <!-- Tab Names -->
+          <ul class="nav nav-tabs">
+            <li ng-class="{'active' : chartType == 'campaign'}" class="col-xs-6">
+              <a ng-click="setChartType('campaign')">Fan Gates</a>
+            </li>
+            <li ng-class="{'active' : chartType == 'streamline'}" class="col-xs-6">
+              <a ng-click="setChartType('streamline')">Streamline</a>
+            </li>
+          </ul>
+
+          <div ng-switch="chartType">
+            <div ng-switch-when="campaign">
+              <section id="stats" class="clearfix">
+              <div class="col-md-7">
+                <h2>Your Visitors</h2>
+                <br/>
+                <!-- <img src="frontweb/assets/images/admin/img_your-visitors.png" alt="Stats image" /> -->
+                <canvas id="line" class="chart chart-line" chart-data="lineChart"
+                        chart-labels="lineLabels" chart-series="lineSeries"
+                        chart-dataset-override="datasetOverride" chart-click="onClick" chart-options="optionsLine">
+                </canvas>
+                <!-- <div id="legendDiv">
+                  <ul class="line-legend">
+                    <li><span style="background-color:rgba(151,187,205,1)"></span>Candidates</li>
+                  </ul>
+                </div>  -->
+              </div><!-- /.col-md-8 -->
+              <div class="col-md-5" ng-if="doughnutChart.length">
+                <h2 class="fanbase">Your Fanbase</h2>
+                <p class="fanbaselabel">Social media growth while using your Sore Thumb Media fan gates only</p>
+                <br/><br/><br/>
+                <!-- <img src="frontweb/assets/images/admin/img_your-fanbase.png" alt="Fan bas image" /> -->
+                <canvas id="doughnut" class="chart chart-doughnut"
+                        chart-data="doughnutChart" chart-labels="doughnutLabel" chart-colours="colors" chart-options="optionsDoughnut" height="261px"><!-- chart-legend="true" -->
+                </canvas>
+              </div><!-- /.col-md-4 -->
+              </section>
+            </div>
+            <div ng-switch-when="streamline">
+              <section id="stats" class="clearfix">
+              <div class="col-md-7">
+                <h2>Your Visitors</h2>
+                <br/>
+                <canvas id="slLine" class="chart chart-line" chart-data="slLineChart"
+                        chart-labels="slLineLabels" chart-series="slLineSeries"
+                        chart-dataset-override="datasetOverride" chart-click="onClick" chart-options="optionsLine">
+                </canvas>
+              </div><!-- /.col-md-7 -->
+              <div class="col-md-5" ng-if="slDoughnutChart.length">
+                <h2 class="fanbase">Streamline Traffic</h2>
+                <p class="fanbaselabel">Traffic to each individual stream or download service</p>
+                <br/><br/><br/>
+                <canvas id="slDoughnut" class="chart chart-doughnut"
+                        chart-data="slDoughnutChart" chart-labels="slDoughnutLabel" chart-colours="slColors" chart-options="optionsDoughnut" height="261px"><!-- chart-legend="true" -->
+                </canvas>
+              </div><!-- /.col-md-5 -->
+              </section>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<section id="stats">
+    <div class="row">
+      <div id="chartTab" class="dashboard-tabs">
+        &lt;!&ndash; Tab Names &ndash;&gt;
+        <ul class="nav nav-tabs">
+          <li ng-class="{'active' : chartType == 'campaign'}" class="col-xs-6">
+            <a ng-click="setChartType('campaign')">Fan Gates</a>
+          </li>
+          <li ng-class="{'active' : chartType == 'streamline'}" class="col-xs-6">
+            <a ng-click="setChartType('streamline')">Streamline</a>
+          </li>
+        </ul>
+
+        <div ng-switch="chartType">
+          <div ng-switch-when="campaign">
+            <div class="col-md-7">
+              <h2>Your Visitors</h2>
+              <br/>
+              &lt;!&ndash; <img src="frontweb/assets/images/admin/img_your-visitors.png" alt="Stats image" /> &ndash;&gt;
+              <canvas id="line" class="chart chart-line" chart-data="lineChart"
+                      chart-labels="lineLabels" chart-series="lineSeries"
+                      chart-dataset-override="datasetOverride" chart-click="onClick" chart-options="optionsLine">
+              </canvas>
+              &lt;!&ndash; <div id="legendDiv">
+                <ul class="line-legend">
+                  <li><span style="background-color:rgba(151,187,205,1)"></span>Candidates</li>
+                </ul>
+              </div>  &ndash;&gt;
+            </div>&lt;!&ndash; /.col-md-8 &ndash;&gt;
+            <div class="col-md-5" ng-if="doughnutChart.length">
+              <h2 class="fanbase">Your Fanbase</h2>
+              <p class="fanbaselabel">Social media growth while using your Sore Thumb Media fan gates only</p>
+              <br/><br/><br/>
+              &lt;!&ndash; <img src="frontweb/assets/images/admin/img_your-fanbase.png" alt="Fan bas image" /> &ndash;&gt;
+              <canvas id="doughnut" class="chart chart-doughnut"
+                      chart-data="doughnutChart" chart-labels="doughnutLabel" chart-colours="colors" chart-options="optionsDoughnut" height="261px">&lt;!&ndash; chart-legend="true" &ndash;&gt;
+              </canvas>
+            </div>&lt;!&ndash; /.col-md-4 &ndash;&gt;
+          </div>
+          <div ng-switch-when="streamline">
+            <div class="col-md-7">
+              <h2>Your Visitors</h2>
+              <br/>
+              <canvas id="slLine" class="chart chart-line" chart-data="slLineChart"
+                      chart-labels="slLineLabels" chart-series="slLineSeries"
+                      chart-dataset-override="datasetOverride" chart-click="onClick" chart-options="optionsLine">
+              </canvas>
+            </div>&lt;!&ndash; /.col-md-7 &ndash;&gt;
+            <div class="col-md-5" ng-if="slDoughnutChart.length">
+              <h2 class="fanbase">Streamline Traffic</h2>
+              <p class="fanbaselabel">Traffic to each individual stream or download service</p>
+              <br/><br/><br/>
+              <canvas id="slDoughnut" class="chart chart-doughnut"
+                      chart-data="slDoughnutChart" chart-labels="slDoughnutLabel" chart-colours="slColors" chart-options="optionsDoughnut" height="261px">&lt;!&ndash; chart-legend="true" &ndash;&gt;
+              </canvas>
+            </div>&lt;!&ndash; /.col-md-5 &ndash;&gt;
+          </div>
+        </div>
+      </div>
+    </div>&lt;!&ndash; /.row &ndash;&gt;
+  </section>&lt;!&ndash; /#stats &ndash;&gt;-->
+</div>
+<!-- <canvas id="doughnut" class="chart chart-doughnut"
+          chart-data="data1" chart-labels="labels1">
+        </canvas> -->
+<script type="text/ng-template" id="campaignModal">
+  <div data-ng-include=" 'frontweb/tpl/artist/modals/add-campaign-modal.html' "></div>
+</script>
+
+<script type="text/ng-template" id="streamlineModal">
+  <div data-ng-include=" 'frontweb/tpl/artist/modals/add-streamline-modal.html' "></div>
+</script>

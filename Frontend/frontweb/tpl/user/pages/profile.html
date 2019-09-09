@@ -1,0 +1,364 @@
+<div ng-include=" 'frontweb/tpl/user/sub-navbar.html' " include-replace></div>
+
+<section id="profile">
+  <form  name="userProfileForm" ng-enter ng-submit="userProfileForm.$valid && update(userprofile)" novalidate  enctype="multipart/form-data">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="pull-right text-red font11" style="margin-top:-20px;padding-bottom: 5px;"><b>Note: Please insure that you click 'SAVE PROFILE' after changing any of your settings.</b></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box">
+          <div class="row">
+            <div class="col-xs-12">
+              <h2>Your Profile Details</h2>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row --> 
+          <div class="row">
+            <div class="col-lg-4">
+            <div class="profile-loader">
+              <img ng-src="{{ cropimage(artist.avatar ? userprofile.avatar : _defaults.default_profile_image, 500, 500) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle profile-img" alt="Profile image" image-preload=""/>
+              <!-- <img class="img-circle img-circles profile-avatar-sm profile-img" get-image="artist.avatar ? artist.avatar : _defaults.default_profile_image" image-error="frontweb/assets/images/admin/empty_profile.jpg" bg-preload=""/> -->
+              </div>
+              <div class="clearfix"></div><!-- /.clearfix -->
+              <div class="fileUpload red-button border-1">Upload Image
+                <!--<input accept="image/*" name="upload_artwork" type="file" id="editImageButton"  class="upload" file-model ng-model="userprofile.profile" custom-on-change="updateUserProfileImage">-->
+                <input accept="image/*" name="upload_artwork" type="file" id="editImageButton"  class="upload" file-model ng-model="userprofile.profile" custom-on-change="cropImageModal">
+              </div>
+              <br/><span class="note-images">Note: Min. 201x201px or more.</span>
+            </div><!-- /.col-lg-4 -->
+            
+            <div class="col-lg-8">
+              <div class="row">
+                <div class="col-xs-12">
+                  <img ng-src="{{ cropimageTemplateBanner(artist.cover ? artist.cover : _defaults.default_banner_image, 370, 89) }}" image-error="{{_defaults.default_banner_image}}" class="img-responsive profile-banner" alt="Profile image" image-preload=""/>
+                  
+                </div><!-- /.col-xs-12 -->
+              </div><!-- /.row -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <div class="fileUpload red-button border-1">Upload banner
+                    <!--<input accept="image/*" type="file" name="banner_artwork" class="upload"  file-model  ng-model="userprofile.banner" custom-on-change="updateBannerImage" >-->
+                    <input accept="image/*" type="file" name="banner_artwork" class="upload"  file-model  ng-model="userprofile.banner" custom-on-change="cropImageModal" >
+                  </div>
+                  <a href="javascript:;" class="black-button" ng-click="selectBanner();">Templates</a>
+                   <br/><span class="note-images">Note: Min. 1900x680px or more. (<a href="/banners.zip" download target="_blank" class="note-images"> Download banner template </a>)</span>
+                </div><!-- /.col-xs-12 -->
+              </div><!-- /.row -->
+              <div class="row">
+                <div class="col-xs-12">
+                  <span class="text-red error" ng-if="bannerImageError">Please select image from 1900x680px and more.</span>
+                </div>
+              </div>
+            </div><!-- /.col-lg-8 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">  
+              <span class="text-red error" ng-if="profileImageError">Please select image from 201x201px and more.</span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="name">{{ userprofile.user_type == 'artist' ? 'Artist name' : 'Profile name' }}</label>
+              <input type="text" name="name" ng-model="userprofile.name" required />
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div ng-if="error['name']" > {{ error['name'][0] }} </div>
+                <div ng-if="userProfileForm.name.$error.required" class="error">Please enter name.</div>
+             </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-6">
+              <label for="first_name">First name<span class="text-red"> * </span></label>
+              <input type="text" id="first_name" name="first_name" ng-model="userprofile.first_name" required />
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div ng-if="error['first_name']" > {{ error['first_name'][0] }} </div>
+                <div  class="error" ng-if="userProfileForm.first_name.$error.required">Please enter first name.</div>
+              </span>
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-6">
+              <label for="last_name">Surname<span class="text-red"> * </span></label>
+              <input type="text" name="last_name" ng-model="userprofile.last_name" required />
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div ng-if="error['last_name']" > {{ error['last_name'][0] }} </div>
+                <div class="error" ng-if="userProfileForm.last_name.$error.required">Please enter  surname.</div>
+              </span>
+            </div><!-- /.col-lg-6 -->
+          </div><!-- /.row -->
+          <!-- <div class="row">
+            <div class="col-xs-12">
+              <label for="emailAddress">Email address</label>
+              <input type="email" id="emailAddress" name="emailAdress" ng-model="_user.email" class="disabled" disabled/>
+            </div>
+          </div> -->
+           <div class="row">
+            <!-- <ng-form name="artistProfileEmailUpdate" novalidate> -->
+              <div  class="{{ _user.provider == 'facebook' ? 'col-lg-12' : 'col-lg-10'}}">
+                <label for="emailAddress">Email address</label>
+                <input type="email" id="emailAddress" name="emailAdress" ng-model="_user.email" required disabled class="disabled"/>
+                <span class="text-red">
+                  <div class="error" ng-if="email_error['email']" > {{ email_error['email'][0] }} </div>
+                </span>
+                <span class="text-red" ng-if="artistProfile.$submitted">
+                  <span class="error" ng-if="artistProfile.emailAdress.$error.required">
+                    Please enter email.{{ email_error['email'][0] = ''}}
+                  </span>
+                  <span class="error" ng-if="artistProfile.emailAdress.$error.email">
+                    Please enter valid email.{{ email_error['email'][0] = ''}}
+                  </span>
+                </span>
+              </div><!-- /.col-xs-12 -->
+              <div class="col-lg-2 col-xs-12" ng-if="_user.provider != 'facebook'">
+                <div class="confirm-buttons">
+                   <label for="emailAddress" class="display-none-label">Email address</label>
+                  <!-- <input type="button" class="button-red btn-update-email"  ng-click="emailUpdate(_user.email)" ng-disabled="isSubmitting ? true : false" value="Update"> -->
+                  <a href="javascript:;" class="red-button btn-update-email border-1" ng-click="emailUpdate(_user.email)" ng-class="{'cursor-disabled':_user.provider == 'facebook'}" ng-disabled="isSubmitting ? true : false">
+                    <span class="fa-email">Change Email</span>
+                    <!-- <i class="fa fa-floppy-o fa-email"></i> -->
+                  </a>
+                </div>
+              </div><!-- /.col-xs-12 -->
+            <!-- </ng-form> -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-lg-6">
+              <label for="country">Country<span class="text-red"> * </span></label>
+              <select class="select-country" name="country" id="country" ng-model=" userprofile.country " ng-options="opt.value as opt.value for opt in countries" ng-change="changeCountry(userprofile.country);userprofile.city_temp = '' " 
+               required>
+                <option value="">Select Country</option>
+              </select>
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div ng-if="error['country']" > {{ error['country'][0] }} </div>
+                <div class="error" ng-if="userProfileForm.country.$error.required">Please select country.</div>
+              </span>
+            </div>
+            <div class="col-lg-6">
+              <label for="town">Town / City<span class="text-red"> * </span></label>
+              <input type="text" id="town_temp" ng-keydown="userprofile.city = '' " name="town_temp" ng-model="userprofile.city_temp"  country-code="selectedCountry"  data-method="setCity" googleplace />
+              <input type="hidden" id="town" name="town"  ng-model="userprofile.city" />
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div ng-if="error['town']" > {{ error['town'][0] }} </div>
+                <div class="error" ng-if="userProfileForm.town.$error.required || userProfileForm.town_temp.$error.required">Please select town/city.</div>
+              </span>
+            </div><!-- /.col-lg-6 -->
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6"> 
+              <label for="country">Email Notification</label>
+              <input type="checkbox"  name="checkbox-social" ng-true-value="1" ng-false-value="0" default="userprofile.email_notification" ng-model="userprofile.email_notification"  ng-checked="userprofile.email_notification == 1" button-switch autocomplete="off">
+            </div>
+            <div class="col-lg-6"> 
+              <label for="country">Web Notification</label>
+              <input type="checkbox" name="checkbox-social" ng-true-value="1" ng-false-value="0"  default="userprofile.web_notification" ng-model="userprofile.web_notification"  ng-checked="userprofile.web_notification == 1" button-switch autocomplete="off">
+            </div>
+          </div>
+
+          <!-- <div class="row">
+            <div class="col-xs-12">
+              <label for="website">Website</label>
+              <input type="url" name="website" id="website" ng-model="userprofile.website" http-prefix ng-pattern="checkUrl">
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div class="error" ng-if="userProfileForm.website.$error.pattern">Please enter valid website url</div>
+              </span>
+              </span>
+            </div>
+          </div>
+          
+          <div class="row" ng-if="allGenres.length">
+            <div class="col-xs-12">
+              <label for="genre">Genre (You can pick upto 3)</label>
+            </div>
+          </div>
+
+          <div class="row" id="genres">
+            <div class="col-sm-6">
+              <div ng-repeat="genre in allGenres | limitTo:10" ng-if="$even">
+                <input type="checkbox" class="profile-genres" checklist-value="genre.id" checklist-model="userprofile.genresIds" ng-disabled="userprofile.genresIds.length >= 3 && !checked">
+                <span class="label-checkbox text-uppercase">{{genre.name}}</span><br>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div ng-repeat="genre in allGenres | limitTo:10" ng-if="$odd">
+               <input type="checkbox" class="profile-genres" checklist-value="genre.id" checklist-model="userprofile.genresIds" ng-disabled="userprofile.genresIds.length >= 3 && !checked">
+                <span class="label-checkbox text-uppercase">{{genre.name}}</span><br>
+              </div>
+            </div>
+          </div> -->
+          
+          <!-- <div class="row">
+            <div class="col-xs-12">
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" ng-model="userprofile.password" ng-minlength="4" />
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div ng-if="userProfileForm.password.$error.minlength" class="error">The password must be at least 4 characters.</div>
+              </span>
+            </div>
+          </div> -->
+
+          <!-- <div class="row">
+            <div class="col-xs-12">
+              <label for="passwordConfirm">Confirm password</label>
+              <input type="password" name="password_confirmation" id="password_confirmation" ng-model="userprofile.password_confirmation" pw-check="password"  />
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <div class="error" ng-if="error['password']"> {{ error['password'][0] }} </div>
+                <div ng-if="error['password_confirmation']" > {{ error['password_confirmation'][0] }} </div>
+                <div class="error" ng-if="userProfileForm.password_confirmation.$error.pwmatch">
+                  {{ error['password'] = ''}}
+                  The password confirmation does not match.</div>
+              </span>
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="box">
+          <div class="row">
+            <div class="col-xs-12">
+              <h2>Socials Links</h2>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="soundcloudLink">SoundCloud</label>
+              <input type="url" name="soundcloudLink" id="soundcloudLink" ng-model="userprofile.souncloud_url" http-prefix ng-pattern="checkUrl"/>
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <!-- <div ng-if="error['soundcloudLink']" > {{ error['soundcloudLink'][0] }} </div> -->
+                <div class="error" ng-if="userProfileForm.soundcloudLink.$error.pattern">Please enter valid soundcloud link.</div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="facebookLink">Facebook</label>
+              <input type="url" name="facebookLink" id="facebookLink" ng-model="userprofile.facebook_url" http-prefix ng-pattern="checkUrl"/>
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <!-- <div ng-if="error['facebookLink']" > {{ error['facebookLink'][0] }} </div> -->
+                <div class="error" ng-if="userProfileForm.facebookLink.$error.pattern">Please enter valid facebook link.</div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="twitterLink">Twitter</label>
+              <input type="url" name="twitterLink" id="twitterLink" ng-model="userprofile.twitter_url" http-prefix ng-pattern="checkUrl"/>
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <!-- <div ng-if="error['twitterLink']" > {{ error['twitterLink'][0] }} </div> -->
+                <div class="error" ng-if="userProfileForm.twitterLink.$error.pattern">Please enter valid twitter link.</div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="youtubeLink">YouTube</label>
+              <input type="url" name="youtubeLink" id="youtubeLink" ng-model="userprofile.youtube_url" http-prefix ng-pattern="checkUrl"/>
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <!-- <div ng-if="error['youtubeLink']" > {{ error['youtubeLink'][0] }} </div> -->
+                <div class="error" ng-if="userProfileForm.youtubeLink.$error.pattern">Please enter valid youtube link.</div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="instagramLink">Instagram</label>
+              <input type="url" name="instagramLink" id="instagramLink" ng-model="userprofile.instagram_url" http-prefix ng-pattern="checkUrl"/>
+              <span class="text-red" ng-if="userProfileForm.$submitted">
+                <!-- <div ng-if="error['instagramLink']" > {{ error['instagramLink'][0] }} </div> -->
+                <div class="error" ng-if="userProfileForm.instagramLink.$error.pattern">Please enter valid instagram link.</div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+        </div><!-- /.box -->
+        <div class="row" ng-show="_user.user_type =='stm_user' ">
+          <div class="col-xs-12">
+            <div class="confirm-buttons">
+              <a ng-if="_user.provider != 'facebook'" href="javascript:;" ng-click="deleteAccount()"  class="delete-account">Deactivate account? Click here</a>
+              <input type="submit" class="border-1" ng-disabled="isSubmitting ? true : false" value="Save profile" />
+            </div><!-- /.confirm-buttons -->
+            <span ng-if="_user.provider == 'facebook'" class="deactivate_link_note">* If you have signed up via Facebook please <a href="javascript:;" onclick="$('#contactUsModal').modal()">contact us </a> & we will de-activate your account manually.</span>
+          </div><!-- /.row -->
+        </div><!-- /.col-xs-12 -->
+
+      </div><!-- /.col-md-6 -->
+    </div><!-- /.row -->
+  </form>
+  <form name="ChangePasswordForm"  class="ChangePasswordForm" ng-submit="ChangePasswordForm.$valid && changePassword(pass)" novalidate ng-if="_user.provider !='facebook'">
+    <div class="mt-sm user_change_pass_box">
+      <div class="col-md-6 change-pass-user">
+        
+        <div class="box release-promotion mt-lg-10">
+          <div class="row">
+            <div class="col-xs-12">
+              <h2>Change Password </h2>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="old_password">Old password</label>  
+              <input type="password" name="old_password" id="old_password" ng-model="pass.old_password" ng-minlength="4" required/>
+              <span class="text-red" ng-if="ChangePasswordForm.$submitted">
+                <div class="error" ng-if="error['password']"> {{ error['password'][0] }} </div>
+                <div ng-if="incorrect" class="error">The current password you've entered is incorrect.</div>
+                <div class="error" ng-if="ChangePasswordForm.old_password.$error.required && !incorrect" >
+                  Please enter old password.
+                </div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="new_password">New password</label>
+              <input type="password" name="new_password" id="new_password" ng-model="pass.new_password" ng-minlength="4"  required/>
+              <span class="text-red" ng-if="ChangePasswordForm.$submitted">
+                <div class="error" ng-if="error['new_password']" > {{ error['new_password'][0] }} </div>
+                <div ng-if="ChangePasswordForm.new_password.$error.minlength" class="error">
+                  {{ error['new_password'][0] = ''}}
+                  The password must be at least 4 characters.
+                </div>
+                <!-- <div class="error" ng-if="!ChangePasswordForm.new_password.$error.pwmatch && new_password && old_password">
+                  The new password and old password must be different.
+                  {{ ChangePasswordForm.new_password.$error.minlength  = ''}}
+                </div> -->
+                <div class="error" ng-if="ChangePasswordForm.new_password.$error.required">
+                  {{ ChangePasswordForm.new_password.$error.pwmatch = '' }}
+                  {{ ChangePasswordForm.new_password.$error.minlength  = ''}}
+                  Please enter new password.
+                </div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+
+          <div class="row">
+            <div class="col-xs-12">
+              <label for="passwordConfirm">Confirm new password</label>
+              <input type="password" name="password_confirmation" id="password_confirmation" ng-model="pass.password_confirmation" pw-check="new_password"  required/>
+              <span class="text-red" ng-if="ChangePasswordForm.$submitted">
+                <div class="error" ng-if="error['password_confirmation']" > {{ error['password_confirmation'][0] }} </div>
+                <div class="error" ng-if="ChangePasswordForm.password_confirmation.$error.pwmatch">
+                  <!-- {{ error['password_confirmation'][0] = '' }} -->
+                  The password confirmation does not match.
+                </div>
+                <div class="error" ng-if="ChangePasswordForm.password_confirmation.$error.required">
+                  <!-- {{ error['password_confirmation'][0] = '' }} -->
+                  {{ ChangePasswordForm.password_confirmation.$error.pwmatch = '' }}
+                  Please enter password confirmation.
+                </div>
+              </span>
+            </div><!-- /.col-xs-12 -->
+          </div><!-- /.row -->
+        </div><!-- /.box -->
+        
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="confirm-buttons">
+              <input type="submit" class="border-1" ng-disabled="form.artistProfile.$invalid || isSubmitting ? true : false" value="Change password" />
+            </div><!-- /.confirm-buttons -->
+          </div><!-- /.row -->
+        </div><!-- /.col-xs-12 -->
+      </div>
+    </div>
+  </form>
+</section><!-- /#profile -->

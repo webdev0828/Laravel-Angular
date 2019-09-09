@@ -1,0 +1,205 @@
+<div class="modal-body">
+  <div class="form-wrapper">
+    <form name="campaignForm" id="trackForm" ng-submit="campaignForm.$valid && addCampaign(track,'original')" enctype="multipart/form-data" novalidate>
+      <input type="hidden" name="campaignId" ng-model="track.id">
+      <input type="hidden" name="trackId" ng-model="track.track_id">
+      <input type="hidden" name="trackType" ng-model="track.type">
+      <div class="original-text mt-sm text-uppercase">
+        Music uploaded here must be royalty free and you must hold all rights to the track. sore thumb media will host these tracks and they will be submittable to sore thumb media for promotion.   
+      </div>
+        <label for="track-name">Track Name</label>
+        <input type="text" class="mb-sm-3" name="trackName" ng-model="track.track_name" placeholder="Add the track name" required>
+        <span class="text-danger" ng-show="campaignForm.$submitted">
+          <span ng-if="campaignForm.trackName.$error.required">Please enter track name.</span>
+        </span>
+
+        <label for="mp3">Upload Your MP3 Track</label>
+
+        <input type="file" file-model ng-model="track.mp3_file" name="mp3_file" accept='audio/*' ng-required="!track.mp3_file" class="mb-sm-3">
+
+        <span class="text-danger" ng-if="campaignForm.$submitted">
+          <span ng-if="campaignForm.mp3_file.$error.required">Please select track.</span>
+        </span>
+
+        <label for="upload-track-artwork">Upload Your Track Artwork</label>
+        <input type="file" file-model ng-model="track.artwork" class="mb-sm-3" name="upload_artwork" accept='image/*' ng-required="!track.artwork">
+        <span class="text-danger" ng-if="campaignForm.$submitted">
+          <span ng-if="campaignForm.upload_artwork.$error.required">Please select track artwork file.</span>
+        </span>
+
+        <div class="row">
+          <div class="col-md-12">
+            <label for="track-name">Soundcloud Artist Links</label>
+              <ul>
+                <li ng-repeat="links in soundcloudLinks">
+                  <div class="soundcloud-links">
+                    <input type="text" name="links" id="links"  class="mb-sm-3 artist-links"  ng-model="links.url" placeholder="Add Soundcloud Artist Link" http-prefix ng-pattern="checkUrl" required>
+                    <i class="fa fa-trash-o" ng-click="removeLinks($index)"></i>
+                  </div>
+                  <span class="text-danger" ng-show="campaignForm.$submitted">
+                    <span ng-if="campaignForm.links.$error.pattern">Please enter valid link.</span>
+                  </span>
+                </li>
+                <i class="fa fa-plus-button" ng-click="addLinks()">Add link</i>
+              </ul>
+          </div>
+        </div>
+     
+        <label for="soundcloud-account">Start typing a name (max 4)</label>
+        <ui-select multiple limit="4" id="genres" name="genres" on-select="showSubGenres($select.selected)" on-remove="showSubGenres($select.selected)" tagging ng-model="track.selectedGenres" theme="bootstrap" ng-disabled="disabled" class="test discover-min">
+          <ui-select-match placeholder="Select up to 4 genres">{{$item.name}}</ui-select-match>
+          <ui-select-choices repeat="genre.id as genre in _genres | filter:$select.search"
+                >
+              {{genre.name}}
+          </ui-select-choices>
+        </ui-select>
+
+
+        <label for="soundcloud-account">Sub Genres</label>
+        <ui-select multiple limit="4" id="subgenres" name="genres" tagging ng-model="track.subGenres" theme="bootstrap" ng-disabled="disabled" class="test discover-min">
+          <ui-select-match placeholder="Select sub-genres">{{$item.name}}</ui-select-match>
+          <ui-select-choices repeat="genre.id as genre in subGenres | filter:$select.search" >
+              {{genre.name}}
+          </ui-select-choices>
+        </ui-select>
+
+
+        <label for="soundcloud-account">Moods</label>
+        <ui-select  multiple limit="4" name="genres" id="moods" tagging ng-model="track.selectedMoods" theme="bootstrap" ng-disabled="disabled" class="test discover-min">
+          <ui-select-match placeholder="Select moods">{{$item.name}}</ui-select-match>
+          <ui-select-choices repeat="mood.id as mood in _moods | filter:$select.search">
+              {{mood.name}}
+          </ui-select-choices>
+        </ui-select><br>
+        
+
+      <!-- <input type="text" name="soundcloud-account" ng-model="track.genres" required placeholder="Start typing the name" /> -->
+      <div class="social soundcloud">
+        <div class="row">
+          <div class="col-md-3">
+            <i class="fa fa-soundcloud"></i>
+            <div class="clearfix"></div><!-- /.clearfix -->
+          </div><!-- /.col-md-3 -->
+          <div class="col-md-9">
+            <div class="option">
+              <h3>Follow</h3> 
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button>
+              <input type="checkbox" name="checkbox-social" default="track.soundcloudFollow" ng-model="track.soundcloudFollow"   class="" checked="" button-switch >
+            </div><!-- /.option -->
+            <div class="option">
+              <h3>Like</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top" >?</button>
+              <input type="checkbox" name="checkbox-social" default="track.soundcloudLike" ng-model="track.soundcloudLike" button-switch class="" >
+            </div><!-- /.option -->
+            <div class="option">
+              <h3>Comment</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+              <input type="checkbox" name="checkbox-social" default="track.soundcloudComment" ng-model="track.soundcloudComment" button-switch class="" >
+            </div><!-- /.option -->
+            <div class="option">
+              <h3>Repost</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+              <input type="checkbox" name="checkbox-social" default="track.soundcloudRepost" ng-model="track.soundcloudRepost" button-switch class="" >
+            </div><!-- /.option -->
+          </div><!-- /.col-md-9 -->
+        </div><!-- /.row -->
+      </div><!-- /.social soundcloud -->
+      <div class="social twitter">
+        <div class="row">
+          <div class="col-md-3">
+             <i class="fa fa-twitter"></i>
+             <div class="clearfix"></div><!-- /.clearfix -->
+          </div><!-- /.col-md-3 -->
+          <div class="col-md-9">
+            <div class="option">
+              <h3>Follow</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+             <input type="checkbox" name="checkbox-social" default="track.twitterFollow" ng-model="track.twitterFollow" button-switch class="" > 
+            </div><!-- /.option -->
+            <div class="option">
+              <h3>Tweet</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+              <input type="checkbox" name="checkbox-social" default="track.twitterTweet" ng-model="track.twitterTweet" button-switch class="" >
+            </div><!-- /.option -->
+          </div><!-- /.col-md-9 -->
+        </div><!-- /.row -->
+      </div><!-- /.social twitter -->
+      <div class="social facebook">
+        <div class="row">
+          <div class="col-md-3">
+            <i class="fa fa-facebook"></i>
+            <div class="clearfix"></div><!-- /.clearfix -->
+          </div><!-- /.col-md-3 -->
+          <div class="col-md-9">
+            <div class="option">
+              <h3>Like</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+               <input type="checkbox" name="checkbox-social" default="track.facebookLike" ng-model="track.facebookLike" button-switch class="">
+            </div><!-- /.option -->
+            <div class="option">
+              <h3>Share</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+              <input type="checkbox" name="checkbox-social" default="track.facebookShare" ng-model="track.facebookShare" button-switch class="">
+            </div><!-- /.option -->
+          </div><!-- /.col-md-9 -->
+        </div><!-- /.row -->
+      </div><!-- /.social facebook -->
+      <div class="social youtube">
+        <div class="row">
+          <div class="col-md-3">
+            <i class="fa fa-youtube"></i>
+            <div class="clearfix"></div><!-- /.clearfix -->
+          </div><!-- /.col-md-3 -->
+          <div class="col-md-9">
+            <div class="option">
+              <h3>Subscribe</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+              <input type="checkbox" name="checkbox-social" default="track.youtubeSubscribe" ng-model="track.youtubeSubscribe" button-switch class="">
+            </div><!-- /.option -->
+          </div><!-- /.col-md-9 -->
+        </div><!-- /.row -->
+      </div><!-- /.social youtube -->
+      <div class="social instagram">
+        <div class="row">
+          <div class="col-md-3">
+            <i class="fa fa-instagram"></i>
+            <div class="clearfix"></div><!-- /.clearfix -->
+          </div><!-- /.col-md-3 -->
+          <div class="col-md-9">
+            <div class="option">
+              <h3>Subscribe</h3>
+              <button type="button" tooltip-title class="tooltip-button" data-toggle="tooltip" data-placement="top" title="Tooltip on top">?</button>
+              <input type="checkbox" name="checkbox-social" default="track.instagramSubscribe" ng-model="track.instagramSubscribe" button-switch class="">
+            </div><!-- /.option -->
+          </div><!-- /.col-md-9 -->
+        </div><!-- /.row -->
+      </div><!-- /.social instagram -->
+    
+
+      <div class="page-background">
+        <label>Choose your Page Background</label>
+        <data-dashboard-owl id="owl-demo" class="owl-carousel owl-theme" data-options="{navigation: false, pagination: true, rewindNav : false,singleItem : true}">
+          <div owl-dashboard-item="" name="background_img" ng-repeat="image in images" class="item radio-btn" ng-click="track.backgroundImg = image" ng-model="track.backgroundImg" ng-required="!track.background || !track.backgroundImg">
+            <input type="radio" class="hidden mb-sm-3" ng-checked="track.backgroundImg == image" ng-model="track.backgroundImg" id="{{$index}}" name="radio-btn">
+            <label for="{{$index}}">
+              <img ng-src="{{image}}" class="add-campaign-img-height" alt=""/>
+            </label> 
+          </div>
+          <span class="text-danger" ng-if="campaignForm.$submitted">
+            <span ng-if="campaignForm.background_img.$error.required">Please choose your page background.</span>
+          </span>
+        </data-dashboard-owl>
+      </div><!-- /.page-background -->
+      <label for="upload-own-background">Upload Your Page Background</label>
+      <input type="file" class="mb-sm-3" name="background" file-model ng-model="track.background" accept='image/*' ng-required="!track.backgroundImg"/>
+      <span class="text-danger" ng-if="campaignForm.$submitted">
+        <span ng-if="campaignForm.background.$error.required">Please select your page background.</span>
+      </span>
+      <div class="buttons-wrapper">
+        <button type="button" class="black-button" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+        <button type="submit" class="red-button">Save Campaign</button>
+      </div><!-- /.buttons-wrapper -->
+      <div class="clearfix"></div><!-- /.clearfix -->
+    </form>
+  </div><!-- /.form-wrapper -->
+</div>

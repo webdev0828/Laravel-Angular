@@ -1,0 +1,51 @@
+<div class="modal fade custom-modal signup" id="contactUsModal" tabindex="-1" role="dialog" aria-labelledby="joinUsUserModalLabel">
+	  	<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h2 class="modal-title font-open" id="joinUsUserModalLabel">Contact Us</h2>
+		      	</div>
+		      	<div class="modal-body">
+		        	
+		        	<form ng-submit="contactForm.$valid && contactUs(contact,'modal')" name="contactForm" id="contactForm" novalidate >
+
+		        		<input type="text" class="font-open input-white-bg" name="name" id="name" ng-model="contact.name" value="{{user.name}}" placeholder="{{ contact.user_type == 'artist' ? 'Artist name' : (contact.user_type == 'stm_user' ?  'Profile name' : 'Enter Name') }}  " required/>
+		        		<span class="text-red" ng-if="contactForm.$submitted">
+			                <div ng-if="contactForm.name.$error.required" class="error-open">
+			                	<span>Please enter name.</span>
+			            	</div>
+			             </span>
+		        		<input type="email" class="font-open input-white-bg" name="email" ng-model="contact.email" placeholder="Enter Email" ng-value="user.email" required />
+		        		<span class="text-red" ng-if="contactForm.$submitted">
+			                <div ng-if="errors['email']"  class="error-open">
+			                	<div> {{ errors['email'][0] }} </div>
+			            	</div>
+			            	<div class="error-open" ng-if="contactForm.email.$error.email">
+			            		{{ errors['email'][0] ='' }}
+			            		<span> Please enter valid email. </span>
+			            	</div>
+			                <div  ng-if="contactForm.email.$error.required" class="error-open">
+			                	{{ errors['email'][0] ='' }}
+			                	<span>Please enter email.</span>
+			            	</div>
+			             </span>
+			             <input type="text" class="font-open input-white-bg" name="subject" id="subject" ng-model="contact.subject" placeholder="Enter Subject" required/>
+		        		<span class="text-red" ng-if="contactForm.$submitted">
+			                <div ng-if="contactForm.subject.$error.required" class="error-open">
+			                	<span>Please enter subject.</span>
+			            	</div>
+			             </span>
+
+			             <textarea cols="46" class="font-open input-white-bg" rows="5"name="message" ng-model="contact.message" placeholder="Enter Message" required />
+		        		<span class="text-red" ng-if="contactForm.$submitted">
+			                <div class="error-open" ng-if="contactForm.message.$error.required">
+			                	Please enter message.
+			                </div>
+			            </span>
+		        		<input type="submit" class="font-open" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Contact Us' }}" />
+		        	</form>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+	<script>

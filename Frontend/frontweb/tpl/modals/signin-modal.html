@@ -1,0 +1,56 @@
+<div class="modal fade custom-modal signin" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" ng-controller="AuthCtrl">
+	<!-- <div class="header">
+        <div id="embed_container" class='embed-container'>
+          <img src="frontweb/assets/images/homepage/sign-in-bg.png">
+       </div>
+    </div> -->
+  	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+		        <h2 class="modal-title" id="signInModalLabel">Sign In</h2>
+		        <img src="frontweb/assets/images/homepage/sign-up-in-modal-logo.png" alt="STM LOGO">
+	      	</div>
+	      	<div class="modal-body">
+	        	<a ng-click="facebookSignin()" target="_blank" class="sign-up-facebook default-pointer"><i class="fa fa-facebook-official"></i> <span>Sign</span> <span>in</span> <span>with</span> <span>Facebook</span></a>
+	        	<form  ng-submit="signinForm.$valid && signin(user)" name="signinForm" id="signinForm" novalidate >
+	        		<span class="text-red" ng-if="signinForm.$submitted">
+		                <div ng-if="error" class="error"  style="font-size:12px">{{ error }}</div>
+		            </span>
+
+	        		<input type="email" name="email" ng-model="user.email" placeholder="Profile Name" class="email" required/>
+	        		<span class="text-red" ng-if="signinForm.$submitted">
+	        			{{ error = ''}}
+		                <div class="error" ng-if="signinForm.email.$error.required">
+		                	<!-- Please enter email. -->Please enter profile Name
+		                </div>
+		            	<div>
+		                	<div class="error" ng-if="signinForm.email.$error.email">
+		                		{{ error =''}}
+		                		Please enter valid email.
+		                	</div>
+		            	</div>
+		            </span>
+
+	        		<input type="password" name="password" ng-model="user.password" placeholder="E-mail Address" class="password" required/>
+	        		<span class="text-red" ng-if="signinForm.$submitted">
+		                <div class="error" ng-if="signinForm.password.$error.required">
+		                	<!-- Please enter password. -->Please enter E-mail Address
+		                </div>
+		            </span>
+	        		<button type="submit" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Sign Me In!' }}" class="signin_btn">{{ isSubmitting ? 'Processing...' : 'Sign Me In!' }}</button><br/>
+	        		<a id="forgotPasswordModalShow" ng-click="reset()" href="javascript:;" onClick="$('#forgotPasswordModal').modal()" class="forgotten-password">Forgotten Password</a>
+	        	</form>
+	        	<span class="have-an-account">Don't Have An Account? <a id="signupModalShow" href="javascript:;" onClick="$('#joinUsUserModal').modal()"><!-- Signup -->Sign In!</a></span>
+	      	</div>
+	    </div>
+ 	</div>
+</div>
+<script>
+$('#signupModalShow').click(function () {
+ $('#signInModal').modal('hide');
+ });
+$('#forgotPasswordModalShow').click(function () {
+ $('#signInModal').modal('hide');
+ });
+
+</script>

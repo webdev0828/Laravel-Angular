@@ -1,0 +1,29 @@
+<div class="custom-modal landing-page-modals">
+  	<div class="modal-dialog modal-dialog-comment" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	      		<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		        <h2 class="modal-title font-open" id="signInModalLabel">Set Youtube Channel</h2>
+	      	</div>
+	      	<div class="modal-body">
+	        	
+	        	<form  ng-submit="youtubeForm.$valid && saveYoutubeChannel(youtube_channel)" name="youtubeForm" id="youtubeForm" class="font-open" novalidate >
+	        		
+	        		<input name="youtube_channel" ng-model="youtube_channel" placeholder="Youtube channel name" http-prefix required ng-change="youtubeError = ''"/>
+	        		<span class="text-red" ng-if="youtubeForm.$submitted">
+		                <div class="error" ng-if="youtubeForm.youtube_channel.$error.required">
+		                	Please enter YouTube Channel name.
+		                </div>
+		                <div class="error" ng-if="youtubeError">
+		                	{{youtubeError}}
+		                </div>
+		                
+		            </span>
+		            <input type="submit" ng-disabled="youtubeForm.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Submit' }}" />
+	        	</form>
+	      	</div>
+	    </div>
+ 	</div>
+</div>

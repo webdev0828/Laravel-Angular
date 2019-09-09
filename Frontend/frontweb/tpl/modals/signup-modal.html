@@ -1,0 +1,186 @@
+<div class="modal fade custom-modal signup" id="joinUsUserModal" tabindex="-1" role="dialog" aria-labelledby="joinUsUserModalLabel" ng-controller="AuthCtrl">
+	  	<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      	<div class="modal-header">			        
+			        <img src="frontweb/assets/images/homepage/sign-up-modal-logo.png" alt="STM LOGO">
+			        <h2 class="modal-title" id="signInModalLabel">Sign Up</h2>
+		      	</div>
+		      	<div class="modal-body">
+		        	<a ng-click="facebookSignin()" target="_blank" class="sign-up-facebook default-pointer"><i class="fa fa-facebook-official"></i> <span>Sign</span> <span>in</span> <span>with</span> <span>Facebook</span></a>	
+		        	<input type="hidden" ng-model="user.provider">
+		        	<input type="hidden" ng-model="user.provider_user_id">
+		        	<input type="hidden" ng-model="user.first_name">
+		        	<input type="hidden" ng-model="user.last_name">
+
+		        
+		        	<form ng-submit="signupForm.$valid && (connect && soundCloudTracks.length > 0 || user.user_type != 'artist') && signup(user)" name="signupForm" id="signupForm" novalidate >
+		        		<div class="row">
+			        		<select name="account_type" id="accountType" ng-init="user.user_type = user.user_type"  ng-model="user.user_type" required>
+			        			<option value="" disabled selected hidden>Select Account Type</option>
+			        			<option data-placeholder="Artist Name" value="artist" ng-selected="user.user_type == 'artist'">Artist Profile</option>
+			        			<option data-placeholder="Profile Name" value="stm_user" ng-selected="user.user_type == 'stm_user'">Listner Profile</option>
+			        		</select>
+			        		<span class="text-red" ng-if="signupForm.$submitted">
+			                <div ng-if="signupForm.account_type.$error.required" class="error">
+			                	<span>Please select user type.</span>
+			            	</div>
+			             </span>
+		        		</div>	
+
+		        		<div class="row" ng-controller="UploadController">
+		        			<div class="row">
+			        			<img id="user_avatar" ng-src="{{imageSrc}}" style="width: 115px; height: 115px" />
+			        		</div>
+			        		<div class="row upload-btn-wrapper">
+			        			<input type="button" class="choose_image" value="Choose Photo" style="opacity: 1!important; background: #262934!important;line-height: 29px!important" />
+			        			<input type="file" ng-disabled="user.image" name="image"  ng-file-select="onFileSelect($files)" ng-model="imageSrc" id="image">
+			        		</div>
+			        		<!-- <input ng-disabled="user.image" type="file" name="image" ng-model="user.image" placeholder="" required id="image"/> -->
+			        	</div>
+			        	<div class="row start-input">
+			        		<div class="col-md-6 col-sm-7">
+				        		<input type="text" name="fname" id="fname" ng-model="user.fname" placeholder="First Name" required/>
+				        		<span class="text-red" ng-if="signupForm.$submitted">
+					                <div ng-if="signupForm.fname.$error.required" class="error">
+					                	<span>First Name</span>
+					            	</div>
+					            </span>
+					        </div>
+					        <div class="col-md-6 col-sm-7">
+			        			<input type="text" name="lname" id="lname" ng-model="user.lname" placeholder="Last Name" required/>
+				        		<span class="text-red" ng-if="signupForm.$submitted">
+					                <div ng-if="signupForm.lname.$error.required" class="error">
+					                	<span>Last Name</span>
+					            	</div>
+					            </span>
+					        </div>
+					    </div>
+			            <input type="text" name="name" id="name" ng-model="user.name" placeholder="{{ user.user_type == 'artist' ? 'Artist name' : (user.user_type == 'stm_user' ?  'Profile name' : 'Enter Name') }}  " required/>
+		        		<span class="text-red" ng-if="signupForm.$submitted">
+			                <div ng-if="signupForm.name.$error.required" class="error">
+			                	<span>Please enter name.</span>
+			            	</div>
+			            </span>
+					    <input ng-disabled="user.provider" class="email" type="email" name="email" ng-model="user.email" placeholder="Email" required />
+		        		<span class="text-red" ng-if="signupForm.$submitted">
+			                <div ng-if="errors['email']"  class="error">
+			                	<div> {{ errors['email'][0] }} </div>
+			            	</div>
+			            	<div class="error" ng-if="signupForm.email.$error.email">
+			            		{{ errors['email'][0] ='' }}
+			            		<span> Please enter valid email. </span>
+			            	</div>
+			                <div  ng-if="signupForm.email.$error.required" class="error">
+			                	{{ errors['email'][0] ='' }}
+			                	<span>Please enter email.</span>
+			            	</div>
+			            </span>
+			            <div class="row">
+			        		<div class="col-md-6 col-sm-7">
+				        		<select name="country" id="country" ng-model="user.country" required>
+				        			<option value="" disabled selected hidden>Country</option>
+				        			<option data-placeholder="America" value="America">United States</option>
+				        			<option data-placeholder="England" value="England">England</option>
+				        		</select>
+				        		<span class="text-red" ng-if="signupForm.$submitted">
+				                <div ng-if="signupForm.country.$error.required" class="error">
+				                	<span>Please select country.</span>
+				            	</div>
+					        </div>
+					        <div class="col-md-6 col-sm-7">
+			        			<input type="text" name="town" id="town" ng-model="user.town" placeholder="Town" required/>
+				        		<span class="text-red" ng-if="signupForm.$submitted">
+					                <div ng-if="signupForm.town.$error.required" class="error">
+					                	<span>Town</span>
+					            	</div>
+					            </span>
+					        </div>
+					    </div>
+		        		<input ng-if="!user.provider" type="password" name="password" id="password" ng-model="user.password" placeholder="Password" minlength="4" required/>
+		        		<div class="text-red" ng-if="signupForm.$submitted">
+			                <div ng-if="errors['password']" class="error">
+			                	<div > {{ errors['password'][0] }} </div>
+			            	</div>
+			            	<div  class="error" ng-if="signupForm.password.$error.required">
+			            		{{ errors['password'][0] ='' }}
+			            		Please enter password.
+			            	</div>
+			            	<div ng-if="signupForm.password.$error.minlength" class="error">The password must be at least 4 characters.</div>
+			             </div>
+		        		<input ng-if="!user.provider" type="password" name="confirm_password"ng-model="user.confirm_password" class="confirm_password" placeholder="Confirm Password" pw-check="password" required/>
+		        		<div class="text-red" ng-if="signupForm.$submitted">
+			                <div ng-if="errors['confirm_password']" class="error">
+			                	<div> {{ errors['confirm_password'][0] }} </div>
+			            	</div>
+			            	<div class="error" ng-if="signupForm.confirm_password.$error.required">
+			            		<span>
+			            			{{ errors['confirm_password'][0] =''}} 
+			            			Please enter confirm password. 
+			            		</span>
+			            	</div>
+			            	<div class="error" ng-if="signupForm.confirm_password.$error.pwmatch">
+			                  {{ errors['confirm_password'][0] =''}} 
+			                  {{ signupForm.confirm_password.$error.required = ''}}
+			                  Password's does not  match.</div>
+			             </div>
+		        		<input type ="hidden" ng-model="user.access_token">
+		        		<!-- <input type="submit" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Sign up now' }}" /> -->
+		        		<button type="button" ng-show="user.user_type == 'artist'" href="#" ng-click="connectSc()" class="connect-soundcloud no-animate" ng-class="{'button-grey': connect}" ng-disabled="connect">
+		        			<i class="fa fa-soundcloud fa-2"></i> 
+		        			<span>{{ connect ? 'Connected' : 'Connect to SoundCloud' }}</span>
+		        		</button>
+
+		        		<span class="text-red" ng-if="user.user_type == 'artist' && signupForm.$submitted && !connect">
+			                <div class="error">
+			                	<span>Please connect to soundcloud.</span>
+			            	</div>
+			            </span>
+
+		        		<span class="text-red" ng-if="connect && !soundCloudTracks.length && !loading">
+			                <div class="error">
+			                	<span>Soundcloud tracks not found.</span>
+			            	</div>
+			            </span>
+		        		<div ng-show="user.user_type == 'artist'" class="select-track">
+			        		<p>To obtain an artist profile we require you to send us one of your best tracks to date, we will get back to you as soon as we have listened to it. Please note* we only focus on Eletronic Music, unfortunately we do not deal with bands/acoustic music!</p>
+							<select ng-if="user.user_type == 'artist'" ng-model="	user.soundcloud_track" name="trackName" id="trackName"
+                        	class="form-control sc-tracks" ng-options="tracks as tracks.title for tracks in soundCloudTracks" required ng-change = "update(track)" ng-disabled="!(connect && soundCloudTracks.length > 0)">
+			                  <option value="" disabled selected hidden>Select Track</option>
+			                </select>
+			                <span class="text-red" ng-if="signupForm.$submitted">
+				                <div ng-if="signupForm.trackName.$error.required" class="error">
+				                	<span>Please select track.</span>
+				            	</div>
+				             </span>
+
+							<button type="submit" class="signup_btn ng-binding" ng-disabled="form.$invalid || isSubmitting ? true : false">{{ isSubmitting ? 'Processing...' : 'Sign Me Up!' }}</button>
+		        		</div>
+		        		<button class="signup_btn" ng-if="user.user_type != 'artist'" type="submit">{{ isSubmitting ? 'Processing...' : 'Sign Me Up!' }}</button>
+		        		<!-- <span ng-if ="isSubmitting" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> -->
+		        	</form>
+
+		        	<span class="have-an-account">Already have an account? <a id="loginModalShow" href="javascript:;" ng-click="reset()" onClick="$('#signInModal').modal()">Sign In!</a></span>
+		        	<span class="footer">
+		        		We will never post to Facebook without your permission. By creating an account, you agree to our <a ui-sref="app.page.terms" target="_blank" class="animsition-link">Terms</a> and <a ui-sref="app.page.privacy" target="_blank" class="animsition-link">Privacy Policy</a>.
+		        	</span>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+	<script>
+	$(document).ready(function(){
+        $('#loginModalShow').click(function () {
+         $('#joinUsUserModal').modal('hide');
+         });
+        $('#signupModalShow').click(function () {
+         $('#signInModal').modal('hide');
+         });
+      });
+	</script>
+<?php 
+
+		$countries = [ 
+		{name: 'Afghanistan', code: 'AF'}, {name: 'Åland Islands', code: 'AX'}, {name: 'Albania', code: 'AL'}, {name: 'Algeria', code: 'DZ'}, {name: 'American Samoa', code: 'AS'}, {name: 'AndorrA', code: 'AD'}, {name: 'Angola', code: 'AO'}, {name: 'Anguilla', code: 'AI'}, {name: 'Antarctica', code: 'AQ'}, {name: 'Antigua and Barbuda', code: 'AG'}, {name: 'Argentina', code: 'AR'}, {name: 'Armenia', code: 'AM'}, {name: 'Aruba', code: 'AW'}, {name: 'Australia', code: 'AU'}, {name: 'Austria', code: 'AT'}, {name: 'Azerbaijan', code: 'AZ'}, {name: 'Bahamas', code: 'BS'}, {name: 'Bahrain', code: 'BH'}, {name: 'Bangladesh', code: 'BD'}, {name: 'Barbados', code: 'BB'}, {name: 'Belarus', code: 'BY'}, {name: 'Belgium', code: 'BE'}, {name: 'Belize', code: 'BZ'}, {name: 'Benin', code: 'BJ'}, {name: 'Bermuda', code: 'BM'}, {name: 'Bhutan', code: 'BT'}, {name: 'Bolivia', code: 'BO'}, {name: 'Bosnia and Herzegovina', code: 'BA'}, {name: 'Botswana', code: 'BW'}, {name: 'Bouvet Island', code: 'BV'}, {name: 'Brazil', code: 'BR'}, {name: 'British Indian Ocean Territory', code: 'IO'}, {name: 'Brunei Darussalam', code: 'BN'}, {name: 'Bulgaria', code: 'BG'}, {name: 'Burkina Faso', code: 'BF'}, {name: 'Burundi', code: 'BI'}, {name: 'Cambodia', code: 'KH'}, {name: 'Cameroon', code: 'CM'}, {name: 'Canada', code: 'CA'}, {name: 'Cape Verde', code: 'CV'}, {name: 'Cayman Islands', code: 'KY'}, {name: 'Central African Republic', code: 'CF'}, {name: 'Chad', code: 'TD'}, {name: 'Chile', code: 'CL'}, {name: 'China', code: 'CN'}, {name: 'Christmas Island', code: 'CX'}, {name: 'Cocos (Keeling) Islands', code: 'CC'}, {name: 'Colombia', code: 'CO'}, {name: 'Comoros', code: 'KM'}, {name: 'Congo', code: 'CG'}, {name: 'Congo, The Democratic Republic of the', code: 'CD'}, {name: 'Cook Islands', code: 'CK'}, {name: 'Costa Rica', code: 'CR'}, {name: 'Cote D\'Ivoire', code: 'CI'}, {name: 'Croatia', code: 'HR'}, {name: 'Cuba', code: 'CU'}, {name: 'Cyprus', code: 'CY'}, {name: 'Czech Republic', code: 'CZ'}, {name: 'Denmark', code: 'DK'}, {name: 'Djibouti', code: 'DJ'}, {name: 'Dominica', code: 'DM'}, {name: 'Dominican Republic', code: 'DO'}, {name: 'Ecuador', code: 'EC'}, {name: 'Egypt', code: 'EG'}, {name: 'El Salvador', code: 'SV'}, {name: 'Equatorial Guinea', code: 'GQ'}, {name: 'Eritrea', code: 'ER'}, {name: 'Estonia', code: 'EE'}, {name: 'Ethiopia', code: 'ET'}, {name: 'Falkland Islands (Malvinas)', code: 'FK'}, {name: 'Faroe Islands', code: 'FO'}, {name: 'Fiji', code: 'FJ'}, {name: 'Finland', code: 'FI'}, {name: 'France', code: 'FR'}, {name: 'French Guiana', code: 'GF'}, {name: 'French Polynesia', code: 'PF'}, {name: 'French Southern Territories', code: 'TF'}, {name: 'Gabon', code: 'GA'}, {name: 'Gambia', code: 'GM'}, {name: 'Georgia', code: 'GE'}, {name: 'Germany', code: 'DE'}, {name: 'Ghana', code: 'GH'}, {name: 'Gibraltar', code: 'GI'}, {name: 'Greece', code: 'GR'}, {name: 'Greenland', code: 'GL'}, {name: 'Grenada', code: 'GD'}, {name: 'Guadeloupe', code: 'GP'}, {name: 'Guam', code: 'GU'}, {name: 'Guatemala', code: 'GT'}, {name: 'Guernsey', code: 'GG'}, {name: 'Guinea', code: 'GN'}, {name: 'Guinea-Bissau', code: 'GW'}, {name: 'Guyana', code: 'GY'}, {name: 'Haiti', code: 'HT'}, {name: 'Heard Island and Mcdonald Islands', code: 'HM'}, {name: 'Holy See (Vatican City State)', code: 'VA'}, {name: 'Honduras', code: 'HN'}, {name: 'Hong Kong', code: 'HK'}, {name: 'Hungary', code: 'HU'}, {name: 'Iceland', code: 'IS'}, {name: 'India', code: 'IN'}, {name: 'Indonesia', code: 'ID'}, {name: 'Iran, Islamic Republic Of', code: 'IR'}, {name: 'Iraq', code: 'IQ'}, {name: 'Ireland', code: 'IE'}, {name: 'Isle of Man', code: 'IM'}, {name: 'Israel', code: 'IL'}, {name: 'Italy', code: 'IT'}, {name: 'Jamaica', code: 'JM'}, {name: 'Japan', code: 'JP'}, {name: 'Jersey', code: 'JE'}, {name: 'Jordan', code: 'JO'}, {name: 'Kazakhstan', code: 'KZ'}, {name: 'Kenya', code: 'KE'}, {name: 'Kiribati', code: 'KI'}, {name: 'Korea, Democratic People\'S Republic of', code: 'KP'}, {name: 'Korea, Republic of', code: 'KR'}, {name: 'Kuwait', code: 'KW'}, {name: 'Kyrgyzstan', code: 'KG'}, {name: 'Lao People\'S Democratic Republic', code: 'LA'}, {name: 'Latvia', code: 'LV'}, {name: 'Lebanon', code: 'LB'}, {name: 'Lesotho', code: 'LS'}, {name: 'Liberia', code: 'LR'}, {name: 'Libyan Arab Jamahiriya', code: 'LY'}, {name: 'Liechtenstein', code: 'LI'}, {name: 'Lithuania', code: 'LT'}, {name: 'Luxembourg', code: 'LU'}, {name: 'Macao', code: 'MO'}, {name: 'Macedonia, The Former Yugoslav Republic of', code: 'MK'}, {name: 'Madagascar', code: 'MG'}, {name: 'Malawi', code: 'MW'}, {name: 'Malaysia', code: 'MY'}, {name: 'Maldives', code: 'MV'}, {name: 'Mali', code: 'ML'}, {name: 'Malta', code: 'MT'}, {name: 'Marshall Islands', code: 'MH'}, {name: 'Martinique', code: 'MQ'}, {name: 'Mauritania', code: 'MR'}, {name: 'Mauritius', code: 'MU'}, {name: 'Mayotte', code: 'YT'}, {name: 'Mexico', code: 'MX'}, {name: 'Micronesia, Federated States of', code: 'FM'}, {name: 'Moldova, Republic of', code: 'MD'}, {name: 'Monaco', code: 'MC'}, {name: 'Mongolia', code: 'MN'}, {name: 'Montserrat', code: 'MS'}, {name: 'Morocco', code: 'MA'}, {name: 'Mozambique', code: 'MZ'}, {name: 'Myanmar', code: 'MM'}, {name: 'Namibia', code: 'NA'}, {name: 'Nauru', code: 'NR'}, {name: 'Nepal', code: 'NP'}, {name: 'Netherlands', code: 'NL'}, {name: 'Netherlands Antilles', code: 'AN'}, {name: 'New Caledonia', code: 'NC'}, {name: 'New Zealand', code: 'NZ'}, {name: 'Nicaragua', code: 'NI'}, {name: 'Niger', code: 'NE'}, {name: 'Nigeria', code: 'NG'}, {name: 'Niue', code: 'NU'}, {name: 'Norfolk Island', code: 'NF'}, {name: 'Northern Mariana Islands', code: 'MP'}, {name: 'Norway', code: 'NO'}, {name: 'Oman', code: 'OM'}, {name: 'Pakistan', code: 'PK'}, {name: 'Palau', code: 'PW'}, {name: 'Palestinian Territory, Occupied', code: 'PS'}, {name: 'Panama', code: 'PA'}, {name: 'Papua New Guinea', code: 'PG'}, {name: 'Paraguay', code: 'PY'}, {name: 'Peru', code: 'PE'}, {name: 'Philippines', code: 'PH'}, {name: 'Pitcairn', code: 'PN'}, {name: 'Poland', code: 'PL'}, {name: 'Portugal', code: 'PT'}, {name: 'Puerto Rico', code: 'PR'}, {name: 'Qatar', code: 'QA'}, {name: 'Reunion', code: 'RE'}, {name: 'Romania', code: 'RO'}, {name: 'Russian Federation', code: 'RU'}, {name: 'RWANDA', code: 'RW'}, {name: 'Saint Helena', code: 'SH'}, {name: 'Saint Kitts and Nevis', code: 'KN'}, {name: 'Saint Lucia', code: 'LC'}, {name: 'Saint Pierre and Miquelon', code: 'PM'}, {name: 'Saint Vincent and the Grenadines', code: 'VC'}, {name: 'Samoa', code: 'WS'}, {name: 'San Marino', code: 'SM'}, {name: 'Sao Tome and Principe', code: 'ST'}, {name: 'Saudi Arabia', code: 'SA'}, {name: 'Senegal', code: 'SN'}, {name: 'Serbia and Montenegro', code: 'CS'}, {name: 'Seychelles', code: 'SC'}, {name: 'Sierra Leone', code: 'SL'}, {name: 'Singapore', code: 'SG'}, {name: 'Slovakia', code: 'SK'}, {name: 'Slovenia', code: 'SI'}, {name: 'Solomon Islands', code: 'SB'}, {name: 'Somalia', code: 'SO'}, {name: 'South Africa', code: 'ZA'}, {name: 'South Georgia and the South Sandwich Islands', code: 'GS'}, {name: 'Spain', code: 'ES'}, {name: 'Sri Lanka', code: 'LK'}, {name: 'Sudan', code: 'SD'}, {name: 'Suriname', code: 'SR'}, {name: 'Svalbard and Jan Mayen', code: 'SJ'}, {name: 'Swaziland', code: 'SZ'}, {name: 'Sweden', code: 'SE'}, {name: 'Switzerland', code: 'CH'}, {name: 'Syrian Arab Republic', code: 'SY'}, {name: 'Taiwan, Province of China', code: 'TW'}, {name: 'Tajikistan', code: 'TJ'}, {name: 'Tanzania, United Republic of', code: 'TZ'}, {name: 'Thailand', code: 'TH'}, {name: 'Timor-Leste', code: 'TL'}, {name: 'Togo', code: 'TG'}, {name: 'Tokelau', code: 'TK'}, {name: 'Tonga', code: 'TO'}, {name: 'Trinidad and Tobago', code: 'TT'}, {name: 'Tunisia', code: 'TN'}, {name: 'Turkey', code: 'TR'}, {name: 'Turkmenistan', code: 'TM'}, {name: 'Turks and Caicos Islands', code: 'TC'}, {name: 'Tuvalu', code: 'TV'}, {name: 'Uganda', code: 'UG'}, {name: 'Ukraine', code: 'UA'}, {name: 'United Arab Emirates', code: 'AE'}, {name: 'United Kingdom', code: 'GB'}, {name: 'United States', code: 'US'}, {name: 'United States Minor Outlying Islands', code: 'UM'}, {name: 'Uruguay', code: 'UY'}, {name: 'Uzbekistan', code: 'UZ'}, {name: 'Vanuatu', code: 'VU'}, {name: 'Venezuela', code: 'VE'}, {name: 'Viet Nam', code: 'VN'}, {name: 'Virgin Islands, British', code: 'VG'}, {name: 'Virgin Islands, U.S.', code: 'VI'}, {name: 'Wallis and Futuna', code: 'WF'}, {name: 'Western Sahara', code: 'EH'}, {name: 'Yemen', code: 'YE'}, {name: 'Zambia', code: 'ZM'}, {name: 'Zimbabwe', code: 'ZW'} 
+	];
+
+?>

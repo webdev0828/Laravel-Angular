@@ -1,0 +1,84 @@
+<div ng-include=" 'frontweb/tpl/artist/sub-navbar.html' " include-replace></div>
+
+<section id="your-payment-history">
+  <div class="title-wrapper">
+    <h2 class="pull-left">Your Payment History</h2><!-- /.pull-left -->
+    <a ng-click="updatePaymentDetailsModal()" href="javascript:;" class="refresh pull-right">
+      <i class="fa fa-credit-card"></i> 
+      Update Payment Details
+    </a>
+    <a ng-if="planInfo.length > 0 && _currentPlanDetails.plan.plan_id != '1'"   ui-sref="app.subscriptions" class="refresh pull-right mr-lg-10">
+      <i class="fa fa-times" ng-if="!_currentPlanDetails.plan.ends_at"></i>
+      {{ !_currentPlanDetails.plan.ends_at?  'Cancel Your Subscription' : '' }}
+    </a>
+    <div class="clearfix"></div><!-- /.clearfix -->
+    <div class="table-header">
+      <div class="row">
+        <div class="col-md-3">
+          <span>Plan Name</span>
+        </div><!-- /.col-md-3 -->
+        <div class="col-md-3 text-center">
+          <span>Plan Purchased</span>
+        </div><!-- /.col-md-3 -->
+        <div class="col-md-3 text-center">
+          <span>Expires</span>
+        </div><!-- /.col-md-3 -->
+        <div class="col-md-3 text-center">
+          <span>Total Amount</span>
+        </div><!-- /.col-md-3 -->
+      </div><!-- /.row -->
+    </div><!-- /.table-header -->
+    <div class="table-body" ng-init="getPlansInfo();getPaymentDetails();">
+       <div class="table-row" ng-repeat="plan in planInfo | filter:plan.start_date" >
+        <div class="row">
+          <div class="col-md-3">
+            <span>{{masterPlans[plan.plan]}} <i ng-if="plan.description">: {{plan.description}}</i></span>
+          </div><!-- /.col-md-3 -->
+          <div class="col-md-3 text-center">
+            <span ng-bind="formatDate(plan.start_date) | date:'dd MMM yyyy'"></span>
+          </div><!-- /.col-md-3 text-center -->
+          <div class="col-md-3 text-center">
+            <span  ng-bind="formatDate(plan.expire_date) | date:'dd MMM yyyy'"></span>
+          </div><!-- /.col-md-3 text-center -->
+          <div class="col-md-3 text-center">
+            <span>{{plan.price}}&nbsp;<i ng-if="_currentPlanDetails.plan.id == plan.id && _currentPlanDetails.plan.isCancel==1" style="color:red">Cancelled {{ formatDate(plan.expire_date) | date:'dd MMM yyyy'}}</i> <a class="text-red font11" target="_blank" href="/account/invoices/{{ plan.id }}" >Invoice</a></span>
+           </div><!-- /.col-md-3 text-center -->
+        </div><!-- /.row -->
+      </div><!-- /.table-row -->
+
+
+      
+      <div class="table-row"  ng-if="loadingPlans" >
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span class="">Loading</span>
+          </div>
+        </div>
+      </div>
+      <div class="table-row"  ng-hide="planInfo.length || loadingPlans" >
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <span class="">No records found.</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.table-body -->
+    <uib-pagination
+      class="pull-right"
+      ng-model="currentPage"
+      total-items="totalplanInfo"
+      max-size="maxSize"  
+      previous-text="&lsaquo;" 
+      next-text="&rsaquo;" 
+      first-text="&laquo;" 
+      last-text="&raquo;"
+      items-per-page="itemsPerPage"
+      ng-show= "totalplanInfo > 10">
+    </uib-pagination>
+    <div class="clearfix"></div>
+  </div><!-- /.title-wrapper -->
+</section><!-- /#your-payment-history -->
+
+<script type="text/ng-template" id="update-payment-details-modal.html">
+    <div data-ng-include=" 'frontweb/tpl/modals/update-payment-details-modal.html' "></div>
+</script>

@@ -1,0 +1,220 @@
+
+<div ng-init="trackPage('ASC')">
+  <!-- <div  ng-controller="TracksCtrl" ng-init="getTracks()"> -->
+  <div>
+
+    <div class="background-image background-cover" ng-style="{'background-image': 'url('+_defaults.default_banner_image+')'}">
+      <div class="vertical-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <h1>Follow Feed</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="hero-video">
+      <div id="video_embed_container" class='video_embed_container'>
+        <iframe id="video_dashboard" src="https://player.vimeo.com/video/176601186?api=1&background=1&autoplay=1&loop=1"></iframe>
+      </div>
+    </div> -->
+
+    <div class="about-stm">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <h2>Keep up to date with recent activity by the artists that you follow.</h2>
+          </div><!-- /.col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 -->
+        </div><!-- /.row -->
+      </div><!-- /.container -->
+    </div><!-- /.about-stm -->
+ 
+    <section id="music-videos" class="video-padding">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="filter">
+              <div class="clearfix"></div><!-- /.clearfix -->
+              <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                  <!-- Brand and toggle get grouped for better mobile display -->
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <span class="menu visible-xs">Menu</span>
+                  </div>
+
+                  <!-- Collect the nav links, forms, and other content for toggling -->
+                  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                      <span class="dropdown-title">Filter by:</span>
+                      <div class="clearfix visible-xs"></div><!-- /.clearfix visible-xs -->
+                      <li class="dropdown">
+                        <a href="javscript:void(0);" class="dropdown-toggle text-uppercase" ng-dropdown-multiselect="" options="genersData" search-filter="customFilter" selected-model="genersModel" extra-settings="genersSettings" translation-texts="genersCustomTexts" events="genersEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                      </li>
+                      
+                      <div class="clearfix visible-xs"></div><!-- /.clearfix visible-xs -->
+                      <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle text-uppercase"  ng-dropdown-multiselect="" options="moodsData" search-filter="customFilter" selected-model="moodsModel" extra-settings="genersSettings" translation-texts="moodsCustomTexts" events="moodsEvents" data-toggle="dropdown" aria-expanded="false"></a>
+                      </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                      <div class="clearfix visible-xs"></div>
+                      <li ng-if="loading"><a href="javascript:;"><img src="frontweb/assets/images/loading-animation-7.gif" alt="Loading" class="data-loader"></a></li>
+
+                      <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle text-uppercase"  ng-dropdown-multiselect="" options="filterData" search-filter="customFilter" selected-model="filterModel" extra-settings="genersSettings" translation-texts="filterCustomTexts" events="filterEvents" data-toggle="dropdown" aria-expanded="false" ng-init="dataFilter"></a>
+                      </li>
+                      <!-- <span class="dropdown-title">Sort by:</span>
+                      <div class="clearfix visible-xs"></div>
+                      <select name="sort" id="sort" ng-model="dateSorting" ng-options="name for (name, value) in filters" ng-init="dateSorting = dataFilter" ng-change="sortingData(dateSorting)">
+                      </select> -->
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div><!-- /.filter -->
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+        
+        <div class="clearfix"></div>
+
+        <div class="row" ng-if="subGenres.length">
+          <div class="col-xs-12">
+            <div class="filter-tags" active-class>
+              <h2>Sub-genre</h2>
+              <ul class="tags">
+                <li ng-class="{'active': selected == null} " ng-click="select();"><a href="javascript:;"> All </a></li>
+                <li ng-repeat="subGenre in subGenres" ng-click="select($index, subGenre);" ng-class="{active: $index == selected}">
+                  <a class="link" href="javascript:;" >{{ subGenre.name }}</a></li>
+              </ul><!-- /.tags -->
+              <div class="clearfix"></div><!-- /.clearfix -->
+            </div><!-- /.filter-tags -->
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="flexbox flexbox-height">
+              <div class="video-track-constant" ng-repeat="track in tracks | orderBy: dataFilter">
+                <!-- <img src="frontweb/assets/images/img_video-2.jpg" alt="" /> -->
+                <div class="player-icon">
+                  <img class="image-size" image-error="{{ _defaults.default_track_image }}" ng-src="{{ cropimage(track.cover_image, 500, 500) }}" alt="" />
+                  <span>
+                    <a ng-show="track.id != _currentTrack.id || track.type != _currentTrack.type" href="javascript:;" ng-click="playTrack(track, 'campaign')">
+                      <i class="fa fa-play-circle player-play-circle"></i>
+                    </a>
+                  </span>  
+                  <a ng-if="loadingTrack && track.id == _currentTrack.id" href="javascript:;" class="image-buffer"><img class="loader-back" ng-src="frontweb/assets/images/ajax-loader.gif"></a>
+                  <a ng-if="track.id == _currentTrack.id && !loadingTrack && track.type == _currentTrack.type" href="javascript:;" ng-click="pauseTrack(track)">
+                  <i class="fa fa-pause-circle player-pause-circle"></i>
+                  </a>
+                </div>
+                <div class="assets">
+                  <div class="row">
+                    <div class="col-xs-7">
+                      <span title="{{ track.artist_name }}" class="author default-pointer artist-name-truncate" ui-sref="app.artist.tracks({slug:track.artist_slug})">{{track.artist_name}}</span>
+                      <!-- <span class="author">{{track.artist_name}}</span> -->
+                    </div>
+                    <div class="col-xs-5">
+                      <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{ track.play_count }}</span>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <h3 class="track-name-truncate "  ng-class="{'blue-btn':track.track_name.length>26}" title="{{ track.track_name }}" > 
+                          <a ng-class="{'first-link':track.track_name.length>26} " > {{track.track_name}} </a>
+                        </h3>
+                        <!-- <h3 ng-text-truncate="track.track_name" ng-tt-chars-threshold="35" > -->
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 fix-genre-height">
+                        <ul class="tags">
+                          <!-- <li><a href="javascript:;">{{track.sub-genre}}</a></li> -->
+                          <!-- <li ng-repeat="genres in track.track_genres">
+                            <a href="javascript:;" title="{{ genres.name }}">{{genres.name | cut:true:9:' ...'}}</a>
+                          </li> -->
+                          <!-- <li>
+                            <a ng-if="track.track_genres" href="javascript:;" title="{{ track.track_genres.name }}" class="genres-truncate">{{track.track_genres.name }}</a>
+                            <a ng-if="track.track_sub_genres" href="javascript:;" title="{{ track.track_sub_genres.name }}" class="genres-truncate">{{track.track_sub_genres.name }}</a>
+                            <a ng-if="track.track_moods" href="javascript:;" title="{{ track.track_moods.name }}" class="genres-truncate">{{track.track_moods.name }}</a>
+                          </li> -->
+                          <li>
+                            <li ng-repeat="genres in track.track_genres">
+                              <a ng-click="setGenre(genres.id)" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                              <!-- <a href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a> -->
+                            </li>
+                            <li ng-repeat="genres in track.track_sub_genres">
+                              <a ng-click="setSubGenre(genres)" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                              <!-- <a href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a> -->
+                            </li>
+                            <li ng-repeat="genres in track.campaign_moods">
+                              <a ng-click="setMood(genres.id)" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                              <!-- <a href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a> -->
+                            </li>
+                          </li>
+                          <li ng-show="!track.track_genres.length">
+                            <a href="javascript:;" class="border-none">&nbsp;</a>
+                          </li>
+                          <!-- <li><a href="javascript:;">Trance</a></li> -->
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="buttons">
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <div class="download">
+                          <!-- <a href="javascript:;"><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a> -->
+                          <a target="_blank" ng-if="track.track_type == 'track' " ui-sref="app.single_track({trackId:track.slug})" ><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" />
+                          </a>
+                          <a target="_blank" ng-if="track.track_type == 'campaign' " ui-sref="app.single_campaign({trackId:track.slug})" ><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" />
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col-xs-8">
+                        <div class="add pull-right">
+                          <a href="javascript:;" ng-if="_user" ng-click="_playlistCampaignIds.indexOf(track.id) >= 0 ? removePlaylistTrack(track, 'campaign') : addPlaylistlModal1(track, 'campaign')"><img ng-src="{{_playlistCampaignIds.indexOf(track.id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+
+                          <!-- <a href="javascript:;" ng-if="_user" ng-click="addPlaylistlModal1(track, 'track')"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+                          <!-- <a href="javascript:;" ng-click="addPlaylistlModal1(track.id)"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+                        </div>
+                        <div class="love pull-right">
+                          <!-- <a href="javascript:;"><img src="frontweb/assets/images/icon_heart.svg" alt="Heart icon" class="svg" /> 158</a> -->
+                          <a href="javascript:;" ng-click="addInFavourites(track, 'campaign')">
+                            <i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(track.id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(track.id) < 0}"></i>
+                            {{track.favourite_count}}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+              <!-- <div class="video-track-constant"></div>
+              <div class="video-track-constant"></div> -->
+              <div class="video-track-constant" ng-repeat="track in tracks"></div>
+              <div class="video-track-constant" ></div>
+              <div ng-if="!tracks.length && !loading" class="h-300 text-center base-font"> No recent activity. Follow more artists to keep up-to-date with their recent activities. </div>
+            </div><!-- /.flexbox -->
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+      <div ng-if="loading" class="text-center base-font">
+        Loading...
+      </div>
+      <div infinite-scroll="loadMoreTracks()" ></div>
+    </section><!-- /#dashboard -->
+  </div>
+</div>

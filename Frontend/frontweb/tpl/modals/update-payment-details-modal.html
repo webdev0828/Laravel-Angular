@@ -1,0 +1,271 @@
+<div class="modal-header base-font">
+	<button type="button" class="close" data-dismiss="modal" ng-click="cancel()">&times;</button>
+	<h2 class="modal-title" id="DonateModalLabel">Update Payment Details</h2>
+</div>
+<div class="modal-body base-font"  ng-controller="ArtistCtrl">
+	<form  ng-submit="updatePaymentDetailsForm.$valid && update(details)"  id="updatePaymentDetailsForm" name="updatePaymentDetailsForm"  novalidate>
+		<div ng-show="serverPaymentResponse" class="row">
+			<span class="col-sm-11 text-red mb-sm">{{serverPaymentResponse}}</span>
+		</div>
+		<div class="row"></div>
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<!-- CREDIT CARD FORM STARTS HERE -->
+				<div class="panel panel-default credit-card-box custom-bg border-none">
+					<!-- <div class="panel-heading inner_heading">
+						<div class="row display-tr" >
+							<h3 class="panel-title  text-left" >Payment Details</h3>
+							<div class="display-td" >
+								<img class="img-responsive pull-right cards" src="http://i76.imgup.net/accepted_c22e0.png">
+							</div>
+						</div>
+					</div> -->
+					<div class="panel-body inner_body">
+						<section class="inner_panel">
+							<div class="mb-sm mt-sm">
+								<h3 class="panel-title display-td text-left">Address Details</h3>
+							</div>
+							<hr>
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label for="cardNumber" class="mb-sm mt-lg-10">FIRST NAME</label>
+										<input placeholder="Enter First Name" 
+										 ng-model="details.first_name"  type="text" class="form-control" id="first_name" name="first_name" required/>
+										<span class="text-red" ng-if="updatePaymentDetailsForm.$submitted">
+											<div ng-if="updatePaymentDetailsForm.first_name.$error.required" class="pages-error font14 mt-sm-3">
+												<span>Please enter first name.</span>
+											</div>
+										</span>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label for="cardNumber" class="mb-sm mt-lg-10">LAST NAME</label>
+										<input placeholder="Enter Last Name" 
+										ng-model="details.last_name" 
+										type="text" class="form-control" id="last_name" name="last_name" required>
+										<span class="text-red" ng-if="updatePaymentDetailsForm.$submitted">
+											<div ng-if="updatePaymentDetailsForm.last_name.$error.required" class="pages-error font14 mt-sm-3">
+												<span>Please enter last name.</span>
+											</div>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label for="cardNumber" class="mb-sm mt-lg-10">CITY</label>
+										<input placeholder="Enter City" 
+										ng-model="details.city"  
+										data-stripe="address_city"
+										type="text" class="form-control" id="city" name="city" required>
+										<span class="text-red" ng-if="updatePaymentDetailsForm.$submitted">
+											<div ng-if="updatePaymentDetailsForm.city.$error.required" class="pages-error font14 mt-sm-3">
+												<span>Please enter city.</span>
+											</div>
+										</span>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label for="cardNumber" class="mb-sm mt-lg-10">COUNTRY</label>
+										<!-- <input placeholder="Enter Country" ng-model="details.country" value="{{details.country}}" type="text" class="form-control" id="country" name="country" required> -->
+										<select placeholder="Enter Country" ng-model="details.country" type="text" class="form-control" id="country" name="country" pvp-country-picker="name" required>
+							                <option value="" disabled selected hidden>Select Country</option>
+							              </select>
+										<span class="text-red" ng-if="updatePaymentDetailsForm.$submitted">
+											<div ng-if="updatePaymentDetailsForm.country.$error.required" class="pages-error font14 mt-sm-3">
+												<span>Please enter country.</span>
+											</div>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label for="cardNumber" class="mb-sm mt-lg-10">STATE</label>
+										<input placeholder="Enter State" ng-model="details.state"  type="text" class="form-control" id="state" name="state" required>
+										<span class="text-red" ng-if="updatePaymentDetailsForm.$submitted">
+											<div ng-if="updatePaymentDetailsForm.state.$error.required" class="pages-error font14 mt-sm-3">
+												<span>Please enter state.</span>
+											</div>
+										</span>
+									</div>
+								</div>
+								<div class="col-xs-6">
+									<div class="form-group">
+										<label for="cardNumber" class="mb-sm mt-lg-10"> POSTAL CODE</label>
+										<input placeholder="Enter  Postal Code" 
+										ng-model="details.zip" type="text" class="form-control" id="zip" name="zip" required >
+										<span class="text-red" ng-if="updatePaymentDetailsForm.$submitted">
+											<div ng-if="updatePaymentDetailsForm.zip.$error.required" class="pages-error font14 mt-sm-3">
+												<span>Please enter  postal code.</span>
+											</div>
+										</span>
+									</div>
+								</div>
+							</div>
+
+						</section>
+						<div>&nbsp;</div>
+						<section class="inner_panel">
+							<div class="display-table cards">
+								<div class="row display-tr">
+									<h3 class="panel-title display-td text-left">Credit Card Details</h3>
+									<div class="display-td">
+										<img class="img-responsive pull-right" src="frontweb/assets/images/cards.png">
+									</div>
+								</div>
+							</div>
+							<hr>
+							<div class="row">	
+	                            <div class="col-xs-6">
+	                                <div class="form-group">
+	                                    <label for="cardNumber" class="mb-sm mt-lg-10">NAME ON CARD</label>
+	                                    <input placeholder="Enter Full Name" 
+	                                    ng-model="details.name_on_card"
+	                                    type="text"
+	                                    data-stripe="name"
+	                                    class="form-control" 
+	                                    id="name"
+	                                    name="name"
+	                                    required />
+	                                    <span class="text-red" ng-if="updatePaymentDetailsForm.$submitted">
+							                <div ng-if="updatePaymentDetailsForm.name.$error.required" class="pages-error font14 mt-sm-3">
+							                	<span>Please enter name.</span>
+							            	</div>
+							             </span>
+	                                </div>                            
+	                            </div>
+
+	                            <div class="col-xs-6">
+	                                <div class="form-group">
+	                                    <label for="cardNumber" class="mb-sm mt-lg-10">CARD NUMBER</label>
+	                                    <input ng-model="details.card_number"
+	                                    name="card_number" 
+	                                    id="card_number" 
+	                                    numbers-only
+	                                    class="form-control" 
+	                                    placeholder="Valid Card Number" 
+	                                    data-stripe="number"
+	                                     required>
+	                                    <div class="text-red mt-sm-3" ng-if="updatePaymentDetailsForm.$submitted">
+							            	<span class="pages-error font14 mt-sm-3" ng-show="updatePaymentDetailsForm.card_number.$error.required">
+										      Please enter card number.</span>
+										    <span class="pages-error font14" ng-show="updatePaymentDetailsForm.card_number.$error.number">
+										      Please enter valid number.</span>
+							             </div>
+	                                </div>                            
+	                            </div>
+                            </div>
+
+                            <div class="row">
+								<div class="col-xs-7 col-md-8">
+									<div class="form-group">
+										<label for="cardExpiry" class="mb-sm mt-lg-10">
+											<span class="hidden-xs">EXPIRATION</span>
+											<span class="visible-xs-inline">EXP</span> DATE</label>
+										<div class="row">
+											<div class="col-md-6 form-group">
+												<!-- <input data-stripe="exp-month" ng-model="donate.month" name="expire_month" id="expire_month"
+												type="number" 
+												class="form-control" 
+												placeholder="MM"
+												autocomplete="cc-exp"
+												maxlength="2"
+												max="12"
+												min="1"
+												required /> -->
+												<select data-stripe="exp-month"
+												ng-model="details.month"
+												name="expire_month" 
+												id="expire_month"
+												type="text" 
+												class="form-control" 
+												placeholder="MM"
+												autocomplete="cc-exp"
+												required >
+												    <option value="" disabled selected hidden>Select Month</option>
+												    <option value='1'>Janaury</option>
+												    <option value='2'>February</option>
+												    <option value='3'>March</option>
+												    <option value='4'>April</option>
+												    <option value='5'>May</option>
+												    <option value='6'>June</option>
+												    <option value='7'>July</option>
+												    <option value='8'>August</option>
+												    <option value='9'>September</option>
+												    <option value='10'>October</option>
+												    <option value='11'>November</option>
+												    <option value='12'>December</option>
+												    </select>
+												<div class="text-red mt-sm-3" ng-if="updatePaymentDetailsForm.$submitted">
+													<span class="pages-error font14" ng-show="updatePaymentDetailsForm.expire_month.$error.required">
+														Please select month.
+													</span>
+												</div>
+											</div>
+											<div class="col-md-6 form-group">
+												<select data-stripe="exp-year" 
+												ng-model="details.year"
+												 name="expire_year" 
+												 id="expire_year" 
+												 type="text" class="form-control" 
+												 placeholder="YYYY" 
+												 autocomplete="cc-exp" 
+												 required>
+
+								        			<option value="" disabled selected hidden>Select Year</option>
+								        			<option ng-repeat="year in years">{{year}}</option>
+							        			</select>
+
+												<!-- <input data-stripe="exp-year" ng-model="donate.expire_year" name="expire_year" id="expire_year" 
+												type="number" class="form-control" 
+												placeholder="YYYY" 
+												autocomplete="cc-exp" 
+												required  /> -->
+												<div class="text-red mt-sm-3" ng-if="updatePaymentDetailsForm.$submitted">
+													<span class="pages-error font14" ng-show="updatePaymentDetailsForm.expire_year.$error.required">
+														Please select year.
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-5 col-md-4 pull-right">
+									<div class="form-group">
+										<label for="cardCVC" class="mb-sm mt-lg-10">CVC CODE</label>
+										<input data-stripe="cvc" ng-model="details.cvc" name="cvc" name="cvc"
+										    type="tel" 
+										    class="form-control" 
+										    placeholder="CVC"
+										    autocomplete="cc-csc"
+										    required />
+										<div class="text-red mt-sm-3" ng-if="updatePaymentDetailsForm.$submitted">
+										    <span class="pages-error font14 mt-sm-3" ng-show="updatePaymentDetailsForm.cvc.$error.required">
+										    	Please enter CVC.
+										    </span>
+										</div>
+									</div>
+								</div>
+							</div> 
+                            
+						</section>
+						<div>&nbsp;</div>
+						<div class="row">
+                            <div class="col-xs-12">
+                                <input type="submit" class="subscribe btn btn-success btn-lg btn-block text-uppercase br-sm" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Update' }}">
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+

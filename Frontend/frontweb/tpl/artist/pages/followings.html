@@ -1,0 +1,33 @@
+<div ng-include=" 'frontweb/tpl/artist/sub-navbar2.html' " include-replace></div>
+<div class="clearfix"></div>
+<section id="videos" class="followers-page" ng-init="getFollowing()">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="col-md-3 col-sm-4 col-xs-6 follower-users" ng-repeat="follow in followingUser">
+        <div class="followers-icon" ui-sref="app.artist.tracks({slug:follow.slug})">
+        <img class="follow-image-size" ng-src="{{ cropimage(follow.avatar ? follow.avatar : _defaults.default_profile_image  , 200, 200) }}" alt="" image-preload=""/>
+        </div>
+        <div class="follower-title">
+          <a ui-sref="app.artist.tracks({slug:follow.slug})" class="follower-name">{{follow.name}}</a>
+        </div>
+        <div class="follower-button">
+          <!-- <button class="btn-default" ng-click="UnfollowArtist(follow.slug,'Unfollow')" title="Unfollow">Unfollow</button> -->
+          <button ng-if="follow.slug != _user.slug" class="btn-default" ng-click="_followingTo.indexOf(follow.user_id) != -1 ? UnfollowArtist(follow.slug,'UnFollow') : FollowArtist(follow.slug,'Follow')" >{{_followingTo.indexOf(follow.user_id) != -1 ? 'Unfollow' : 'Follow'}}</button>
+        </div>
+      </div>
+      <!-- <div ng-repeat="n in [] | range:followingUser.length%4" class=" col-sm-3 follower-user" ></div> -->
+      <div ng-if="loading" class="text-center base-font">
+        <div class="clearfix">&nbsp;</div>
+        Loading...
+      </div>
+      <div infinite-scroll="loadMoreFollowing()"></div>
+    </div>
+  </div>
+</section> 
+<section id="videos" ng-show="!followingUser.length && !loading" class="admin-everything">
+  <div class="row base-font">
+    <div class="clearfix">&nbsp;</div>
+    No following
+  </div>
+</section>
+   

@@ -1,0 +1,103 @@
+<div class="background-blur-image parent">
+    <div class="child">&nbsp</div>
+    <div style="background-color: black; opacity: 0.3; width: 100%; height: 100%; position: absolute"></div>
+</div><!-- /.background-blur-image -->
+
+<div class="container" id="single-streamline" ng-cloak ng-show="!showLoading">
+    <div class="row">
+        <div class="col-lg-12 col-xs-12 col-md-12 col-sm-12">
+            <div class="streamline-wrapper">
+                <div class="row">
+                    <div class="col-lg-8 col-xs12 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+                        <div class="stream-logo">
+                            <img class="track-logo" ng-src="{{cropimage(streamline.artwork_link, 500, 500)}}" />
+                            <!--<img class="track-logo" ng-src="{{cropimage(streamline.artwork_link, 345, 345)}}" image-error="{{_defaults.default_profile_image}}" />
+                            <img src="/logo/record.png" />-->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <span class="streamline-hype">
+                        <a target="_blank" ui-sref="app.artist.tracks({slug : streamline.artist_slug})">{{streamline.artist_name}}</a>
+                    </span>
+                    <br />
+                    <span class="streamline-name">{{streamline.track_name}}</span>
+                </div>
+                <!--<div class="row streamline-stm-custom" ng-if="streamline.stm">
+                    &lt;!&ndash;<a class="stm-service" href="#" ng-click="downloadTrack()" />&ndash;&gt;
+                    <a class="stm-service" target="_blank" ui-sref="app.single_campaign({trackId : streamline.camp_slug})"/>
+                </div>-->
+                <div class="row streamline-services clearfix" ng-class="{'text-left': activeServiceCnt > 4}">
+                    <div ng-if="streamline.stm" class="streamline-service">
+                        <a class="stm-service" target="_blank" ui-sref="app.single_campaign({trackId : streamline.camp_slug})"/>
+                    </div>
+                    <div ng-if="streamline.soundcloud" class="streamline-service">
+                        <a class="soundcloud-service" href="#" ng-click="runLink('soundcloud', streamline.sc_link)" />
+                    </div>
+                    <div ng-if="streamline.youtube" class="streamline-service">
+                        <a class="youtube-service" href="#" ng-click="runLink('youtube', streamline.yt_link)" />
+                        <!--<a href="{{streamline.yt_link}}" target="_blank" class="youtube-service" />-->
+                    </div>
+                    <div ng-if="streamline.itune" class="streamline-service">
+                        <a class="itune-service" href="#" ng-click="runLink('apple-iTune', streamline.itune_link)" />
+                        <!--<a href="{{streamline.itune_link}}" target="_blank" class="itune-service" />-->
+                    </div>
+                    <div ng-if="streamline.apple" class="streamline-service">
+                        <a class="apple-service" href="#" ng-click="runLink('apple-Music', streamline.apple_link)" />
+                        <!--<a href="{{streamline.apple_link}}" target="_blank" class="apple-service" />-->
+                    </div>
+                    <div ng-if="streamline.spotify" class="streamline-service">
+                        <a class="spotify-service" href="#" ng-click="runLink('spotify', streamline.sp_link)" />
+                        <!--<a href="{{streamline.sp_link}}" target="_blank" class="spotify-service" />-->
+                    </div>
+                    <div ng-if="streamline.googleplay" class="streamline-service">
+                        <a class="google-play-service" href="#" ng-click="runLink('googlePlay', streamline.gp_link)" />
+                        <!--<a href="{{streamline.gp_link}}" target="_blank" class="google-play-service" />-->
+                    </div>
+                    <div ng-if="streamline.tidal" class="streamline-service">
+                        <a class="tidal-service" href="#" ng-click="runLink('tidal', streamline.tidal_link)" />
+                        <!--<a href="{{streamline.tidal_link}}" target="_blank" class="tidal-service" />-->
+                    </div>
+                    <div ng-if="streamline.deezer" class="streamline-service">
+                        <a class="deezer-service" href="#" ng-click="runLink('deezer', streamline.deezer_link)" />
+                        <!--<a href="{{streamline.deezer_link}}" target="_blank" class="deezer-service" />-->
+                    </div>
+                    <div ng-if="streamline.beatport" class="streamline-service">
+                        <a class="beatport-service" href="#" ng-click="runLink('beatport', streamline.beatport_link)" />
+                        <!--<a href="{{streamline.beatport_link}}" target="_blank" class="beatport-service" />-->
+                    </div>
+                    <div ng-if="streamline.amazon" class="streamline-service">
+                        <a class="amazon-service" href="#" ng-click="runLink('amazon', streamline.amazon_link)" />
+                        <!--<a href="{{streamline.amazon_link}}" target="_blank" class="amazon-service" />-->
+                    </div>
+                    <div ng-if="streamline.amazonmp3" class="streamline-service">
+                        <a class="amazon-mp3-service" href="#" ng-click="runLink('amazon-mp3', streamline.amazon_mp3_link)" />
+                        <!--<a href="{{streamline.amazon_mp3_link}}" target="_blank" class="amazon-mp3-service" />-->
+                    </div>
+                    <div ng-if="streamline.bandcamp" class="streamline-service">
+                        <a class="bandcamp-service" href="#" ng-click="runLink('bandcamp', streamline.bandcamp_link)" />
+                        <!--<a href="{{streamline.bandcamp_link}}" target="_blank" class="bandcamp-service" />-->
+                    </div>
+                    <div ng-if="streamline.juno" class="streamline-service">
+                        <a class="juno-service" href="#" ng-click="runLink('juno', streamline.juno_link)" />
+                        <!--<a href="{{streamline.juno_link}}" target="_blank" class="juno-service" />-->
+                    </div>
+                    <div ng-if="streamline.trackitdown" class="streamline-service">
+                        <a class="trackitdown-service" href="#" ng-click="runLink('trackitdown', streamline.trackitdown_link)" />
+                        <!--<a href="{{streamline.trackitdown_link}}" target="_blank" class="trackitdown-service" />-->
+                    </div>
+                    <div ng-if="streamline.custom" class="streamline-service">
+                        <a class="custom-service" href="#" ng-click="runLink('customSocial', streamline.custom_link)">
+                            <span class="custom-title">{{streamline.custom_title}}</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <!--<span class="streamline-str">Choose your preferred streaming or download service</span>
+                    <br />-->
+                    <span class="streamline-copyright"><a class="text-white" ui-sref="app.page.dashboard">© Copyright Sore Thumb Media 2017</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+  <!-- <div class="background-image background-cover" ng-style="{'background-image': 'url('+_defaults.default_banner_image+')'}">
+    <div class="vertical-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>STM News</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <section id="stm-news-single" ng-if="news">
+    <div class="container">
+      <div class="row" ng-if="_user">
+        <div class="col-xs-12">
+            <a href="/news" class="back-btn pull-right"> Back </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="article-title">
+            <h2>{{ news.title }}</h2>
+          </div><!-- /.article-title -->
+          <ul class="details">
+            <li><b>Posted</b>: <span class="text-black" ng-bind="formatDate(news.created_at) | date:'MMM dd, yyyy'"></span></li>
+            <li><b>By</b>: <span class="text-black">{{ news.name }}</span></li>
+            <li><b>Category</b>: <span class="text-black">{{ news.category_name }}</span></li>
+            <li ng-if="news.comment_count"><b>Comment</b>: <span class="text-black">{{ news.comment_count }}</span></li>
+          </ul><!-- /.details -->
+          <div class="clearfix"></div><!-- /.clearfix --><!-- ng-src="{{ cropimage(spotlight.cover_image, 200, 200) }}" -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="newsImageContainer">
+                <img ng-src="{{news.image_name}}"  alt="no-image">
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="news-top-margin">
+            <img ng-src="{{news.image_name}}" image-error="{{_defaults.default_news_image}}" class="img-responsive news-img-responsive" alt="" />
+          </div> -->
+
+          <div class="content" ng-bind-html="news.description | trustAsHTML"></div><!-- /.content -->
+          <div class="tags-and-share">
+            <div class="row">
+              <div class="col-lg-9 col-md-8">
+                <span class="title">Tags:</span>
+                <ul class="tags" ng-if="news.tags">
+                  <li ng-repeat="tag in news.tags.split(',')"><a ui-sref="app.page.stm_news({'q':tag})">{{ tag }}</a></li>
+                </ul>
+              </div><!-- /.col-lg-9 -->
+              <div class="col-lg-3 col-md-4">
+                <div class="pull-right">
+                  <!-- AddToAny BEGIN -->
+                  <span class="title">Share this post</span>
+                  <a  class="sharebtn a2a_dd" href="https://www.addtoany.com/share">Share <i class="fa fa-share-alt"></i></a>
+                  <script async src="https://static.addtoany.com/menu/page.js"></script>
+                  <!-- AddToAny END -->
+                </div><!-- /.pull-right -->
+              </div><!-- /.col-lg-3 -->
+            </div><!-- /.row -->
+          </div><!-- /.tags-and-share -->
+          <div class="author">
+            <div class="row">
+              <div class="col-md-2 col-sm-3 col-xs-3">
+                <img ng-src="{{news.image}}" image-error="frontweb/assets/images/admin/default.png" class="img-circle single-news-image" />
+              </div><!-- /.col-md-2 -->
+              <div class="col-md-10 col-sm-9 col-xs-9">
+                <h3>{{ news.name }}</h3>
+                <p>{{ news.bio }}</p>
+                <ul class="socials">
+                  <li ng-if="news.soundcloud_url">
+                      <a href="{{news.soundcloud_url}}">
+                          <div class="vertical-center">
+                              <i class="fa fa-soundcloud"></i>
+                          </div><!-- /.vertical-center -->
+                      </a>
+                  </li>
+                  <li ng-if="news.facebook_url">
+                      <a href="{{news.facebook_url}}">
+                          <div class="vertical-center">
+                              <i class="fa fa-facebook"></i>
+                          </div><!-- /.vertical-center -->
+                      </a>
+                  </li>
+                  <li ng-if="news.twitter_url">
+                      <a href="{{news.twitter_url}}">
+                          <div class="vertical-center">
+                              <i class="fa fa-twitter"></i>
+                          </div><!-- /.vertical-center -->
+                      </a>
+                  </li>
+                  <li ng-if="news.youtube_url">
+                      <a href="{{news.youtube_url}}">
+                          <div class="vertical-center">
+                              <i class="fa fa-youtube"></i>
+                          </div><!-- /.vertical-center -->
+                      </a>
+                  </li>
+                  <li ng-if="news.instagram_url">
+                      <a href="{{news.instagram_url}}">
+                          <div class="vertical-center">
+                              <i class="fa fa-instagram"></i>
+                          </div><!-- /.vertical-center -->
+                      </a>
+                  </li>
+                </ul><!-- /.socials -->
+              </div><!-- /.col-md-10 -->
+            </div><!-- /.row -->
+          </div><!-- /.author -->
+          <div class="clearfix"></div><!-- /.clearfix -->
+          <div class="another-articles">
+            <div class="row">
+              <div class="col-sm-4" ng-repeat="otherNews in relatedNews">
+                <a ui-sref="app.page.stm_news_single({slug:otherNews.slug})">
+                  <div ng-if="!otherNews.image_name" class="background-cover" style="background-image: url(frontweb/assets/images/img_cover-nomask.jpg);" ></div><!-- /.bacground-cover -->
+                  <div ng-if="otherNews.image_name" class="background-cover"
+                  ng-style="{'background-image': 'url('+otherNews.image_name+')'}"
+                  ></div><!-- /.bacground-cover -->
+
+                </a>
+
+                <a title="{{ otherNews.title }}" ui-sref="app.page.stm_news_single({slug:otherNews.slug})"><h3>{{ otherNews.title | cut:true:20:' ...' }}</h3></a>
+                <div class="details">
+                  <span><span ng-bind="formatDate(otherNews.created_at) | date:'MMM dd, yyyy'"></span>{{ otherNews.name }} / {{ otherNews.category_name }}</span>
+
+                </div><!-- /.details -->
+              </div><!-- /.col-sm-4 -->
+            </div><!-- /.row -->
+          </div><!-- /.another-articles -->
+        </div><!-- /.col-xs-12 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </section><!-- /#stm-news -->
+  <div class="about-stm" ng-if="newsError">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2>Oops! News is no longer available.
+            <br><a href="/news" class="news_back_button"> Back to All News </a>
+          </h2>
+        </div><!-- /.col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div>
+

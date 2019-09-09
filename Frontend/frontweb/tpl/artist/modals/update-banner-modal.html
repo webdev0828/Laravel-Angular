@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title base-font" id="myModalLabel">Select Banner</h4>
+</div>
+<div class="modal-body" style=" max-height: calc(100vh - 210px);overflow-y: auto;">
+  <div class="row">
+    <div class="col-md-12" ng-init="artist.updatebanner = '';">
+      <div class="pull-left radio-btn" style="margin:10px" ng-repeat="banner in banners" ng-click="artist.updatebanner = banner">
+        <input type="radio" class="hidden mb-sm-3" ng-checked="artist.updatebanner == banner" ng-model="artist.updatebanner" id="{{$index}}" name="radio-btn">
+        <label for="{{$index}}"><img ng-src="{{ cropimageTemplate(banner, 370, 89) }}" /></label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+    <button class="form-btn btn-black" type="button" ng-click="cancel()">Cancel</button>
+    <button class="form-btn btn-red" type="button" ng-click="update(artist.updatebanner)" ng-disabled="isSubmitting || !artist.updatebanner">Save</button>
+</div>

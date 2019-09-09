@@ -1,0 +1,31 @@
+<div class="custom-modal landing-page-modals">
+  	<div class="modal-dialog modal-dialog-comment" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+	      		<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		        <h2 class="modal-title font-open" id="signInModalLabel">Set Facebook Page</h2>
+	      	</div>
+	      	<div class="modal-body">
+	        	
+	        	<form  ng-submit="fbForm.$valid && saveFbPage(page_link)" name="fbForm" id="fbForm" class="font-open" novalidate >
+	        		
+	        		<input type="url" ng-pattern="checkUrl" name="page_link" ng-model="page_link" http-prefix placeholder="Facebook page url" required ng-change="facebookError = ''"/>
+	        		<span class="text-red" ng-if="fbForm.$submitted">
+		                <div class="error" ng-if="fbForm.page_link.$error.required">
+		                	Please enter page url.
+		                </div>
+
+		                <div class="error" ng-if="facebookError">
+		                	{{facebookError}}
+		                </div>
+
+		                <div class="error" ng-if="fbForm.page_link.$error.pattern">Please enter valid url.</div>
+		            </span>
+		            <input type="submit" ng-disabled="isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Submit' }}" />
+	        	</form>
+	      	</div>
+	    </div>
+ 	</div>
+</div>

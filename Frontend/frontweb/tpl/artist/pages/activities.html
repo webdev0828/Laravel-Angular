@@ -1,0 +1,155 @@
+<div>
+  <div ng-include=" 'frontweb/tpl/artist/sub-navbar2.html' " include-replace></div>
+  <!-- <div class="clearfix">&nbsp;</div> -->
+  <section id="activity-feeds" class="admin-everything" ng-if="activities.length">
+    <div class="row following" ng-repeat="activity in activities track by $index">
+      <div class="col-md-2 col-sm-4 col-xs-4 activity-profile-img">
+          <img ng-if="activity.object_type == 'following'" ng-src="{{ cropimage(activity.owner.avatar ? activity.owner.avatar : _defaults.default_profile_image, 110, 110) }}" image-error="{{ _defaults.default_profile_image }}" class="img-responsive img-height-profile">
+          <img ng-if="activity.object_type != 'following'" ng-src="{{ cropimage(activity.follower.avatar ? activity.follower.avatar : _defaults.default_profile_image, 110, 110) }}" image-error="{{ _defaults.default_profile_image }}"
+           class="img-responsive img-height-profile">
+      </div>
+      <div class="col-md-10 col-sm-8 col-xs-8 popup activity-profile-desc" >
+        <strong>
+
+          <!-- Start  -->
+          <a  ng-if="activity.owner.user_type == 'artist' "  class="color-link" ui-sref="app.artist.tracks({slug:activity.owner.slug})" href="javascript:;">
+
+            <span ng-if="activity.owner.slug == _user.slug && activity.object_type != 'follower'" > You </span>
+            <span ng-if="activity.owner.slug != _user.slug && activity.object_type != 'follower'" > {{ activity.owner.name | cut:true:10:' ...' }} </span>
+          </a>
+
+
+          <a ng-if="activity.owner.user_type == 'stm_user' " class="color-link" ui-sref="app.user.favourites({slug:activity.follower.slug})">
+            <span ng-if="activity.owner.slug == _user.slug && activity.object_type != 'follower'" > You </span>
+            <span ng-if="activity.owner.slug != _user.slug && activity.object_type != 'follower'" > {{ activity.owner.name | cut:true:10:' ...' }} </span>
+          </a>
+
+
+          <!-- End  -->
+
+
+
+
+          <!-- Start  -->
+          <a ng-if="activity.follower.user_type == 'artist' " class="color-link" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >
+            <span ng-if="activity.owner.slug != artist.slug && activity.object_type != 'follower'"> 
+              {{ activity.follower.name | cut:true:10:' ...' }}</span>
+          </a>
+
+
+          <a ng-if="activity.follower.user_type == 'stm_user' " class="color-link" ui-sref="app.user.favourites({slug:activity.follower.slug})">
+            <span ng-if="activity.owner.slug != artist.slug && activity.object_type != 'follower'"> 
+              {{ activity.follower.name | cut:true:10:' ...' }}</span>
+          </a>
+
+          <!-- End  -->
+
+          <!-- Start  -->
+
+          <a ng-if="activity.follower.user_type == 'artist' && _user.slug != activity.follower.slug " class="color-link" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >
+            <span ng-if="activity.object_type == 'follower'"> 
+              {{ activity.follower.name | cut:true:10:' ...' }}
+            </span>
+          </a>
+
+          <a ng-if="activity.follower.user_type == 'artist' && _user.slug == activity.follower.slug " class="color-link" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >
+            <span ng-if="activity.object_type == 'follower'"> 
+              You
+            </span>
+          </a>
+
+          <a ng-if="activity.follower.user_type == 'stm_user' && _user.slug == activity.follower.slug" ui-sref="app.user.favourites({slug:activity.follower.slug})" class="color-link">
+            <span ng-if="activity.object_type == 'follower'"> 
+              You
+            </span>
+          </a>
+
+          <a ng-if="activity.follower.user_type == 'stm_user' && _user.slug != activity.follower.slug" ui-sref="app.user.favourites({slug:activity.follower.slug})" class="color-link">
+            <span ng-if="activity.object_type == 'follower'"> 
+              {{ activity.follower.name | cut:true:10:' ...' }}
+            </span>
+          </a>
+
+
+
+          <!-- End  -->
+
+
+          <br>
+        </strong>
+        {{activity.message}} 
+
+        <!-- Start -->
+
+        <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'artist' && _user.slug == activity.following.slug" href="javascript:;" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >You</a>
+
+        <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'artist' && _user.slug != activity.following.slug" href="javascript:;" ui-sref="app.artist.tracks({slug:activity.follower.slug})" >{{ activity.following.name | cut:true:10:' ...' }}</a>
+
+        <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'stm_user' && _user.slug == activity.following.slug " href="javascript:;" ui-sref="app.user.favourites({slug:activity.follower.slug})">You</a>
+
+        <a ng-if="activity.object_type == 'following' && activity.following.user_type == 'stm_user' && _user.slug != activity.following.slug " href="javascript:;" ui-sref="app.user.favourites({slug:activity.follower.slug})">{{ activity.following.name | cut:true:10:' ...' }}</a>
+
+        <!-- End -->
+
+        <!-- Start  -->
+
+        <a ng-if="activity.object_type == 'follower' && activity.owner.slug == _user.slug && activity.owner.user_type == 'artist' " href="javascript:;" ui-sref="app.artist.tracks({slug:activity.owner.slug})" > You </a>
+
+
+        <a ng-if="activity.object_type == 'follower' && activity.owner.slug == _user.slug &&  activity.owner.user_type == 'stm_user' " href="javascript:;" ui-sref="app.user.favourites({slug:activity.owner.slug})"> You </a>
+
+        <!-- End  -->
+
+        <!-- Stat -->
+
+        <a ng-if="activity.object_type == 'follower' && activity.owner.slug != _user.slug && activity.owner.user_type == 'artist'" href="javascript:;" ui-sref="app.artist.tracks({slug:activity.owner.slug})" > {{ activity.owner.name | cut:true:10:' ...' }} </a>
+
+        <a ng-if="activity.object_type == 'follower' && activity.owner.slug != _user.slug && activity.owner.user_type == 'stm_user' " href="javascript:;" ui-sref="app.user.favourites({slug:activity.owner.slug})"> {{ activity.owner.name | cut:true:10:' ...' }} </a>
+
+        <!-- End  -->
+
+        <a target="_blank" ui-sref="app.single_track({trackId:activity.track.slug})" ng-if="activity.object_type == 'add' && activity.track.type !='music_video'">
+          {{ activity.track.track_name | cut:true:20:' ...'  }}
+        </a>
+        <a ng-if="activity.object_type == 'add' && activity.track.type =='music_video'">
+          {{ activity.track.track_name | cut:true:20:' ...'  }}
+        </a>
+
+
+        <a target="_blank" ui-sref="app.single_track({trackId:activity.track.slug})" ng-if="activity.object == 'favourite'  && activity.object_type == 'track'">
+          {{ activity.track.track_name | cut:true:20:' ...'  }}
+        </a>
+
+        <a target="_blank" ui-sref="app.single_campaign({trackId:activity.favourite_campaign.slug})" ng-if="activity.object == 'favourite' && activity.object_type == 'campaign'">
+          {{ activity.favourite_campaign.track_name | cut:true:20:' ...'  }}
+        </a>
+
+        <a  ng-if="activity.object == 'favourite' && activity.object_type == 'remix'">
+          {{ activity.favourite_remix.track_name | cut:true:20:' ...'  }}
+        </a>
+
+        <a  ng-if="activity.object == 'favourite' && activity.object_type == 'music_video'">
+          {{ activity.favourite_video.track_name | cut:true:20:' ...'  }}
+        </a>
+
+        
+        
+
+
+
+      </div>
+    </div>
+    <div ng-if="loading" class="text-center base-font">
+      <div class="clearfix">&nbsp;</div>
+      Loading...
+    </div>
+    <div infinite-scroll="loadMoreActivities()" ></div>
+  </section>
+  <section id="videos" ng-if="!activities.length" class="admin-everything">
+    <div class="row base-font">
+      <div class="clearfix">&nbsp;</div>
+      No recent activity
+    </div>
+  </section>
+  
+</div> 

@@ -1,0 +1,27 @@
+<div class="modal fade custom-modal signup" id="selectUserType" tabindex="-1" role="dialog" aria-labelledby="joinUsUserModalLabel" ng-controller="AuthCtrl">
+	  	<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+			        <h2 class="modal-title" id="joinUsUserModalLabel">Select Account Type</h2>
+		      	</div>
+		      	<div class="modal-body">
+		        	<form ng-submit="selectType.$valid && signupFb(user)" name="selectType" id="selectType" novalidate >
+		        		<select name="account_type" id="accountType" ng-model="user.user_type" required>
+		        			<option value="" disabled selected hidden>Select Account Type</option>
+		        			<option data-placeholder="Artist Name" value="artist">Artist</option>
+		        			<option data-placeholder="Profile Name" value="stm_user">User</option>
+		        		</select>
+		        		<span class="text-red" ng-if="selectType.$submitted">
+			                <div ng-if="selectType.account_type.$error.required" class="error">
+			                	<span>Please select user type.</span>
+			            	</div>
+			             </span>
+		        		<input type="submit" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Sign up now' }}" />
+		        		<!-- <span ng-if ="isSubmitting" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> -->
+		        	</form>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+	

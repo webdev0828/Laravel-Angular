@@ -1,0 +1,409 @@
+  <div ng-include=" 'frontweb/tpl/modals/submit-remix-modal.html' " include-replace></div>
+  <div ng-include=" 'frontweb/tpl/modals/download-remix-stems-modal.html' " include-replace></div>
+
+  <div class="background-image background-cover" ng-style="{'background-image': 'url('+_defaults.default_banner_image+')'}">
+    <div class="vertical-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>Remix Competition</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="hero-video">
+    <div id="video_embed_container" class='video_embed_container'>
+      <iframe id="video_dashboard" src="https://player.vimeo.com/video/177197755?api=1&background=1&autoplay=1&loop=1"></iframe>
+    </div>
+  </div> -->
+
+  <div class="about-stm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2>The place for Sore Thumb Media artists to show off their remix skills.</h2>
+        </div><!-- /.col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div><!-- /.about-stm -->
+
+  <div class="parallax-window banner" data-parallax="scroll" data-bleed="10" data-image-src="frontweb/assets/images/homepage/bgd_artists-say.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <section id="banner-music-videos" class="banner-inner">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2>Latest Competition Winner</h2>
+              </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+            <div class="row" ng-if="latestWinner.campaign">
+              <div class="row-height">
+                <div class="col-md-8 col-sm-height col-sm-top custom-padding">
+                  <div class=" video-font" ng-bind-html="latestWinner.url | youtubevideo:357">
+                  <div class="">
+                  </div>
+                  </div>
+                </div><!-- /.col-md-8 col-sm-height col-sm-top -->
+                <div class="col-md-4 col-sm-height col-sm-top">
+                  <div class="video-track-constant">
+                    <div class="assets">
+                      <div class="latest-winner-fixed-size">
+                        <div class="row">
+                          <div class="col-xs-7">
+                            <a title="{{ latestWinner.participated_artist_name }}" href="javascript:;" ui-sref="app.artist.tracks({slug:latestWinner.participated_artist_slug})">
+                              <!-- ui-sref="app.artist.tracks({slug:latestWinner.participated_artist_slug})" -->
+                              <span class="author artist-name-truncate">
+                                {{ latestWinner.participated_artist_name }}
+                              </span>
+                            </a>
+                          </div><!-- /.col-xs-7 -->
+                          <div class="col-xs-5">
+                            <!-- <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{latestWinner.campaign.play_count}} </span> -->
+                          </div><!-- /.col-xs-5 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3 title="{{ latestWinner.campaign.track_name }}" class="track-name-truncate " ng-class="{'blue-btn':latestWinner.campaign.track_name.length>26}" >
+                                  <a ng-class="{'first-link':latestWinner.campaign.track_name.length>26} " >{{ latestWinner.campaign.track_name }}</a>
+                                </h3>
+                                <div class="line"></div>
+                                <div>
+                                  <p class="desc-size wrap font12" data-ng-bind="latestWinner.description" data-ellipsis></p>
+                                </div>
+
+                                 <!-- <p class="wrap font12" title="{{ latestWinner.description }}"> {{ latestWinner.description | cut:true:98:' ...'}} </p> -->
+                                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam odio sint beatae aliquam, unde deserunt repellendus. Quas, veritatis! Ullam quibusdam qui distinctio dolor, nisi accusantium eaque eveniet iusto facere deleniti!</p> -->
+                            </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <ul class="tags">
+                              <li ng-repeat="genres in latestWinner.campaign.track_genres"><a href="javascript:;" ui-sref="app.page.discover({ genre : genres.slug })"  title = "{{ genres.name}}" href="javascript:;">{{genres.name}}</a>
+                              </li>
+                              <li ng-repeat="genres in latestWinner.campaign.track_sub_genres"><a href="javascript:;" ui-sref="app.page.discover({ genre : genres.slug })"  title = "{{ genres.name}}" href="javascript:;">{{genres.name}}</a>
+                              </li>
+                              <li ng-repeat="genres in latestWinner.campaign.campaign_moods"><a href="javascript:;" ui-sref="app.page.discover({ mood : genres.slug })"  title = "{{ genres.name}}" href="javascript:;">{{genres.name}}</a>
+                              </li>
+                            </ul><!-- /.tags -->
+                          </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                      </div>
+                      <div class="buttons">
+                        <div class="row">
+                          <div class="col-xs-4">
+                            <div class="download">
+                              <a ui-sref="app.single_campaign({trackId : latestWinner.campaign.slug})">
+                                <img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+                            </div><!-- /.download -->
+                          </div><!-- /.col-xs-4 -->
+                          <div class="col-xs-8">
+                            <div class="add pull-right">
+                              <a href="javascript:;" ng-if="_user" ng-click="_playlistCampaignIds.indexOf(latestWinner.campaign.id) >= 0 ? removePlaylistTrack(latestWinner.campaign, 'campaign') : addPlaylistlModal1(latestWinner.campaign, 'campaign')"><img ng-src="{{_playlistCampaignIds.indexOf(latestWinner.campaign.id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                              <!-- <a href="javascript:;" ng-if="_user" ng-click="addPlaylistlModal1(latestWinner, 'remix')"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+
+                              <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()">
+                                  <img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" />
+                              </a>
+                            </div><!-- /.add -->
+                            <div class="love pull-right">
+                              <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()"><i class="fa fa-heart-o fa-lg"></i>
+                                  {{latestWinner.campaign.favourite_count}}
+                              </a>
+                              <a href="javascript:;" ng-if="_user" ng-click="addInFavourites(latestWinner.campaign, 'campaign')"><i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(latestWinner.campaign.id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(latestWinner.campaign.id) < 0}"></i> {{latestWinner.campaign.favourite_count}} </a>
+                            </div><!-- /.love -->
+                          </div><!-- /.col-xs-8 -->
+                        </div><!-- /.row -->
+                      </div><!-- /.buttons -->
+                      <div class="clearfix"></div><!-- /.clearfix -->
+                    </div><!-- /.assets -->
+                  </div><!-- /.video-track -->
+                </div><!-- /.col-md-4 col-sm-height col-sm-top -->
+              </div><!-- /.row-height -->
+            </div><!-- /.row -->
+            <div ng-if="!latestWinner.campaign" class="row text-center text-gray font-raleway">Latest Competition Winner Not Found.</div>
+          </section><!-- /#banner-music-videos -->
+        </div><!-- /.col-md-10 col-md-offset-1 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div><!-- /.banner -->
+
+  <section id="remix-competitions" >
+    <div class="left-side">
+      <section id="current-competition">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="current-competition-header">
+              <h2>Current Competition</h2>
+            </div><!-- /.current-competition-header -->
+            <div class="current-competition-body" ng-if="currentCompetition">
+              <div class="video-track">
+                <div class="player-icon-video">
+                  <img ng-src="{{ cropimage(currentCompetition.cover_image,500,500)}}" image-error="{{_defaults.default_track_image}}" class="" />
+                  <!-- <img src="frontweb/assets/images/img_video-2.jpg" alt="" /> -->
+                  <span>
+                    <a ng-show="currentCompetition.campaign.id != _currentTrack.id || currentCompetition.campaign.type != _currentTrack.type" href="javascript:;" ng-click="playTrack(currentCompetition.campaign, currentCompetition.campaign.track_type)">
+                      <i class="fa fa-play-circle player-play-circle"></i>
+                    </a>
+                  </span>
+                  <!-- <a ng-if="loadingTrack && currentCompetition.campaign.id == _currentTrack.id" href="javascript:;" class="image-buffer"><img class="loader-back" ng-src="frontweb/assets/images/ajax-loader.gif"></a> -->
+                  <a ng-if="currentCompetition.campaign.id == _currentTrack.id && !loadingTrack && currentCompetition.campaign.type == _currentTrack.type" href="javascript:;" ng-click="pauseTrack(currentCompetition.campaign)">
+                  <i class="fa fa-pause-circle player-pause-circle"></i>
+                  </a>
+                  </div>
+                <!-- <img src="frontweb/assets/images/img_video-2.jpg" alt="" /> -->
+                <div class="assets margin_top_assets">
+                  <div class="row">
+                      <div class="col-xs-7">
+                        <a href="javascript:;">
+                          <!-- ui-sref="app.artist.tracks({slug:currentCompetition.artist_slug})" -->
+                          <span class="author artist-name-truncate" ng-if="_user"  ui-sref="app.artist.tracks({slug:currentCompetition.artist_slug})">
+                            {{currentCompetition.artist_name}}
+                          </span>
+                        </a>
+                      </div><!-- /.col-xs-7 -->
+                      <div class="col-xs-5">
+                        <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{currentCompetition.campaign.play_count}}</span>
+                      </div><!-- /.col-xs-5 -->
+                    </div><!-- /.row -->
+                    <div class="row">
+                      <div class="col-xs-12">
+                          <h3 class="track-name-truncate" ng-class="{'blue-btn':currentCompetition.campaign.track_name.length>26}" title="{{ currentCompetition.campaign.track_name }}" >
+                            <a ng-class="{'first-link':currentCompetition.campaign.track_name.length>26} " >{{currentCompetition.campaign.track_name}}</a></h3>
+                      </div><!-- /.col-xs-12 -->
+                   </div><!-- /.row -->
+                   <div class="row">
+                      <div class="col-xs-12">
+                        <ul class="tags">
+                          <li ng-repeat="genres in currentCompetition.campaign.track_genres"><a ui-sref="app.page.discover({ genre : genres.slug })" href="javascript:;">{{genres.name}}</a></li>
+                          <li ng-repeat="genres in currentCompetition.campaign.track_sub_genres"><a ui-sref="app.page.discover({ genre : genres.slug })" href="javascript:;">{{genres.name}}</a></li>
+                          <li ng-repeat="genres in currentCompetition.campaign.campaign_moods"><a ui-sref="app.page.discover({ mood : genres.slug })" href="javascript:;">{{genres.name}}</a></li>
+
+                        </ul><!-- /.tags -->
+                      </div><!-- /.col-xs-12 -->
+                    </div><!-- /.row -->
+                    <div class="clearfix"></div><!-- /.clearfix -->
+                    <div class="buttons" style="border-top: 1px solid #e5e5e5 !important;padding: 10px 10px 10px !important;">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          <div class="download">
+                            <a ui-sref="app.single_campaign({trackId : currentCompetition.campaign.slug})">
+                              <img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+                          </div><!-- /.download -->
+                        </div><!-- /.col-xs-4 -->
+                        <div class="col-xs-8">
+                          <div class="add pull-right">
+                            <a href="javascript:;" ng-if="_user" ng-click="_playlistCampaignIds.indexOf(currentCompetition.campaign.id) >= 0 ? removePlaylistTrack(currentCompetition.campaign, 'campaign') : addPlaylistlModal1(currentCompetition.campaign, 'campaign')"><img ng-src="{{_playlistCampaignIds.indexOf(currentCompetition.campaign.id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                          </div>
+                          <div class="love pull-right">
+                            <a href="javascript:;" ng-if="_user" ng-click="addInFavourites(currentCompetition.campaign, 'campaign')"><i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(currentCompetition.campaign.id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(currentCompetition.campaign.id) < 0}"></i> {{currentCompetition.campaign.favourite_count}} </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div><!-- /.clearfix -->
+                    <div class="dates" ng-if="_user.user_type != 'stm_user'">
+                      <div class="competition">
+                        <h3>Competition Start Date</h3>
+                        <span class="date" ng-bind="formatDate(currentCompetition.start_date) | date:'dd MMM yyyy'"></span>
+                        <a ng-if="_user" href="javascript:;" onClick="$('#downloadRemixStemsModal').modal()" ng-show="_user && _user.subscriptionFeatures.indexOf('join_remix_comp') != -1" class="red-button">Download stems</a><!--download target="_blank"  href="{{currentCompetition.stem_file}}" -->
+
+                        <a href="javascript:;" ng-click="showPopup('You cannot download the stem pack because your subscription plan does not allow this!')" ng-show="_user && _user.subscriptionFeatures.indexOf('join_remix_comp') == -1"   class="red-button">Download stems</a>
+
+
+                        <a ng-if="!_user" href="javascript:;" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()"  class="red-button">Download stems</a>
+                        <!-- <a ng-if="!currentCompetition.stem_file"  href="javascript:;" class="red-button">Download stems</a> -->
+                      </div><!-- /.competition -->
+                      <div class="submission" ng-if="!participated">
+                        <h3>Submission deadline date</h3>
+                        <span class="date" ng-bind="formatDate(currentCompetition.end_date) | date:'dd MMM yyyy'"></span>
+                        <a href="javascript:;" ng-show="_user.subscriptionFeatures.indexOf('join_remix_comp') != -1" ng-if="_user" onClick="$('#submitYourRemixModal').modal();" ng-click="reset();getSoundcloudRemixTracks();" class="red-button">Submit your remix</a>
+
+                        <a href="javascript:;" ng-click="showPopup('You cannot participate in this competition because your subscription plan does not allow this!')" ng-show="_user && _user.subscriptionFeatures.indexOf('join_remix_comp') == -1"   class="red-button">Submit your remix</a>
+
+                        <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()" class="red-button">Submit your remix</a>
+                      </div><!-- /.submission -->
+                      <div class="submission" ng-if="participated">
+                        <h3>You participated in this competition</h3>
+                      </div><!-- /.submission -->
+                      <div class="winners">
+                        <h3>Winners announcement date</h3>
+                        <span class="date" ng-bind="currentCompetition.announcement_date"></span>
+                      </div><!-- /.winners -->
+                    </div><!-- /.dates -->
+                </div><!-- /.assets -->
+              </div><!-- /.video-track -->
+            </div><!-- /.current-competition-body -->
+            <div class="text-center font-raleway" ng-if="!currentCompetition">
+              <br>No Current Competition
+            </div>
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+      </section><!-- /#current-competition -->
+      <div class="clearfix"></div><!-- /.clearfix -->
+    </div><!-- /.left-side -->
+
+    <div class="center-side">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12">
+          <section id="videos">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="flexbox-header">
+                  <h2>Runners Up</h2>
+                </div><!-- /.flexbox-header -->
+              </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="flexbox" ng-if="runnersUp.length">
+                  <div class="video-track-constant" ng-repeat="runnerUp in runnersUp">
+                    <div class="competition-icon">
+                      <img class="image-size" image-error="{{ _defaults.default_track_image }}" ng-src="{{ cropimage(runnerUp.cover_image,500,500) }}" alt="" />
+                      <span>
+                        <a ng-show="runnerUp.id != _currentTrack.id || runnerUp.type != _currentTrack.type" href="javascript:;" ng-click="playTrack(runnerUp, runnerUp.track_type)">
+                          <i class="fa fa-play-circle player-play-circle"></i>
+                        </a>
+                      </span>
+                      <a ng-if="loadingTrack && runnerUp.id == _currentTrack.id" href="javascript:;" class="image-buffer"><img class="loader-back" ng-src="frontweb/assets/images/ajax-loader.gif"></a>
+                      <a ng-if="runnerUp.id == _currentTrack.id && !loadingTrack && runnerUp.type == _currentTrack.type" href="javascript:;" ng-click="pauseTrack(track)">
+                      <i class="fa fa-pause-circle player-pause-circle"></i>
+                      </a>
+                    </div>
+                      <div class="assets">
+                        <div class="row">
+                          <div class="col-xs-7">
+                            <span title="{{ runnerUp.participated_artist_name }}" class="author default-pointer artist-name-truncate"  ui-sref="app.artist.tracks({slug:runnerUp.participated_artist_slug})">{{runnerUp.participated_artist_name}}</span>
+                          </div><!-- /.col-xs-7 -->
+                          <div class="col-xs-5">
+                            <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{runnerUp.play_count}}</span>
+                          </div><!-- /.col-xs-5 -->
+                        </div><!-- /.row -->
+                        <div class="">
+                          <div class="row">
+                              <div class="col-xs-12">
+                                  <h3 class="track-name-truncate" ng-class="{'blue-btn':runnerUp.track_name.length>26}" title="{{ runnerUp.track_name }}">
+                                    <a ng-class="{'first-link':runnerUp.track_name.length>26} " >{{runnerUp.track_name}}</a></h3>
+                              </div><!-- /.col-xs-12 -->
+                          </div><!-- /.row -->
+                          <div class="row">
+                            <div class="col-xs-12 fix-genre-height">
+                              <ul class="tags">
+                                <li ng-repeat="genres in runnerUp.track_genres">
+                                  <a ui-sref="app.page.discover({ genre : genres.slug })" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}
+                                  </a>
+                                </li>
+                                <li ng-repeat="genres in runnerUp.track_sub_genres">
+                                  <a ui-sref="app.page.discover({ genre : genres.slug })" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}
+                                  </a>
+                                </li>
+                                <li ng-repeat="genres in runnerUp.campaign_moods">
+                                  <a ui-sref="app.page.discover({ mood : genres.slug })" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}
+                                  </a>
+                                </li>
+
+                                <!-- <li>
+                                  <a ng-if="runnerUp.track_genres" href="javascript:;" title="{{ runnerUp.track_genres.name }}" class="genres-truncate">{{runnerUp.track_genres.name }}</a>
+                                </li> -->
+
+                              </ul><!-- /.tags -->
+                            </div><!-- /.col-xs-12 -->
+                          </div><!-- /.row -->
+                        </div>
+                        <div class="clearfix"></div><!-- /.clearfix -->
+                        <div class="buttons">
+                          <div class="row">
+                            <div class="col-xs-4">
+                              <div class="download">
+                                <a ui-sref="app.single_campaign({trackId : runnerUp.slug})">
+                                  <img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+                              </div><!-- /.download -->
+                            </div><!-- /.col-xs-4 -->
+
+                            <div class="col-xs-8">
+                              <div class="add pull-right">
+                                <a href="javascript:;" ng-if="_user" ng-click="_playlistCampaignIds.indexOf(runnerUp.id) >= 0 ? removePlaylistTrack(runnerUp, 'remix') : addPlaylistlModal1(runnerUp, 'remix')"><img ng-src="{{_playlistCampaignIds.indexOf(runnerUp.id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                                <!-- <a href="javascript:;" ng-if="_user" ng-click="addPlaylistlModal1(runnerUp, 'remix')"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+                                <!-- <a href="javascript:;" ng-if="_user"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+
+                                <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()">
+                                    <img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" />
+                                </a>
+                              </div><!-- /.add -->
+                              <div class="love pull-right">
+                                <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()"><i class="fa fa-heart-o fa-lg"></i>
+                                    {{runnerUp.favourite_count}}
+                                </a>
+                                <a href="javascript:;" ng-if="_user" ng-click="addInFavourites(runnerUp, 'campaign')"><i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(runnerUp.id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(runnerUp.id) < 0}"></i> {{runnerUp.favourite_count}} </a>
+                              </div><!-- /.love -->
+                            </div><!-- /.col-xs-8 -->
+                          </div><!-- /.row -->
+                        </div><!-- /.buttons -->
+                        <div class="clearfix"></div><!-- /.clearfix -->
+                    </div><!-- /.assets -->
+                  </div><!-- /.video-track -->
+                </div><!-- /.flexbox -->
+                <div ng-if="loading" class="text-center base-font">
+                  Loading...
+                </div>
+                <!-- <div infinite-scroll="loadMoreRunnerUp()" ></div> -->
+                <div ng-if="!runnersUp.length && !loading" class="font-raleway"><div class="clearfix">&nbsp;</div> No Runners Up </div>
+              </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+          </section><!-- /#videos -->
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+      <div class="clearfix"></div><!-- /.clearfix -->
+    </div><!-- /.center-side -->
+
+    <div class="right-side">
+      <section id="past-competitions">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="past-competitions-header">
+              <h2>Past Competitions</h2>
+            </div><!-- /.past-competitions-header -->
+            <select  id="past-competitions-dropdown" name="past-competitions-dropdown" ng-model="competition">
+              <option value="">Select past competition</option>
+              <option ng-repeat="past in pastCompetition" value="{{past.name}}">{{past.name}}</option>
+            </select>
+            <div ng-if="!pastCompetition.length" class="font-raleway text-center"><div class="clearfix">&nbsp;</div> No Past Competition </div>
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="past-competition-box" ng-repeat="past in pastCompetition | filter : competition ? competition : '' ">
+              <div class="row">
+                <div class="col-md-4">
+                  <img ng-src="{{ past.cover_image }}" image-error="{{_defaults.default_track_image}}" class="past-competition-height" />
+                  <!-- <img src="frontweb/assets/images/img_video-2.jpg" alt="" /> -->
+                </div><!-- /.col-md-4 -->
+                <div class="col-md-8">
+                  <!-- <span class="author">{{past.artist_name}}</span> -->
+                  <a href="javascript:;">
+                    <!-- ui-sref="app.artist.tracks({slug:past.artist_slug})" -->
+                    <span class="author artist-name-truncate" ng-if="past.artist_name!='Sore Thumb Media'">
+                      {{past.artist_name}}
+                    </span>
+                  </a>
+                  <h3 title="{{ past.name }}">{{past.name | cut:true:20:'...'}}</h3>
+                  <span class="date">Competition end:
+                  <span ng-bind="formatDate(past.end_date) | date:'dd MMM yyyy'"></span></span>
+                  <a ui-sref="app.page.past_remix_competition({slug:past.slug})" class="red-button">See all remixes</a>
+                </div><!-- /.col-md-8 -->
+              </div><!-- /.row -->
+            </div><!-- /.past-competition-box -->
+            <!-- <div class="text-center font-raleway" ng-if="!pastCompetition.length">
+              <br>Past Competitions Not Found.
+            </div> -->
+          </div><!-- /.col-xs-12 -->
+        </div><!-- /.row -->
+      </section><!-- /#past-competitions -->
+      <div class="clearfix"></div><!-- /.clearfix -->
+    </div><!-- /.right-side -->
+
+    <div class="clearfix"></div><!-- /.clearfix -->
+  </section><!-- /.remix-competitions -->

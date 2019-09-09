@@ -1,0 +1,40 @@
+<div id="jquery_jplayer_1" class="jp-jplayer" ></div>
+<div ng-show="typeTrack" id="jp_container" class="jp-audio" role="application" aria-label="media player">
+	<div class="row ">
+		<div class="col-xs-12">
+			<div class="player">
+				<div class="row">
+					<div class="col-sm-4 col-xs-3">
+						<span id="starttime" class="time">&nbsp;</span>
+						<!-- <span class="time">00:32</span> -->
+					</div><!-- /.col-sm-4 col-xs-3 -->
+					<div class="col-sm-4 col-xs-6">
+						<div class="player-buttons-wrapper">
+							<ul class="player-buttons">
+								<li class="stm-previous" ng-click="previousTrack()"><a href="javascript:;"><img src="frontweb/assets/images/icon_back-player.svg" alt="Back player" class="back-button svg" /></a></li>
+								<li class="stm-play"><a href="javascript:;"><img src="frontweb/assets/images/icon_play-player.svg" alt="Play player" class="play-button svg" /></a></li>
+								<li class="stm-pause"><a href="javascript:;"><i class="fa fa-pause pause-track" aria-hidden="true"></i></a></li>
+								<li class="stm-next" ng-click="nextTrack()"><a href="javascript:;"><img src="frontweb/assets/images/icon_back-player.svg" alt="Next player" class="next-button svg" /></a></li>
+							</ul>
+						</div><!-- /.player-buttons-wrapper -->
+					</div><!-- /.col-sm-4 col-xs-6 -->
+					<div class="col-sm-4 col-xs-3">
+						<span id="end-time" class="time pull-right ">&nbsp;</span>
+						<!-- <span class="time pull-right">04:56</span> -->
+					</div><!-- /.col-sm-4 col-xs-3 -->
+				</div><!-- /.row -->
+				<div class="row">
+					<!-- <div class="col-xs-12"> -->
+					<div class="col-xs-12 player-progress">
+		                <div class="audio-seekbar stm-seek-bar">
+		                  <div class="level stm-play-bar"></div>
+		                  <div class="level-bg"></div>
+		                </div>
+		            </div>
+						<!-- <img src="frontweb/assets/images/player-line.png" alt="Player line" class="player-line" /> -->
+					<!-- </div> --><!-- /.col-xs-12 -->
+				</div><!-- /.row -->
+			</div><!-- /.player -->
+		</div><!-- /.col-xs-12 -->
+	</div><!-- /.row -->
+</div>

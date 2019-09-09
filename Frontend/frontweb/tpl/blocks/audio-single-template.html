@@ -1,0 +1,39 @@
+<div id="stm_single_player" class="jp-jplayer" ></div>
+<div id="stm_container" class="jp-audio" role="application" aria-label="media player" ng-if="playerSingle.currentTrack " >
+	<div class="row ">
+		<div class="col-xs-12">
+			<div class="player">
+				<div class="row">
+					<div class="col-sm-4 col-xs-3">
+						<span id="starttime" class="time">&nbsp;</span>
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						<div class="player-buttons-wrapper">
+							<ul class="player-buttons">
+								<li class="stm-previous" ng-click="previousTrack()"><a ng-class="{'disabled-link' : !prevNext}" href="javascript:;"><img src="frontweb/assets/images/icon_back-player.svg" alt="Back player" class="back-button svg" /></a></li>
+								<li class="stm-play"><a href="javascript:;"><img src="frontweb/assets/images/icon_play-player.svg" alt="Play player" class="play-button svg" /></a></li>
+								<li class="stm-pause"><a href="javascript:;"><i class="fa fa-pause pause-track" aria-hidden="true"></i></a></li>
+								<li class="stm-next" ng-click="nextTrack()"><a ng-class="{'disabled-link' : !prevNext}" href="javascript:;"><img src="frontweb/assets/images/icon_back-player.svg" alt="Next player" class="next-button svg" /></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-4 col-xs-3">
+						<span id="end-time" class="time pull-right ">&nbsp;</span>
+					</div>
+				</div>
+				<div class="row">
+              		<div class="col-xs-12">
+                		<div ng-style="{display: playerSingle.error ? 'none' : 'block'}" class="stm-progress">
+                  			<div class="stm-seek-bar">
+                    			<div class="stm-play-bar">
+                      				<div class="stm-ball"></div>
+                    			</div>
+                  			</div>
+                		</div>
+                		<span class="text-red track-url" ng-show="playerSingle.error">Error loading media: File could not be played</span>  
+              		</div>
+            	</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,201 @@
+<!-- <div class="modal custom-modal fade" id="DonateModal" tabindex="-1" role="dialog" aria-labelledby="DonateModalLabel"> -->
+  	<!-- <div class="modal-dialog" role="document">
+	    <div class="modal-content text-left"> -->
+	      	<div class="modal-header ">
+	      		<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+		        <h2 class="modal-title" id="DonateModalLabel">Subscription</h2>
+	      	</div>
+	      	<div class="modal-body" id="" ng-controller="SubscriptionCtrl">
+	      		<form  ng-submit="subscriptionForm.$valid && subscriptions(full_name,coupon)"  id="subscriptionForm" name="subscriptionForm"  novalidate>
+		            <div ng-show="serverPaymentResponse" class="row">
+		            	<span class="col-sm-11 text-red mb-sm">{{serverPaymentResponse}}</span>
+		          	</div>
+		          	<div class="row">
+		          	</div>
+		          	<div>
+		          		<div class="mt-sm mb-sm">
+		          			<span>Your Selected Plan : <b>{{plan}} </b></span>
+		          			<span>
+		          			<b>(<span class="euro-symbol" ng-if="price !='0'">£</span>
+		          			{{price !=0 ? price : 'Free'}})
+		          			</b>
+		          			</span>
+		          		</div>
+			          	<!-- <div class="mt-sm mb-sm">
+							<span>£{{ price }}</span>
+						</div> -->
+		          	</div>
+		            <div class="row">
+		                <div class="col-xs-12 col-md-12">
+		                    <!-- CREDIT CARD FORM STARTS HERE -->
+		                    <div class="panel panel-default credit-card-box custom-bg mt-sm">
+		                        <div class="panel-heading display-table custom-bg width-100" >
+		                            <div class="row display-tr" >
+		                                <h3 class="panel-title display-td text-left" >Payment Details</h3>
+		                                <div class="display-td" >                   
+                                                <img class="img-responsive pull-right cards" src="frontweb/assets/images/cards.png">
+                                            </div>
+		                            </div>                    
+		                        </div>
+		                        <div class="panel-body">
+	                                <div class="row">
+	                                    <div class="col-xs-12">
+	                                        <div class="form-group">
+	                                            <label for="cardNumber" class="mb-sm mt-lg-10">FULL NAME</label>
+	                                            <input placeholder="Enter Full Name" 
+	                                            ng-model="full_name" 
+	                                            type="text" 
+	                                            class="form-control" 
+	                                            id="name" 
+	                                            name="name" 
+	                                            data-stripe="name"
+	                                            required>
+	                                            <div class="text-red mt-sm-3" ng-if="subscriptionForm.$submitted">
+									                <div ng-if="subscriptionForm.name.$error.required" class="pages-error font14">
+									                	<span>Please enter name.</span>
+									            	</div>
+									             </div>
+	                                        </div>                            
+	                                    </div>
+	                                </div>
+	                                <div class="row">
+	                                    <div class="col-xs-12">
+	                                        <div class="form-group">
+	                                            <label for="cardNumber" class="mb-sm mt-lg-10">CARD NUMBER</label>
+	                                            <input ng-model="details.card_number"
+	                                            name="card_number" 
+	                                            id="card_number"
+	                                            numbers-only
+	                                            class="form-control" 
+	                                            placeholder="Valid Card Number" 
+	                                            data-stripe="number"
+	                                             required>
+	                                            <div class="text-red mt-sm-3" ng-if="subscriptionForm.$submitted">
+									            	<span class="pages-error font14" ng-show="subscriptionForm.card_number.$error.required">
+												      Please enter card number.</span>
+												    <span class="pages-error font14" ng-show="subscriptionForm.card_number.$error.number">
+												      Please enter valid number.</span>
+									             </div>
+	                                        </div>                            
+	                                    </div>
+	                                </div>
+	                                
+									<div class="row">
+										<div class="col-xs-8 col-md-8">
+											<div class="form-group">
+												<label for="cardExpiry" class="mb-sm mt-lg-10">
+													<span class="hidden-xs">EXPIRATION</span>
+													<span class="visible-xs-inline">EXP</span> DATE</label>
+												<div class="row">
+													<div class="col-md-6 form-group">
+														<!-- <input data-stripe="exp-month" ng-model="donate.month" name="expire_month" id="expire_month"
+														type="number" 
+														class="form-control" 
+														placeholder="MM"
+														autocomplete="cc-exp"
+														maxlength="2"
+														max="12"
+														min="1"
+														required /> -->
+														<select data-stripe="exp-month" name="expire_month" 
+														 ng-model="details.expire_month"
+														id="expire_month"
+														type="number" 
+														class="form-control" 
+														placeholder="MM"
+														autocomplete="cc-exp"
+														required >
+														    <option value="" disabled selected hidden>Select Month</option>
+														    <option value='1'>January</option>
+														    <option value='2'>February</option>
+														    <option value='3'>March</option>
+														    <option value='4'>April</option>
+														    <option value='5'>May</option>
+														    <option value='6'>June</option>
+														    <option value='7'>July</option>
+														    <option value='8'>August</option>
+														    <option value='9'>September</option>
+														    <option value='10'>October</option>
+														    <option value='11'>November</option>
+														    <option value='12'>December</option>
+														    </select>
+														<div class="text-red mt-sm-3" ng-if="subscriptionForm.$submitted">
+															<span class="pages-error font14" ng-show="subscriptionForm.expire_month.$error.required">
+																Please select month.
+															</span>
+														</div>
+													</div>
+													<div class="col-md-6 form-group">
+														<select data-stripe="exp-year" ng-model="details.expire_year" name="expire_year" id="expire_year" 
+														type="number" class="form-control" 
+														placeholder="YYYY" 
+														autocomplete="cc-exp" 
+														required>
+
+									        			<option value="" disabled selected hidden>Select Year</option>
+									        			<option ng-repeat="year in years">{{year}}</option>
+									        		</select>
+
+														<!-- <input data-stripe="exp-year" ng-model="donate.expire_year" name="expire_year" id="expire_year" 
+														type="number" class="form-control" 
+														placeholder="YYYY" 
+														autocomplete="cc-exp" 
+														required  /> -->
+														<div class="text-red mt-sm-3" ng-if="subscriptionForm.$submitted">
+															<span class="pages-error font14" ng-show="subscriptionForm.expire_year.$error.required">
+																Please select year.
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-4 col-md-4 pull-right">
+											<div class="form-group">
+												<label for="cardCVC" class="mb-sm mt-lg-10">CVC CODE</label>
+												<input data-stripe="cvc" ng-model="details.cvc" name="cvc" name="cvc"
+												    type="tel" 
+												    class="form-control" 
+												    placeholder="CVC"
+												    autocomplete="cc-csc"
+												    required />
+												<div class="text-red mt-sm-3" ng-if="subscriptionForm.$submitted">
+												    <span class="pages-error font14" ng-show="subscriptionForm.cvc.$error.required">
+												    	Please enter CVC.
+												    </span>
+												</div>
+											</div>
+										</div>
+									</div> 
+	                                <div class="row" ng-show="plan=='Gating, Discover & Videos'">
+	                                    <div class="col-xs-12">
+	                                    	<div class="form-group">
+	                                    		<input placeholder="Enter Coupon Code" ng-model="coupon" type="text" class="form-control" id="coupon" name="coupon">
+	                                        	<div class="text-red mt-sm-3" ng-if="subscriptionForm.$submitted">
+								                	<!-- <div ng-if="subscriptionForm.coupon.$error.required" class="pages-error font14">
+								                		<span>Please enter name.</span>
+								            		</div> -->
+								             	</div>
+										    </div>
+	                                    </div>                        
+	                                </div>
+	                                <div class="row">
+	                                    <div class="col-xs-12">
+	                                        <input type="submit" class="subscribe btn btn-success btn-lg btn-block text-uppercase br-sm" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Subscribe' }}">
+	                                    </div>
+	                                </div>
+		                        </div>
+		                    </div>            
+		                    <!-- CREDIT CARD FORM ENDS HERE -->
+		                </div>            
+		            </div>
+		        </form>
+	        </div>
+	    <!-- </div>
+ 	</div> -->
+<!-- </div> -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+

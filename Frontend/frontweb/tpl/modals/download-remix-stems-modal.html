@@ -1,0 +1,43 @@
+<div class="landing-page-modals ">
+	<div class="modal fade" id="downloadRemixStemsModal" tabindex="-1" role="dialog" aria-labelledby="downloadRemixStemsModalLabel">
+	  	<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+			        <h2 class="modal-title" id="downloadRemixStemsModalLabel">Download Remix Stems</h2>
+		      	</div>
+		      	<div class="modal-body" ng-if="currentCompetition">
+		        	<h3>Competition Rules</h3>
+
+		        	<p>The stems provided are for remixing the original track. Please do not use these stems in your own production and claim them as your own (unless submitting the track to this competition). This is a breach of our <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a>.</p>
+		        	<ul>
+		        		<!--<li>All remixes must be uploaded to Soundcloud but kept private with download enabled.</li>
+		        		<li>Once you have created your remix, do not circulate this through any promotional channels, record labels etc. until the competition winners have been announced</li>
+		        		<li>Credit all artists involved in creating this remix</li>-->
+						<!--<li>Please upload your remix to Soundcloud as a private track when you are ready to submit it to us.</li>
+						<li>Credit all artists involved in creating this remix.</li>
+						<li>Feel free to upload your remix to your STM profile & Soundcloud.</li>-->
+		        	</ul>
+
+		        	<h3>Competition Prizes</h3>
+
+		        	<ul class="competition-prizes-list reset-ul">
+		        		<li><strong>1st Place</strong><br/>
+		        			{{currentCompetition.price_1}}
+		        		</li>
+		        		<li><strong>2nd Place</strong><br/>
+		        			{{currentCompetition.price_2}}
+		        		</li>
+		        		<li><strong>3rd Place</strong><br/>
+		        			{{currentCompetition.price_3}}
+		        		</li>
+		        	</ul><!-- /.competition-prizes-list -->
+
+		        	<p>If you have understood these rules, download the stems using the link below. Good luck!</p>
+
+		        	<a download target="_blank"  href="{{currentCompetition.stem_file}}" class="download-stems ">Download stems</a>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+</div>

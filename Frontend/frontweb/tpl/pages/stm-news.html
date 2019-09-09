@@ -1,0 +1,130 @@
+  <div class="background-image background-cover" 
+  ng-style="{'background-image': 'url('+_defaults.default_banner_image+')'}">
+    <div class="vertical-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>STM News</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="hero-video">
+    <div id="video_embed_container" class='video_embed_container'>
+      <iframe id="video_dashboard" src="https://player.vimeo.com/video/177045131?api=1&background=1&autoplay=1&loop=1"></iframe>
+    </div>
+  </div> -->
+
+  <div class="about-stm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2>The come-to place to discuss news around Sore Thumb Media and the music industry with like-minded members.</h2>
+        </div><!-- /.col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div><!-- /.about-stm -->
+
+  <div class="parallax-window banner" data-parallax="scroll" data-bleed="10" data-image-src="frontweb/assets/images/homepage/bgd_artists-say.jpg" ng-init="getNews()">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <section id="banner-music-videos" class="banner-inner">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2>Most Recent News Story</h2>
+              </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+            <style>
+              .news-content p{font-size: 11px !important;}
+            </style>
+            <div class="row" ng-if="topNews">
+              <div class="row-height">
+                <div class="col-md-8 col-sm-8 col-sm-height col-sm-top custom-padding" >
+                  <div>
+                    <a ui-sref="app.page.stm_news_single({slug:topNews.slug})">
+                      <img ng-src="{{topNews.image_name}}" image-error="{{_defaults.default_news_image}}" class="img-responsive" alt=""/>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-sm-height col-sm-top">
+                  <div class="video-track-constant news-content news-content-height truncate" >
+                    <div class="assets">
+                      <div class="news-fixed-size">
+                        <div class="row">
+                          <div class="col-xs-7">
+                            <span class="author" ui-sref="app.page.stm_news_single({slug:topNews.slug})">{{ topNews.name }}</span>
+                          </div><!-- /.col-xs-7
+                          <div class="col-xs-5">
+                            <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> 184</span>
+                          </div><!-- /.col-xs-5 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                              <a ui-sref="app.page.stm_news_single({slug:topNews.slug})">
+                                <h3 title="{{ topNews.title }}">{{ topNews.title | cut:true:20:' ...' }}</h3>
+                              </a>
+                                <p ng-bind-html="topNews.description | cut:true:100:' ...' | trustAsHTML"></p>
+                            </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                              <ul class="tags" ng-if="topNews.tags">
+                                <li ng-repeat="tag in topNews.tags.split(',') | limitTo : 3"><a class="tag" ui-sref="app.page.stm_news({'q':tag})">{{tag}}</a></li>
+                               <!--  <li><a href="javascript:;">EDM</a></li>
+                                <li><a href="javascript:;">Trance</a></li> -->
+                              </ul><!-- /.tags -->
+                            </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                      </div>
+                      <div class="clearfix"></div><!-- /.clearfix -->
+                    </div><!-- /.assets -->
+                  </div><!-- /.video-track -->
+                </div><!-- /.col-md-4 col-sm-height col-sm-top -->
+              </div><!-- /.row-height -->
+            </div><!-- /.row -->
+            <div ng-if="!topNews" class="text-center text-gray font-raleway">News Not Found</div>
+          </section><!-- /#banner-music-videos -->
+        </div><!-- /.col-md-10 col-md-offset-1 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div><!-- /.banner -->
+
+  <section id="stm-news">
+    <h2 class="hide">Sore Thumb Media News</h2><!-- /.hide -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12" ng-if="viewAll">
+            <a href="/news" class="form-btn btn-red border-1 pull-right view-news"> ALL NEWS </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 col-sm-6" ng-repeat="news in allNews">
+          <div class="news">
+            <a ui-sref="app.page.stm_news_single({slug:news.slug})">
+              <div ng-if="!news.image_name" class="background-cover" style="background-image: url(frontweb/assets/images/img_cover-nomask.jpg);"></div><!-- /.bacground-cover -->
+              <div ng-if="news.image_name" class="background-cover" 
+              ng-style="{'background-image': 'url('+news.image_name+')'}"></div><!-- /.bacground-cover -->
+            </a>
+            <div class="news-body stm-news-body">
+              <h3 title="{{ news.title }}" class="default-pointer" ui-sref="app.page.stm_news_single({slug:news.slug})">{{ news.title | cut:true:20:' ...' }}</h3>
+              <div class="details">
+                <span><b>Posted</b>: </span><span class="text-black" ng-bind="formatDate(news.created_at) | date:'MMM dd, yyyy'"></span>
+                <span><b>By</b>: </span><span class="text-black">{{ news.name }}</span>
+                <span ng-if="news.comment_count > 0"><b>Comment</b>: </span><span ng-if="news.comment_count > 0" class="text-black">{{ news.comment_count }}</span>
+              </div><!-- /.details -->
+              <p title="{{ news.description }}" ng-bind-html="news.description | cut:true:60:' ...' | trustAsHTML"></p>
+            </div><!-- /.news-body -->
+          </div><!-- /.news -->
+          
+        </div><!-- /.col-md-3 col-sm-6 -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->    
+    <div ng-if="loading" class="text-center base-font">
+      <div class="clearfix">&nbsp;</div>
+      Loading...
+    </div>
+    <!-- <div ng-if="!allNews.length && !loading" class="h-300 text-center base-font"> No News Found  </div> -->
+    <div infinite-scroll="loadMoreNews()" ></div>
+  </section><!-- /#stm-news -->

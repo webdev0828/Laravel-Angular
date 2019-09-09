@@ -1,0 +1,196 @@
+<div class="">
+
+	<div class="background-blur-image"></div><!-- /.background-blur-image -->
+
+	<!-- Navigation -->
+    <nav class="navbar navbar-default wow fadeInDown" data-wow-duration="1s" role="navigation">
+        <h2 class="hide">Main navigation</h2><!-- /.hide -->
+        <div class="container single-track-container">
+            <div class="navbar-header page-scroll">
+                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button> -->
+                <a class="page-scroll" ui-sref="app.page.dashboard"><img ng-src="{{cropimage('frontweb/assets/images/stm_logo.png',254)}}" alt="Sore Thumb Media Throbbing with talent" /></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-if="_user">
+                        <a ng-if="_user && _user.user_type =='stm_user'" ui-sref="app.user.profile"> Go back to profile
+                        </a>
+                        <a ng-if="_user && _user.user_type =='artist'" ui-sref="app.artist.tracks({slug:_user.slug})"> Go back to profile
+                        </a>
+                    </li>
+                    <li ng-if="!_user">
+                        <a ui-sref="index"> Go back to profile
+                        </a>
+                    </li>
+                </ul>
+            </div> -->
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div class="container">
+    	<div class="row">
+    		<div class="col-xs-12">
+    			<div class="">
+					<div class="row">
+		        		<div class="col-xs-12">
+							<!--  join-us Modal -->
+							<div class="custom-sign-in-modal">
+							  	<div class="custom-modal-dialog" role="document">
+								    <div class="custom-modal-content">
+								      	<div class="custom-modal-header">
+									        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+									        <h2 class="modal-title" id="joinUsUserModalLabel">Join Us Today</h2>
+								      	</div>
+								      	<div class="custom-modal-body">
+								        	<a ng-if="user.user_type" ng-click="facebookConnect()" target="_blank" class="sign-up-facebook default-pointer"><i class="fa fa-facebook"></i> <span>Sign up with Facebook</span></a>
+                                            <input type="hidden" ng-model="user.provider">
+                                            <input type="hidden" ng-model="user.provider_user_id">
+                                            <input type="hidden" ng-model="user.first_name">
+                                            <input type="hidden" ng-model="user.last_name">
+
+								        	<h3>Or Sign Up With Email Below</h3>
+								        	<form ng-submit="signupForm.$valid && (connect && soundCloudTracks.length > 0 || user.user_type != 'artist') && signup(user)" name="signupForm" id="signupForm" novalidate >
+                                                <select name="account_type" id="accountType" ng-init="user.user_type = user.user_type"  ng-model="user.user_type" required>
+                                                    <option value="" disabled selected hidden>Select Account Type</option>
+                                                    <option data-placeholder="Artist Name" value="artist" ng-selected="user.user_type == 'artist'">Artist</option>
+                                                    <option data-placeholder="Profile Name" value="stm_user" ng-selected="user.user_type == 'stm_user'">User</option>
+                                                </select>
+                                                <span class="text-red" ng-if="signupForm.$submitted">
+                                                    <div ng-if="signupForm.account_type.$error.required" class="error">
+                                                        <span>Please select user type.</span>
+                                                    </div>
+                                                 </span>
+                                                <input type="text" name="name" id="name" ng-model="user.name" placeholder="{{ user.user_type == 'artist' ? 'Artist name' : (user.user_type == 'stm_user' ?  'Profile name' : 'Enter Name') }}  " required/>
+                                                <span class="text-red" ng-if="signupForm.$submitted">
+                                                    <div ng-if="signupForm.name.$error.required" class="error">
+                                                        <span>Please enter name.</span>
+                                                    </div>
+                                                 </span>
+                                                <input ng-disabled="user.provider" type="email" name="email" ng-model="user.email" placeholder="Email" required />
+                                                <span class="text-red" ng-if="signupForm.$submitted">
+                                                    <div ng-if="errors['email']"  class="error">
+                                                        <div> {{ errors['email'][0] }} </div>
+                                                    </div>
+                                                    <div class="error" ng-if="signupForm.email.$error.email">
+                                                        {{ errors['email'][0] ='' }}
+                                                        <span> Please enter valid email. </span>
+                                                    </div>
+                                                    <div  ng-if="signupForm.email.$error.required" class="error">
+                                                        {{ errors['email'][0] ='' }}
+                                                        <span>Please enter email.</span>
+                                                    </div>
+                                                 </span>
+                                                <!-- Secret token For facebook users -->
+                                                <!-- <input ng-if="user.provider" type="text" name="secret_token" ng-model="user.secret_token" placeholder="Secret token" required required/>
+                                                <span  class="text-red" ng-if="signupForm.$submitted && user.provider">
+                                                    <div  ng-if="signupForm.secret_token.$error.required" class="error">
+                                                        <span>Please enter secret token.</span>
+                                                    </div>
+                                                 </span> -->
+
+                                                <input ng-if="!user.provider" type="password" name="password" id="password" ng-model="user.password" placeholder="Password" minlength="4" required/>
+                                                <div class="text-red" ng-if="signupForm.$submitted">
+                                                    <div ng-if="errors['password']" class="error">
+                                                        <div > {{ errors['password'][0] }} </div>
+                                                    </div>
+                                                    <div  class="error" ng-if="signupForm.password.$error.required">
+                                                        {{ errors['password'][0] ='' }}
+                                                        Please enter password.
+                                                    </div>
+                                                    <div ng-if="signupForm.password.$error.minlength" class="error">The password must be at least 4 characters.</div>
+                                                 </div>
+                                                <input ng-if="!user.provider" type="password" name="confirm_password"ng-model="user.confirm_password" placeholder="Confirm Password" pw-check="password" required/>
+                                                <div class="text-red" ng-if="signupForm.$submitted">
+                                                    <div ng-if="errors['confirm_password']" class="error">
+                                                        <div> {{ errors['confirm_password'][0] }} </div>
+                                                    </div>
+                                                    <div class="error" ng-if="signupForm.confirm_password.$error.required">
+                                                        <span>
+                                                            {{ errors['confirm_password'][0] =''}} 
+                                                            Please enter confirm password. 
+                                                        </span>
+                                                    </div>
+                                                    <div class="error" ng-if="signupForm.confirm_password.$error.pwmatch">
+                                                      {{ errors['confirm_password'][0] =''}} 
+                                                      {{ signupForm.confirm_password.$error.required = ''}}
+                                                      Password's does not  match.</div>
+                                                 </div>
+                                                <input type ="hidden" ng-model="user.access_token">
+                                                <!-- <input type="submit" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Sign up now' }}" /> -->
+                                                <button type="button" ng-show="user.user_type == 'artist'" href="#" ng-click="connectSc()" class="connect-soundcloud custom-connect-soundcloud no-animate" ng-class="{'button-grey': connect}" ng-disabled="connect">
+                                                    <i class="fa fa-soundcloud"></i> 
+                                                    <span>{{ connect ? 'Connected' : 'Connect to SoundCloud' }}</span>
+                                                </button>
+
+                                                <span class="text-red" ng-if="user.user_type == 'artist' && signupForm.$submitted && !connect">
+                                                    <div class="error">
+                                                        <span>Please connect to soundcloud.</span>
+                                                    </div>
+                                                </span>
+
+                                                <span class="text-red" ng-if="connect && !soundCloudTracks.length && !loading">
+                                                    <div class="error">
+                                                        <span>Soundcloud tracks not found.</span>
+                                                    </div>
+                                                </span>
+                                                <div ng-show="user.user_type == 'artist'">
+                                                    <h3>Select A Track</h3>
+                                                    <p>Sore Thumb Media is a quality controlled platform. For you to obtain an artist profile we will need to hear your sounds first. Once you have connected to Soundcloud please select your best free track to date from the list below. You will be notified if you are accepted as an artist. Until then, check out what we have to offer across the platform!</p>
+                                                    <p class="note" style="font-size:12px">Please note: If your demo is not accepted, you may not submit a track to us for 2 months.</p>
+
+                                                    <!-- <div class="radio-toolbar">
+                                                        <input type="radio" id="radio1" name="radios" value="all" checked>
+                                                        <label for="radio1">This is first track name</label>
+
+                                                        <input type="radio" id="radio2" name="radios"value="false">
+                                                        <label for="radio2">Second track name</label>
+
+                                                        <input type="radio" id="radio3" name="radios" value="true">
+                                                        <label for="radio3">Third track</label>
+                                                    </div> -->
+
+                                                    <select ng-if="user.user_type == 'artist'" ng-model="user.soundcloud_track" name="trackName"
+                                                id="trackName"
+                                                class="form-control sc-tracks" ng-options="tracks as tracks.title for tracks in soundCloudTracks" required ng-change = "update(track)" ng-disabled="!(connect && soundCloudTracks.length > 0)">
+                                                      <option value="" disabled selected hidden>Select Track</option>
+                                                    </select>
+                                                    <span class="text-red" ng-if="signupForm.$submitted">
+                                                        <div ng-if="signupForm.trackName.$error.required" class="error">
+                                                            <span>Please select track.</span>
+                                                        </div>
+                                                     </span>
+
+                                                    <p class="text-red">PLEASE BE AWARE</p>
+                                                    <p>- <!-- Artists with 20,000+ Soundcloud followers will not be able to use the platform until the next phase of Sore Thumb Media has been introduced. That being said, you will still be eligible to use our gating services. -->If we believe you are over qualified to use the platform as an artist, we will not be able to accept you until the next phase of Sore Thumb Media has been introduced.</p>
+                                                    <p>- Even though we are a multi-genre music platform, we currently do not accept Hip-Hop, Rap, R&B or Acoustic</p>
+
+                                                    <input type="submit" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Sign up now' }}" />
+                                                </div>
+                                                <input ng-if="user.user_type != 'artist'" type="submit"  value="{{ isSubmitting ? 'Processing...' : 'Sign up now' }}" />
+                                                <!-- <span ng-if ="isSubmitting" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> -->
+                                            </form>
+
+								        	<span class="have-an-account">Already have an account? <a ui-sref="signin">Login</a></span>
+
+								        	<span class="footer">
+								        		We will never post to Facebook without your permission. By creating an account, you agree to our <a ui-sref="app.page.terms" class="animsition-link">Terms</a> and <a ui-sref="app.page.privacy" class="animsition-link">Privacy Policy</a>.
+								        	</span>
+								      	</div>
+								    </div>
+							 	</div>
+							</div>
+		        		</div><!-- /.col-xs-12 -->
+    				</div><!-- /.row -->
+    			</div><!-- /.subscriptions-box -->
+    		</div><!-- /.col-xs-12 -->
+    	</div><!-- /.row -->
+    </div><!-- /.container -->
+</div><!-- /.animsition -->

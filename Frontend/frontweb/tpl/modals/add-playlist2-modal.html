@@ -1,0 +1,30 @@
+<div class="modal fade custom-modal" id="addToPlaylistModal2" tabindex="-1" role="dialog" aria-labelledby="addToPlaylistModal2Label">
+  	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      	<div class="modal-header">
+		        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+		        <h2 class="modal-title" id="addToPlaylistModal2Label">Add To Playlist</h2>
+	      	</div>
+	      	<div class="modal-body">
+	        	<h3>Want to existing playlist or create a new one{{list.trackId}}</h3>
+
+	        	<form ng-submit="(!list.required_error) && addInPlaylist(list)" name="trackForm" class="trackForm">
+					
+					<input type="hidden" name="trackId" ng-model="list.trackId">	
+					
+					<p ng-if="!list.required_error && _error.msg" class="text-red error">{{ _error.msg }}</p>
+					<p ng-if="list.required_error" class="text-red error">Please select playlist or add new</p>
+
+	        		<select ng-disabled="list.playlist_name" ng-options="opt.id as opt.name for opt in _playlists" ng-model="list.playListId" name="playListId">
+                        <option value="">- Select playlist -</option>
+                    </select>
+
+					<input type="text" name="playlist_name" ng-model="list.playlist_name" ng-disabled="list.playListId" placeholder="Create playlist" />
+					
+	        		<input type="submit" ng-click="list.required_error = (!list.playlist_name.length) && (!list.playListId)" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Create playlist' }}" />
+	        	</form>
+	      	</div>
+	    </div>
+ 	</div>
+</div>
+	

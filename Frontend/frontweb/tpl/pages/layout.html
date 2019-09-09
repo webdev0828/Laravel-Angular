@@ -1,0 +1,50 @@
+<div  ng-include=" 'frontweb/tpl/blocks/navbar.html' " include-replace></div>
+<ui-view autoscroll="false"></ui-view>
+<div class="footer-height"></div>
+<footer>
+    
+	<div class="container-fluid">
+	  <div class="col-sm-6 col-xs-12">
+	    <ul>
+            <li>
+                <a ng-href="{{ globalObj.socialLinks.soundcloud }}" target="_blank">
+                    <div class="vertical-center">
+                        <i class="fa fa-soundcloud"></i>
+                    </div><!-- /.vertical-center -->
+                </a>
+            </li>
+            <li>
+                <a ng-href="{{ globalObj.socialLinks.facebook }}" target="_blank">
+                    <div class="vertical-center">
+                        <i class="fa fa-facebook"></i>
+                    </div><!-- /.vertical-center -->
+                </a>
+            </li>
+            <li>
+                <a ng-href="{{ globalObj.socialLinks.twitter }}" target="_blank">
+                    <div class="vertical-center">
+                        <i class="fa fa-twitter"></i>
+                    </div><!-- /.vertical-center -->
+                </a>
+            </li>
+            <li>
+                <a ng-href="{{ globalObj.socialLinks.youtube }}" target="_blank">
+                    <div class="vertical-center">
+                        <i class="fa fa-youtube"></i>
+                    </div><!-- /.vertical-center -->
+                </a>
+            </li>
+            <li>
+                <a ng-href="{{ globalObj.socialLinks.instagram }}" target="_blank">
+                    <div class="vertical-center">
+                        <i class="fa fa-instagram"></i>
+                    </div><!-- /.vertical-center -->
+                </a>
+            </li>
+        </ul>
+	  </div><!-- /.col-sm-6 -->
+	  <div class="col-sm-6 col-xs-12">
+	    <span><a class="text-grey" ui-sref="app.page.terms" target="_blank"> Terms & Conditions</a> | © {{ currentDate | date:'yyyy' }} <a class="text-grey" ui-sref="app.page.dashboard">{{ globalObj.appName }}</a> All Rights Reserved</span>
+	  </div><!-- /.col-sm-6 -->
+	</div><!-- /.container-fluid -->
+</footer>

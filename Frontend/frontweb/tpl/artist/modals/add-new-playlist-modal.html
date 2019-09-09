@@ -1,0 +1,27 @@
+<div class="landing-page-modals" id="addPlaylist">
+	<div class="modal fade" id="addNewPlaylist" tabindex="-1" role="dialog" aria-labelledby="addToPlaylistModal2Label">
+	  	<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+			        <h2 class="modal-title" id="addToPlaylistModal2Label">Add New Playlist</h2>
+		      	</div>
+		      	<div class="modal-body">
+		        	<h3>Create a new playlist</h3>
+
+		        	<form ng-submit="addPlaylistForm.$valid && addNewPlaylist(playlist)" name="addPlaylistForm" id="addPlaylistForm" class="trackForm" novalidate>
+		        		<span ng-if="error.msg" class="text-red pages-error">{{ error.msg }}</span>
+		        		<span class="text-red pages-error" ng-show="addPlaylistForm.$submitted">
+			                <span ng-if="addPlaylistForm.playlist_name.$error.required">{{ error.msg='' }}
+			                Please enter playlist name.</span>
+			            </span>
+			            <!-- <span ng-if="addPlaylistForm.playlist_name.$error.required"></span> -->
+		        		<input type="text" name="playlist_name" ng-model="playlist.playlist_name" placeholder="Playlist name" required>
+
+		        		<input type="submit" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Create playlist' }}" />
+		        	</form>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+</div>	

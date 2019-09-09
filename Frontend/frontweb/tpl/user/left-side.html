@@ -1,0 +1,127 @@
+<div class="left-side">
+  
+  <section id="artist">
+    <div class="image-wrapper">
+      <div class="left-profile">
+      <!-- <img ng-src="{{ cropimage(artist.avatar ? userprofile.avatar : _defaults.default_profile_image, 200, 200) }}" image-error="frontweb/assets/images/admin/empty_profile.jpg" class="img-circle img-circle-profile" /> -->
+
+        <a ng-click="userImagePreview(artist.avatar ? artist.avatar : _defaults.default_profile_image, userprofile.name)">
+          <img ng-src="{{ cropimage(artist.avatar ? artist.avatar : _defaults.default_profile_image, 500, 500) }}" image-error="{{_defaults.default_profile_image}}" class="img-circle profile-avatar-lg img-circle-profile default-pointer circle-img-bg-white" image-preload=""/>
+        <!-- <img class="img-circle profile-avatar-lg img-circle-profile" get-image="artist.avatar ? artist.avatar : _defaults.default_profile_image" bg-preload=""/> -->
+        </a>
+
+        <div class="upload-button" ng-show="artist.slug == _user.slug">
+          <!--<input id="upload" name="left_upload_artwork" accept="image/*" type="file" file-model ng-model="userprofile.profile" custom-on-change="updateUserProfileImage" style="display: none;" ng-required="!userprofile.profile">-->
+          <input id="upload" name="left_upload_artwork" accept="image/*" type="file" file-model ng-model="userprofile.profile" custom-on-change="cropImageModal" style="display: none;" ng-required="!userprofile.profile">
+          <button class="btn-default uploadfile"><i class="fa fa-camera" aria-hidden="true"></i> Update Image</button>
+        </div>
+      </div>  
+      <!-- <div class="circle-star">
+        <i class="fa fa-star"></i>
+      </div><!-- /.star --> 
+    </div><!-- /.image-wrapper -->
+    <div class="row">
+      <div class="col-xs-12">
+        <span class="text-red error" ng-if="leftImageError">Please select image from 201*201 and more.
+        </span>        
+      </div><!-- /.col-xs-12 -->
+    </div><!-- /.row -->
+    <h2 class="wrap">{{userprofile.name | cut:true:10:' ...'}}</h2> 
+    <div class="socials-wrapper">
+      <ul class="socials" ng-if="userprofile.souncloud_url || userprofile.facebook_url || userprofile.twitter_url || userprofile.youtube_url || userprofile.instagram_url">
+        <li ng-if="userprofile.souncloud_url">
+          <a target="_blank" ng-href="{{ userprofile.souncloud_url ? userprofile.souncloud_url:''}}" >
+            <div class="vertical-center">
+              <i class="fa fa-soundcloud"></i>
+            </div><!-- /.vertical-center -->
+          </a>
+        </li>
+        <li ng-if="userprofile.facebook_url">
+          <a target="_blank" ng-href="{{ userprofile.facebook_url ? userprofile.facebook_url:''}}" >
+            <div class="vertical-center">
+              <i class="fa fa-facebook"></i>
+            </div><!-- /.vertical-center -->
+          </a>
+        </li>
+        <li ng-if="userprofile.twitter_url">
+          <a target="_blank" ng-href="{{ userprofile.twitter_url ? userprofile.twitter_url:''}}" >
+            <div class="vertical-center">
+              <i class="fa fa-twitter"></i>
+            </div><!-- /.vertical-center -->
+          </a>
+        </li>
+        <li ng-if="userprofile.youtube_url">
+          <a target="_blank" ng-href="{{ userprofile.youtube_url ? userprofile.youtube_url:''}}" >
+            <div class="vertical-center">
+              <i class="fa fa-youtube"></i>
+            </div><!-- /.vertical-center -->
+          </a>
+        </li>
+        <li ng-if="userprofile.instagram_url">
+          <a target="_blank" ng-href="{{ userprofile.instagram_url ? userprofile.instagram_url:''}}" >
+            <div class="vertical-center">
+              <i class="fa fa-instagram"></i>
+            </div><!-- /.vertical-center -->
+          </a>
+        </li>
+      </ul><!-- /.socials -->
+    </div><!-- /.socials-wrapper -->
+    <!-- <div ng-controller="FollowCtrl">
+      <a  href="javascript:;" class="red-button" ng-click="_followingTo.indexOf(userprofile.user_id) != -1 ? UnfollowArtist() : FollowArtist()" 
+      ng-show="_user.id!==userprofile.user_id" 
+      ng-class="{disable: _followingTo.indexOf(userprofile.user_id) != -1 }" >
+      {{ _followingTo.indexOf(userprofile.user_id) != -1 ? 'Unfollow' : 'Follow' }}
+      </a>
+    </div> -->
+    <ul class="description">
+      <li ng-if="userprofile.website"><i class="fa fa-link"></i><a href="{{ userprofile.website }}" target="_blank" class="wrap">{{userprofile.website}}</a></li>
+      <li ng-if="userprofile.city && userprofile.country"><i class="fa fa-map-marker"></i>{{ userprofile.city | capitalize}}, {{ userprofile.country}}</li>
+      <li ng-if="userprofile.genres.length > 0">
+        <i class="fa fa-music"></i>
+        <ul class="tags">
+          <li ng-repeat="genres in userprofile.genres"><a href="javascript:;">{{genres.name}}</a></li>
+        </ul><!-- /.tags -->
+      </li>
+      <div class="clearfix"></div><!-- /.clearfix -->
+    </ul><!-- /.desciption -->
+  </section><!-- /#artist -->
+
+  <section id="artist-bio" ng-init="editing= false">
+    <div class="title-wrapper user-bio" >
+      <!-- <h2>Artist Bio</h2> -->
+      <h2 ng-if="user.id == userprofile.user_id || userprofile.bio !='' ">Bio</h2>
+      <h2 ng-if="userprofile.bio =='' && user.id != userprofile.user_id"></h2>
+      <a href="javascript:;" class="color-black" ng-show="user.id == userprofile.user_id">
+        <i ng-hide="editing" class="fa fa-pencil-square-o pull-right artist-bio-edit" ng-click ="editing = true;" aria-hidden="true" event-focus="click" event-focus-id="myDiv">
+        </i>
+      </a>
+    </div><!-- /.title-wrapper -->
+    <!-- <p ng-if="!editing" class=" wrap"  spellcheck="false" name="bio" id="myDiv"  ng-class="{'edit':editing,'empty-bio':userprofile.bio==''}" ng-hide="userprofile.bio=='' && !editing" ng-model="userprofile.bio" strip-br="true"  hm-read-more 
+        hm-text="{{ userprofile.bio }}" 
+        hm-limit="250" 
+        hm-more-text="read more" 
+        hm-less-text="read less"
+        hm-dots-class="dots"
+        hm-link-class="links"></p> -->
+    <!-- ng-text-truncate="userprofile.bio" ng-tt-chars-threshold="500" -->
+    <p ng-if="!editing"  id="myDiv" class="user_content wrap" ng-class="{'edit':editing,'empty-bio':userprofile.bio=='',less: hidden}" ng-model="userprofile.bio" contenteditable="{{editing}}" strip-br="true" spellcheck="false" ng-hide="userprofile.bio=='' && !editing"></p>
+    <div class="link" ng-show="!editing">                
+      <a id="readmore"  ng-click="hidden = !hidden">{{hidden ? 'Read more' :'Read less' }} </a>
+    </div>
+    <p ng-if="editing" class=" wrap"  spellcheck="false" name="bio" id="myDiv"  ng-class="{'edit':editing,'empty-bio':userprofile.bio==''}" ng-hide="userprofile.bio=='' && !editing" ng-model="userprofile.bio" strip-br="true" contenteditable="{{editing}}"></p>
+
+    <input ng-show="editing" ng-click="updateBio(artist);editing=false;" type="submit" class="form-btn btn-red"  value="Update Bio">
+    <button ng-show="editing" ng-click="editing=false;userprofile.bio=userprofile.oldBio" class="form-btn btn-black">Cancel</button>
+    
+    <p event-focus="click" event-focus-id="myDiv" ng-model="userprofile.bio" ng-hide="editing" data-text="Enter text here" ng-class="{'edit':!editing , 'empty-bio':userprofile.bio==''}"
+      contenteditable="true" ng-click ="editReset();" ng-if="userprofile.bio=='' && user.id == userprofile.user_id">{{userprofile.bio}}</p>
+
+    <p ng-model="userprofile.bio" ng-hide="editing" ng-if="userprofile.bio=='' && user.id != userprofile.user_id">{{userprofile.bio}}</p>
+  </section><!-- /#artist-bio -->
+
+  
+</div><!-- /.left-side -->
+
+<script type="text/ng-template" id="donation-modal.html">
+    <div data-ng-include=" 'frontweb/tpl/modals/donate-modal.html' "></div>
+</script>

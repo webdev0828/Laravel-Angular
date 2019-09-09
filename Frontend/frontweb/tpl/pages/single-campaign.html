@@ -1,0 +1,743 @@
+<div class="background-blur-image parent">
+	<div class="child">&nbsp</div>
+</div><!-- /.background-blur-image -->
+
+<!-- Navigation -->
+<nav class="navbar navbar-default wow fadeInDown" data-wow-duration="1s" role="navigation">
+    <h2 class="hide">Main navigation</h2><!-- /.hide -->
+    <div class="container single-track-container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="" ui-sref="index"><img ng-src="{{cropimage('frontweb/assets/images/stm_logo_white_black_stroke.png',254)}}" alt="Sore Thumb Media Throbbing with talent" /></a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse" ng-if="httpReferrer.indexOf('sorethumbmedia.co.uk') !=-1">
+
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="javascript:;"  ng-click="goBack()">Back</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+<div ng-if="typeTrack" class='speaker' data-audio="audio" data-autoplay="false" data-pauseothers="true" jplayer></div>
+<!--<div ng-if="typeTrack" class='speaker' data-audio="audio" data-autoplay="true" data-pauseothers="true" jplayer-single></div>-->
+
+<div class="container" id="single-track" ng-cloak>
+	<div class="row">
+		<div class="col-lg-6 col-xs-12 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+			<div class="track-wrapper">
+				<div class="row">
+					<div class="col-sm-8">
+						<div class="row">
+							<div class="col-xs-3">
+								<a ng-if="_user" ui-sref="app.artist.tracks({slug:track.artist_slug})" href="">
+									<img ng-src="{{cropimage(track.avatar,200,200)}}" image-error="{{_defaults.default_profile_image}}" class="img-circle" alt="Artist name" />
+								</a>
+								<a ng-if="!_user" href="javascript:;" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()">
+									<img ng-src="{{cropimage(track.avatar,200,200)}}" image-error="{{_defaults.default_profile_image}}" class="img-circle" alt="Artist name" />
+								</a>
+							</div><!-- /.col-sm-3 -->
+							<div class="col-xs-9">
+								<!-- <span class="author default-pointer" ui-sref="app.artist.tracks({slug:track.artist_slug})">{{track.artist_name | cut:true:12:'...'}}</span> -->
+								<span class="author default-pointer"  ui-sref="app.artist.tracks({slug:track.artist_slug})">{{track.artist_name | cut:true:12:'...'}}</span>
+
+								<h1 class="track-name-truncate"  ng-class="{'blue-btn':track.track_name.length>26}" title="{{ track.track_name }} " style="width:auto"><a ng-class="{'first-link':track.track_name.length>26} " style="font-size:22px;color:#fff"> {{track.track_name }} </a></h1>
+							</div><!-- /.col-sm-9 -->
+						</div><!-- /.row -->
+					</div><!-- /.col-sm-8 -->
+					<div class="col-sm-4">
+						<div class="row" ng-if="track.spotify_url || track.souncloud_url || track.facebook_url || track.twitter_url_link || track.youtube_url || track.instagram_url">
+							<div class="col-xs-12">
+								<ul class="social-links pull-right">
+									<li ng-if="track.spotify_url">
+										<a ng-href="{{ track.spotify_url ? track.spotify_url : 'javascript:;' }} "
+										   target="{{ track.spotify_url ? '_blank' : ''}}">
+											<div class="vertical-center">
+												<i class="fa fa-spotify"></i>
+											</div><!-- /.vertical-center -->
+										</a>
+									</li>
+									<li ng-if="track.souncloud_url">
+		                                <a ng-href="{{ track.souncloud_url ? track.souncloud_url : 'javascript:;' }} "
+		                                target="{{ track.souncloud_url ? '_blank' : ''}}">
+		                                    <div class="vertical-center">
+		                                        <i class="fa fa-soundcloud"></i>
+		                                    </div><!-- /.vertical-center -->
+		                                </a>
+		                            </li>
+		                            <li ng-if="track.facebook_url">
+		                                <a ng-href="{{ track.facebook_url ? track.facebook_url : 'javascript:;' }} "
+		                                target="{{ track.facebook_url ? '_blank' : ''}}" >
+		                                    <div class="vertical-center">
+		                                        <i class="fa fa-facebook"></i>
+		                                    </div><!-- /.vertical-center -->
+		                                </a>
+		                            </li>
+		                            <li ng-if="track.twitter_url_link">
+		                                <a ng-href="{{track.twitter_url_link ? track.twitter_url_link : 'javascript:;'}}"
+		                                target="{{ track.twitter_url_link ? '_blank' : ''}}">
+		                                    <div class="vertical-center">
+		                                        <i class="fa fa-twitter"></i>
+		                                    </div><!-- /.vertical-center -->
+		                                </a>
+		                            </li>
+		                            <li ng-if="track.youtube_url">
+		                                <a ng-href="{{track.youtube_url ? track.youtube_url : 'javascript:;' }}"
+		                                target="{{ track.youtube_url ? '_blank' : ''}}">
+		                                    <div class="vertical-center">
+		                                        <i class="fa fa-youtube"></i>
+		                                    </div><!-- /.vertical-center -->
+		                                </a>
+		                            </li>
+		                            <li ng-if="track.instagram_url">
+		                                <a ng-href="{{track.instagram_url ? track.instagram_url : 'javascript:;'}}"
+		                                target="{{ track.instagram_url ? '_blank' : ''}}">
+		                                    <div class="vertical-center">
+		                                        <i class="fa fa-instagram"></i>
+		                                    </div><!-- /.vertical-center -->
+		                                </a>
+		                            </li>
+								</ul>
+							</div><!-- /.col-xs-12 -->
+						</div><!-- /.row -->
+						<div class="row">
+							<div class="col-xs-12" ng-controller="FollowCtrl">
+
+							  	<a href="javascript:;" ng-if="_user" class="top  red-button follow_gate_btn no-animate" ng-click="_followingTo.indexOf(track.user_id) != -1 ? UnfollowArtist(track.artist_slug) : FollowArtist(track.artist_slug)"
+							      ng-show="_user.id != track.user_id"
+							      ng-class="{disable: _followingTo.indexOf(track.user_id) != -1 }" >
+							      {{ _followingTo.indexOf(track.user_id) != -1 ? 'Unfollow' : 'Follow' }}
+							      </a>
+
+								<a ng-if="!_user" href="javascript:;" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()" class="top red-button no-animate">Follow</a>
+							</div><!-- /.col-xs-12 -->
+						</div><!-- /.row -->
+					</div><!-- /.col-sm-4 -->
+				</div><!-- /.row -->
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="panel-group" id="accordion"  role="tablist" aria-multiselectable="true">
+						  	<!-- Track preview -->
+						  	<div class="panel panel-default">
+						    	<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+						      		<div ng-show="typeTrack" class="panel-body">
+						        		<div class="track-cover">
+							        		<img  class="background-cover"
+							        		ng-src="{{cropimage(track.cover_image,500,500)}}"/>
+											<div class="vertical-center play-icon-hide">
+												<a class="play-image" ng-if="trackPlay"  href="javascript:;" ng-click="playTrack(track)"><i class="fa fa-play-circle"></i></a>
+											</div>
+
+											<!-- <div class="vertical-center single-track">
+												<a ng-show="loadingTrack && track.id == _currentTrack.id" href="javascript:;"> <img class="" ng-src="frontweb/assets/images/ajax-loader.gif"></a>
+											</div> -->
+											<div class="vertical-center single-track">
+												<a class="pause-image"  ng-show="!trackPlay && track.id == _currentTrack.id " ng-click="pauseTrack(track)" href="javascript:;"><i class="fa fa-pause-circle"></i></a>
+											</div>
+										</div><!-- /.track-cover -->
+						      		</div>
+						      		<div class="video-youtube" ng-bind-html="videoURl | youtubevideo:340"> </div>
+						    	</div>
+						  	</div> <!-- / Track preview -->
+
+						  	<!-- Download terms popup panel -->
+							<div class="panel panel-default">
+							    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+							      	<div class="panel-body">
+							        	<div class="download-track">
+							        		<div class="row">
+							        			<div class="col-xs-12">
+							        				<!-- Nav tabs -->
+													<ul class="nav nav-tabs" role="tablist">
+														<li role="presentation" ng-class="{'active' : activeTab == 'spotify'}">
+															<a ng-if="spSteps.length > 1" href="#spotify" aria-controls="spotify" role="tab" data-toggle="tab" onclick="return false;" ng-click="downloadTerms('spotify')">
+																<i class="fa fa-spotify"></i>
+																<!--<span class="hidden-xs">Spotify</span>-->
+															</a>
+														</li>
+													    <li role="presentation" ng-class="{'active' : activeTab == 'soundcloud'}">
+													    	<a ng-if="scSteps.length > 1" href="#soundcloud" aria-controls="soundcloud" role="tab" data-toggle="tab" onclick="return false;" ng-click="downloadTerms('soundcloud')">
+													    		<i class="fa fa-soundcloud"></i>
+													    		<!--<span class="hidden-xs">SoundCloud</span>-->
+													    	</a>
+													    </li>
+														<li role="presentation" ng-class="{'active' : activeTab == 'facebook'}">
+													    	<a ng-if="fbSteps.length > 1" href="#facebook" aria-controls="facebook" role="tab" data-toggle="tab" onclick="return false;" ng-click="downloadTerms('facebook')">
+													    		<i class="fa fa-facebook"></i>
+													    		<!--<span class="hidden-xs">Facebook</span>-->
+													    	</a>
+													    </li>
+													    <li role="presentation" ng-class="{'active' : activeTab == 'twitter'}">
+													    	<a ng-if="twtrSteps.length > 0" href="#twitter" aria-controls="twitter" role="tab" data-toggle="tab" onclick="return false;" ng-click="downloadTerms('twitter')">
+													    		<i class="fa fa-twitter"></i>
+													    		<!--<span class="hidden-xs">Twitter</span>-->
+													    	</a>
+													    </li>
+													    <li role="presentation" ng-class="{'active' : activeTab == 'youtube'}">
+													    	<a ng-if="ytSteps.length > 0" href="#youtube" aria-controls="youtube" role="tab" data-toggle="tab" onclick="return false;" ng-click="downloadTerms('youtube')">
+													    		<i class="fa fa-youtube"></i>
+													    		<!--<span class="hidden-xs">Youtube</span>-->
+													    	</a>
+													    </li>
+													    <li role="presentation" ng-class="{'active' : activeTab == 'instagram'}">
+													    	<a ng-if="instaSteps.length > 0" href="#instagram" aria-controls="instagram" role="tab" data-toggle="tab" onclick="return false;" ng-click="downloadTerms('instagram')">
+													    		<i class="fa fa-instagram"></i>
+													    		<!--<span class="hidden-xs">Instagram</span>-->
+													    	</a>
+													    </li>
+													    <div class="line"></div><!-- /.line -->
+													</ul>
+
+													<!-- Tab panes -->
+													<div class="tab-content">
+														<div role="tabpanel" class="tab-pane " ng-class="{'active' : activeTab == 'spotify'}" id="spotify">
+															<div class="inner-tab spotify">
+																<!-- Step 1 -->
+																<h3>Spotify Connect</h3>
+																<button ng-disabled="sp_connect"
+																		ng-click="spotifyConnect()"
+																		ng-class="{'social-button-grey': sp_connect}"
+																		class="social-button social-button-spotify"><i class="fa fa-spotify"></i>
+																	{{ sp_connect ? 'Connected' : 'Connect to Spotify' }} </button>
+																<p>Spotify Connect will be used for verification purposes only</p>
+
+																<!-- Step 2-->
+																<h3 ng-if="spSteps.indexOf('follow') != -1" ><!-- <b>Step 2</b>: --> Follow us on Spotify</h3>
+																<button ng-if="spSteps.indexOf('follow') != -1"
+																		ng-disabled ="(!sp_connect || spCompletedSteps.indexOf('follow') != -1 || isSubmitting)"
+																		ng-class="{'social-button-grey':(!sp_connect || spCompletedSteps.indexOf('follow') != -1)}"
+																		ng-click="spotifyFollow(track.provider_user_id)"
+																		class="social-button social-button-spotify social-button-grey  spotify-connect-status"><i class="fa fa-spotify"></i>
+																	{{ (spCompletedSteps.indexOf('follow') == -1) ? 'Follow' : 'Followed' }}</button>
+
+																<p>By clicking <span class="sp-confirm-key">Follow</span> you will be following
+													    		<span ng-if="track.artist_name != 'Sore Thumb Media'">"{{track.artist_name | capitalize}}"
+													    		<span ng-if="!track.spotify_artist_links">,</span>
+													    		</span>
+													    		<span ng-if="sp_artist.username" ng-repeat="sp_artist in track.spotify_artist_links">"{{sp_artist.username | capitalize }}"
+													    		<span ng-show="!$last">,</span>
+													    		</span>
+													    		</p>
+
+															</div><!-- /.inner-tab -->
+														</div>
+													    <div role="tabpanel" class="tab-pane " ng-class="{'active' : activeTab == 'soundcloud'}" id="soundcloud">
+													    	<div class="inner-tab soundcloud">
+													    		<!-- Soundcloud Connect -->
+													    		<h3>SoundCloud Connect</h3>
+													    		<button ng-disabled="sc_connect"
+													    		ng-click="soundcloudConnect()"
+													    		ng-class="{'social-button-grey': sc_connect}"
+													    		class="social-button social-button-soundcloud"><i class="fa fa-soundcloud"></i>
+													    		{{ sc_connect ? 'Connected' : 'Connect to SoundCloud' }} </button>
+													    		<p>SoundCloud Connect will be used for verification purposes only</p>
+
+																<form ng-submit="commentForm.$valid && soundcloudActionConfirm(track.sc_id, track.provider_user_id, track.comment)"
+																	  name="commentForm" id="commentForm"
+																	  class="font-open" novalidate>
+
+																	<h3 ng-if="scSteps.indexOf('comment') != -1"> Comment us on SoundCloud</h3>
+																	<textarea rows="2" name="comment"
+																			  ng-if="scSteps.indexOf('comment') != -1"
+																			  ng-model="track.comment"
+																			  ng-disabled ="(!sc_connect || scCompletedSteps.indexOf('comment') != -1 || isSubmitting)"
+																			  placeholder="Enter comment" required/>
+																	<span class="text-red" ng-if="commentForm.$submitted">
+																		<div class="error" ng-if="commentForm.comment.$error.required">
+																			Please enter comment.
+																		</div>
+																	</span>
+																	<button type="submit"
+																			ng-if="scSteps.indexOf('comment') != -1 || scSteps.indexOf('like') != -1 || scSteps.indexOf('repost') != -1 || scSteps.indexOf('follow') != -1"
+																			ng-disabled ="(!sc_connect
+																						|| (((scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') != -1) || (scSteps.indexOf('like') == -1 && scCompletedSteps.indexOf('like') == -1))
+																							&& ((scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') != -1) || (scSteps.indexOf('repost') == -1 && scCompletedSteps.indexOf('repost') == -1))
+																							&& ((scSteps.indexOf('comment') != -1 && scCompletedSteps.indexOf('comment') != -1) || (scSteps.indexOf('comment') == -1 && scCompletedSteps.indexOf('comment') == -1))
+																							&& ((scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') != -1) || (scSteps.indexOf('follow') == -1 && scCompletedSteps.indexOf('follow') == -1)))
+																						|| isSubmitting)"
+																			ng-class="{'social-button-grey':(!sc_connect
+																						|| (((scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') != -1) || (scSteps.indexOf('like') == -1 && scCompletedSteps.indexOf('like') == -1))
+																							&& ((scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') != -1) || (scSteps.indexOf('repost') == -1 && scCompletedSteps.indexOf('repost') == -1))
+																							&& ((scSteps.indexOf('comment') != -1 && scCompletedSteps.indexOf('comment') != -1) || (scSteps.indexOf('comment') == -1 && scCompletedSteps.indexOf('comment') == -1))
+																							&& ((scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') != -1) || (scSteps.indexOf('follow') == -1 && scCompletedSteps.indexOf('follow') == -1))))}"
+																			class="social-button social-button-grey soundcloud-connect-status social-button-soundcloud"><i class="fa fa-soundcloud"></i>
+																		{{ (scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') == -1)
+																		|| (scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') == -1)
+																		|| (scSteps.indexOf('comment') != -1 && scCompletedSteps.indexOf('comment') == -1)
+																		|| (scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') == -1) ? 'Confirm' : 'Confirmed' }}</button>
+
+																	<div class="confirm-msg">
+																		<p>By clicking 'Confirm' you will be</p>
+																		<ul>
+																			<li ng-if="scSteps.indexOf('follow') != -1">
+																				<p class="confirm-action-msg">
+																					<span class="sc-confirm-key"> Following </span>
+																					<span ng-if="track.artist_name != 'Sore Thumb Media'">"{{track.artist_name | capitalize}}"
+																						<span ng-if="!track.artist_links">,</span>
+																					</span>
+																					<span ng-if="sc_artist.username"
+																						  ng-repeat="sc_artist in track.artist_links">"{{sc_artist.username | capitalize }}"
+																						<span ng-show="!$last">,</span>
+																					</span>
+																					<span ng-if="track.artist_links">
+																					&
+																					</span>
+																					"STM"
+																				</p>
+																			</li>
+																			<li ng-if="scSteps.indexOf('comment') != -1 || scSteps.indexOf('like') != -1 || scSteps.indexOf('repost') != -1">
+																				<p class="confirm-action-msg">
+																					<span ng-if="scSteps.indexOf('comment') != -1" class="sc-confirm-key">Commenting</span>
+																					<span ng-if="scSteps.indexOf('comment') != -1 && scSteps.indexOf('like') != -1 && scSteps.indexOf('repost') != -1">, </span>
+																					<span ng-if="scSteps.indexOf('comment') != -1
+																							&& ((scSteps.indexOf('like') != -1 && scSteps.indexOf('repost') == -1)
+																								|| (scSteps.indexOf('like') == -1 && scSteps.indexOf('repost') != -1))"> & </span>
+																					<span ng-if="scSteps.indexOf('like') != -1" class="sc-confirm-key">Liking</span>
+																					<span ng-if="(scSteps.indexOf('repost') != -1 && scSteps.indexOf('comment') == -1 && scSteps.indexOf('like') != -1)
+																							|| (scSteps.indexOf('repost') != -1 && scSteps.indexOf('comment') != -1 && scSteps.indexOf('like') != -1)"> & </span>
+																					<span ng-if="scSteps.indexOf('repost') != -1" class="sc-confirm-key">Reposting</span>
+																					<span>"{{track.track_name}}"</span>
+																				</p>
+																			</li>
+																		</ul>
+																	</div>
+																</form>
+
+																<!-- Comment -->
+																<!--<h3 ng-if="scSteps.indexOf('comment') != -1"> Comment us on SoundCloud</h3>
+																<div ng-if="scSteps.indexOf('comment') != -1">
+																	<form ng-submit="commentForm.$valid && soundcloudComment(track.sc_id, track.comment)"
+																		  name="commentForm" id="commentForm"
+																		  class="font-open" novalidate>
+
+																		<textarea cols="37" rows="5" name="comment"
+																				  ng-model="track.comment"
+																				  ng-disabled ="(!sc_connect || scCompletedSteps.indexOf('comment') != -1 || isSubmitting)"
+																				  placeholder="Enter comment" required/>
+																		<span class="text-red"
+																			  ng-if="commentForm.$submitted">
+																			<div class="error"
+																				 ng-if="commentForm.comment.$error.required">
+																				Please enter comment.
+																			</div>
+																		</span>
+																		<button type="submit"
+																				ng-class="{'social-button-grey':(!sc_connect || scCompletedSteps.indexOf('comment') != -1)}"
+																				class="social-button social-button-soundcloud social-button-grey soundcloud-connect-status"
+																				ng-disabled="(!sc_connect || scCompletedSteps.indexOf('comment') != -1 ) || (form.$invalid || isSubmitting ? true : false)">
+																			<i class="fa fa-soundcloud"></i>
+																			{{ scCompletedSteps.indexOf('comment') != -1 ? 'Commented' : 'Comment' }}
+																		</button>
+																	</form>
+																</div>
+
+																&lt;!&ndash; All such as Like, Repost and Follow &ndash;&gt;
+																<h3 ng-if="scSteps.indexOf('like') != -1 || scSteps.indexOf('repost') != -1 || scSteps.indexOf('follow') != -1">Track on SoundCloud </h3>
+																<button ng-if="scSteps.indexOf('like') != -1 || scSteps.indexOf('repost') != -1 || scSteps.indexOf('follow') != -1"
+																		ng-disabled ="(!sc_connect
+																						|| (((scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') != -1) || (scSteps.indexOf('like') == -1 && scCompletedSteps.indexOf('like') == -1))
+																							&& ((scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') != -1) || (scSteps.indexOf('repost') == -1 && scCompletedSteps.indexOf('repost') == -1))
+																							&& ((scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') != -1) || (scSteps.indexOf('follow') == -1 && scCompletedSteps.indexOf('follow') == -1)))
+																						|| isSubmitting)"
+																		ng-class="{'social-button-grey':(!sc_connect
+																						|| (((scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') != -1) || (scSteps.indexOf('like') == -1 && scCompletedSteps.indexOf('like') == -1))
+																							&& ((scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') != -1) || (scSteps.indexOf('repost') == -1 && scCompletedSteps.indexOf('repost') == -1))
+																							&& ((scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') != -1) || (scSteps.indexOf('follow') == -1 && scCompletedSteps.indexOf('follow') == -1))))}"
+																		ng-click="soundcloudActionConfirm(track.sc_id, track.provider_user_id)"
+																		class="social-button social-button-grey soundcloud-connect-status social-button-soundcloud"><i class="fa fa-soundcloud"></i>
+																	{{ (scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') == -1)
+																	|| (scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') == -1)
+																	|| (scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') == -1) ? 'Confirm' : 'Confirm' }}</button>-->
+
+																<!--<button ng-if="scSteps.indexOf('like') != -1 || scSteps.indexOf('repost') != -1 || scSteps.indexOf('follow') != -1"
+																		ng-disabled ="((((scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') != -1) || (scSteps.indexOf('like') == -1 && scCompletedSteps.indexOf('like') == -1))
+																							&& ((scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') != -1) || (scSteps.indexOf('repost') == -1 && scCompletedSteps.indexOf('repost') == -1))
+																							&& ((scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') != -1) || (scSteps.indexOf('follow') == -1 && scCompletedSteps.indexOf('follow') == -1)))
+																						|| isSubmitting)"
+																		ng-class="{'social-button-grey':((((scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') != -1) || (scSteps.indexOf('like') == -1 && scCompletedSteps.indexOf('like') == -1))
+																							&& ((scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') != -1) || (scSteps.indexOf('repost') == -1 && scCompletedSteps.indexOf('repost') == -1))
+																							&& ((scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') != -1) || (scSteps.indexOf('follow') == -1 && scCompletedSteps.indexOf('follow') == -1))))}"
+																		ng-click="soundcloudActionConfirm(track.sc_id, track.provider_user_id)"
+																		class="social-button social-button-grey soundcloud-connect-status social-button-soundcloud"><i class="fa fa-soundcloud"></i>
+																	{{ (scSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('like') == -1)
+																	|| (scSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('repost') == -1)
+																	|| (scSteps.indexOf('follow') != -1 && scCompletedSteps.indexOf('follow') == -1) ? 'Confirm' : 'Confirmed' }}</button>-->
+
+																<!--<div class="confirm-msg">
+																	<p>By clicking 'Confirm' you will be</p>
+																	<p class="confirm-action-msg">
+																		- <span class="confirm-key"> Following </span>
+																		<span ng-if="track.artist_name != 'Sore Thumb Media'">"{{track.artist_name | capitalize}}"
+																			<span ng-if="!track.artist_links">,</span>
+																		</span>
+																		<span ng-if="sc_artist.username"
+																			  ng-repeat="sc_artist in track.artist_links">"{{sc_artist.username | capitalize }}"
+																			<span ng-show="!$last">,</span>
+																		</span>
+																		<span ng-if="track.artist_links">
+																		&
+																		</span>
+																		"STM"
+																	</p>
+																	<p class="confirm-action-msg">-
+																		<span class="confirm-key">Commenting</span>, <span class="confirm-key">Liking</span> & <span class="confirm-key">Reposting</span>
+																		<span>"{{track.track_name}}"</span>
+																	</p>
+																</div>-->
+
+
+																<!--<button ng-if="scSteps.indexOf('like') != -1 || scSteps.indexOf('repost') != -1 || scSteps.indexOf('follow') != -1"
+																		ng-disabled ="((scCompletedSteps.indexOf('like') != -1 && scCompletedSteps.indexOf('repost') != -1 && scCompletedSteps.indexOf('follow') != -1)
+																						|| isSubmitting)"
+																		ng-click="soundcloudActionConfirm(track.sc_id, track.provider_user_id)"
+																		class="social-button soundcloud-connect-status social-button-soundcloud"><i class="fa fa-soundcloud"></i>
+																	{{ (scCompletedSteps.indexOf('like') == -1 && scCompletedSteps.indexOf('repost') == -1 && scCompletedSteps.indexOf('follow') == -1) ? 'Confirm' : 'Submitted' }}</button>-->
+
+
+
+
+													    		<!--&lt;!&ndash; Step 2 &ndash;&gt;
+													    		<h3 ng-if="scSteps.indexOf('like') != -1">&lt;!&ndash; <b>Step 3</b>: &ndash;&gt; Like track on SoundCloud </h3>
+
+																&lt;!&ndash;ng-click="soundcloudLike(track.provider_user_id)"&ndash;&gt;
+													    		<button ng-if="scSteps.indexOf('like') != -1"
+													    		ng-disabled ="(!sc_connect || scCompletedSteps.indexOf('like') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!sc_connect || scCompletedSteps.indexOf('like') != -1)}"
+																ng-click="soundcloudLike(track.sc_id)"
+													    		class="social-button social-button-grey  soundcloud-connect-status social-button-soundcloud"><i class="fa fa-soundcloud"></i>
+													    		{{ (scCompletedSteps.indexOf('like') == -1) ? 'Like' : 'Liked' }}</button>
+
+													    		&lt;!&ndash; Step 3 &ndash;&gt;
+													    		<h3 ng-if="scSteps.indexOf('comment') != -1"> Comment us on SoundCloud</h3>
+													    		&lt;!&ndash;<button ng-if="scSteps.indexOf('comment') != -1"
+													    		ng-disabled ="(!sc_connect || scCompletedSteps.indexOf('comment') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!sc_connect || scCompletedSteps.indexOf('comment') != -1)}"
+													    		ng-click="soundcloudComment(track.sc_id)"
+													    		class="social-button social-button-soundcloud soundcloud-connect-status social-button-grey "><i class="fa fa-soundcloud"></i>
+													    		{{ (scCompletedSteps.indexOf('comment') == -1) ? 'Comment' : 'Commented' }}</button>&ndash;&gt;
+																<button ng-if="scSteps.indexOf('comment') != -1"
+																		ng-click="soundcloudComment(track.sc_id)"
+																		class="social-button social-button-soundcloud soundcloud-connect-status"><i class="fa fa-soundcloud"></i>
+																	{{ (scCompletedSteps.indexOf('comment') == -1) ? 'Comment' : 'Commented' }}</button>
+
+													    		&lt;!&ndash; Step 4 &ndash;&gt;
+													    		<h3 ng-if="scSteps.indexOf('repost') != -1" >&lt;!&ndash; <b>Step 2</b>: &ndash;&gt; Repost track on SoundCloud</h3>
+
+																&lt;!&ndash;ng-click="soundcloudRepost(track.provider_user_id)"&ndash;&gt;
+													    		<button ng-if="scSteps.indexOf('repost') != -1"
+													    		ng-disabled ="(!sc_connect || scCompletedSteps.indexOf('repost') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!sc_connect || scCompletedSteps.indexOf('repost') != -1)}"
+																ng-click="soundcloudRepost(track.sc_id)"
+													    		class="social-button social-button-soundcloud social-button-grey  soundcloud-connect-status"><i class="fa fa-soundcloud"></i>
+													    		{{ (scCompletedSteps.indexOf('repost') == -1) ? 'Repost' : 'Reposted' }}</button>
+
+
+													    		&lt;!&ndash; Step 5&ndash;&gt;
+													    		<h3 ng-if="scSteps.indexOf('follow') != -1" >&lt;!&ndash; <b>Step 2</b>: &ndash;&gt; Follow us on SoundCloud</h3>
+													    		<button ng-if="scSteps.indexOf('follow') != -1"
+													    		ng-disabled ="(!sc_connect || scCompletedSteps.indexOf('follow') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!sc_connect || scCompletedSteps.indexOf('follow') != -1)}"
+													    		ng-click="soundcloudFollow(track.provider_user_id)"
+													    		class="social-button social-button-soundcloud social-button-grey  soundcloud-connect-status"><i class="fa fa-soundcloud"></i>
+													    		{{ (scCompletedSteps.indexOf('follow') == -1) ? 'Follow' : 'Followed' }}</button>-->
+
+													    		<!--<p>By clicking 'Follow' you will be following
+													    		<span ng-if="track.artist_name != 'Sore Thumb Media'">"{{track.artist_name | capitalize}}"
+													    		<span ng-if="!track.artist_links">,</span>
+													    		</span>
+													    		<span ng-if="sc_artist.username" ng-repeat="sc_artist in track.artist_links">"{{sc_artist.username | capitalize }}"
+													    		<span ng-show="!$last">,</span>
+													    		</span>
+													    		<span ng-if="track.artist_links">
+													    		and
+													    		</span>
+													    		'STM'</p>-->
+
+													    	</div><!-- /.inner-tab -->
+													    </div>
+													    <div role="tabpanel" class="tab-pane" id="facebook" ng-class="{'active' : activeTab == 'facebook'}">
+													    	<div class="inner-tab facebook">
+													    		<!-- Step 1 -->
+													    		<h3><!-- <b>Step 1</b>: --> Facebook Connect</h3>
+													    		<button ng-click="facebookConnect()"
+													    		ng-disabled="fb_connect"
+													    		ng-class="{'social-button-grey': fb_connect}"
+													    		class="social-button social-button-facebook"><i class="fa fa-facebook"></i> {{ fb_connect ? 'Connected' : 'Connect to Facebook' }}</button>
+													    		<p>Facebook Connect will be used for verification purposes only</p>
+
+													    			<!-- Step 3 -->
+													    		<div ng-show="fbSteps.indexOf('like') != -1">
+														    		<h3>Like us on Facebook</h3>
+														    		<!-- <button ng-if="fbSteps.indexOf('like') != -1"
+														    		ng-disabled="(!fb_connect || fbCompletedSteps.indexOf('like') != -1 || isSubmitting)"
+														    		ng-class="{'social-button-grey':(!fb_connect || fbCompletedSteps.indexOf('like') != -1)}"
+
+														    		class="social-button social-button-facebook" style="background: #4080ff;"> -->
+														    		<!-- <i class="fa fa-facebook" ></i> -->
+														    		<!-- {{ (fbCompletedSteps.indexOf('like') == -1) ? (isSubmitting ? 'Please wait..' : 'Like') : 'Liked' }}
+
+														    		</button> -->
+														    		<button ng-show="(!fb_connect || track_fb_liked || isSubmitting)" class="social-button-grey custom-fb-like"><div><i class="fa fa-thumbs-up"></i> {{ (track_fb_liked) ? 'Liked' : 'Like' }} </div></button>
+
+														    		<div ng-hide="(!fb_connect || track_fb_liked || isSubmitting)" class="fb-like no-animate" data-href="{{ track.fb_page }}" data-layout="button" data-action="like" data-size="large" data-show-faces="false" data-share="false"></div>
+
+													    			<p>By clicking <span class="fb-confirm-key">Like</span> you will like "{{track.artist_name | capitalize}}"</p>
+
+													    		</div>
+
+
+													    		<!-- Step 4 -->
+													    		<div ng-show="fbSteps.indexOf('stm-like') != -1">
+														    		<h3>Like Sore Thumb Media on Facebook</h3>
+
+														    		<button ng-show="(!fb_connect || stm_fb_liked || isSubmitting)" class="social-button-grey custom-fb-like"><div><i class="fa fa-thumbs-up"></i> {{ (stm_fb_liked) ? 'Liked' : 'Like' }} </div></button>
+
+														    		<div ng-hide="(!fb_connect || stm_fb_liked || isSubmitting)" class="fb-like no-animate" data-href="{{ track.stm_fb_page }}" data-layout="button" data-action="like" data-size="large" data-show-faces="false" data-share="false"></div>
+
+													    			<p>By clicking <span class="fb-confirm-key">Like</span> you will like 'STM'</p>
+													    		</div>
+
+
+													    		<!-- Step 2 -->
+													    		<h3 ng-if="fbSteps.indexOf('share') != -1"><!-- <b>Step 2</b>: --> Share track on Facebook</h3>
+													    		<button ng-if="facebookTerms.share == 'true'"
+													    		ng-disabled="(!fb_connect || fbCompletedSteps.indexOf('share') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!fb_connect || fbCompletedSteps.indexOf('share') != -1)}"
+													    		ng-click="facebookShare(track.cover_image,track.track_name)"
+													    		class="social-button social-button-facebook"><i class="fa fa-facebook"></i> {{ (fbCompletedSteps.indexOf('share') == -1) ? 'Share' : 'Shared' }} </button>
+
+
+
+
+
+
+													    		<script type="text/javascript">
+													    			FB.Event.subscribe('edge.create', function(href, widget) {
+
+																	  var $scope = angular.element($('#single-track')).scope();
+
+																	  $scope.$apply(function(){
+																	  	$scope.facebookLike(href);
+																	  });
+																	});
+													    		</script>
+
+
+
+
+
+													    	</div><!-- /.inner-tab -->
+													    </div>
+													    <div role="tabpanel" class="tab-pane" id="twitter" ng-class="{'active' : activeTab == 'twitter'}">
+													    	<div class="inner-tab">
+													    		<!-- Step 1 -->
+														    	<h3 ng-if="twtrSteps.indexOf('tweet') != -1"><!-- <b>Step 1</b>: --> Tweet us on Twitter</h3>
+														    	<button ng-if="twitterTerms.tweet == 'true'"
+													    		ng-disabled="(!twtr_connect || twtrCompletedSteps.indexOf('tweet') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!twtr_connect || twtrCompletedSteps.indexOf('tweet') != -1)}"
+													    		ng-click="twitterTweet()"
+													    		class="social-button social-button-twitter"><i class="fa fa-twitter"></i> {{ (twtrCompletedSteps.indexOf('tweet') == -1) ? 'Tweet' : 'Tweeted' }} </button>
+
+																<!-- Step 2 -->
+																<h3 ng-if="twtrSteps.indexOf('follow') != -1"><!-- <b>Step 1</b>: --> Follow us on twitter</h3>
+														    	<button ng-if="twitterTerms.follow == 'true'"
+													    		ng-disabled="(!twtr_connect || twtrCompletedSteps.indexOf('follow') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!twtr_connect || twtrCompletedSteps.indexOf('follow') != -1)}"
+													    		ng-click="twitterFollow()"
+													    		class="social-button social-button-twitter"><i class="fa fa-twitter"></i> {{ (twtrCompletedSteps.indexOf('follow') == -1) ? 'Follow' : 'Followed' }} </button>
+
+													    		<p>By clicking <span class="tw-confirm-key">Follow</span> you will be following
+													    		<span ng-if="track.artist_name != 'Sore Thumb Media'">"{{track.artist_name | capitalize}}" and 'STM'
+													    		</span>
+													    		<span ng-if="track.artist_name == 'Sore Thumb Media'">'STM'
+													    		</span>
+													    		</p>
+													    	</div>
+													    </div>
+													    <div role="tabpanel" class="tab-pane" id="youtube" ng-class="{'active' : activeTab == 'youtube'}">
+													    	<div class="inner-tab">
+
+													    		<!-- Step 1 -->
+													    		<h3>Subscribe us on Youtube</h3>
+													    		<button ng-if="!fbAlreadySubscribed" ng-disabled="(!youtube_channel || ytCompletedSteps.indexOf('subscribe') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!youtube_channel || ytCompletedSteps.indexOf('subscribe') != -1)}"
+													    		class="social-button social-button-youtube"
+													    		ng-click="youtubeSubscribe()"><i class="fa fa-youtube"></i> {{ (ytCompletedSteps.indexOf('subscribe') == -1) ? 'Subscribe' : 'Subscribed' }}</button>
+
+													    		<a ng-if="fbAlreadySubscribed" class="ng-animate social-button-grey social-button social-button-youtube"
+													    		href="javascript:;" target="_blank"
+													    		><i class="fa fa-youtube"></i> Subscribed </a>
+
+													    		<p>By clicking <span class="yt-confirm-key">Subscribe</span> you will subscribe to
+
+													    		<span ng-if="track.artist_name != 'Sore Thumb Media'">"{{track.artist_name | capitalize}}" and 'STM'
+													    		</span>
+													    		<span ng-if="track.artist_name == 'Sore Thumb Media'">'STM'</span>
+													    		</p>
+													    	</div><!-- /.inner-tab -->
+													    </div>
+													    <div role="tabpanel" class="tab-pane" id="instagram" ng-class="{'active' : activeTab == 'instagram'}">
+													    	<div class="inner-tab">
+													    		<!-- Step 1 -->
+													    		<!-- <h3>Instagram Connect</h3>
+													    		<button ng-disabled="instagram_connect"
+													    		ng-class="{'social-button-grey': instagram_connect}"
+													    		class="social-button social-button-instagram"
+													    		ng-click="instagramConnect()"
+													    		><i class="fa fa-instagram"></i> {{ instagram_connect ? 'Connected' : 'Connect to Instagram' }}</button>
+													    		<p>Instagram Connect will be used for verification purposes only</p> -->
+
+													    		<!-- Step 2 -->
+													    		<h3>Follow us on Instagram</h3>
+													    		<a ng-if="!instaAlreadyFollowed" ng-disabled="(!instagram_connect || instaCompletedSteps.indexOf('subscribe') != -1 || isSubmitting)"
+													    		ng-class="{'social-button-grey':(!instagram_connect || instaCompletedSteps.indexOf('subscribe') != -1)}"
+													    		class="social-button social-button-instagram"
+													    		ng-click="instagramFollow()"
+													    		href="https:/www.instagram.com/{{ track.instagram_nickname}}" target="_blank"
+													    		><i class="fa fa-instagram"></i> {{ (instaCompletedSteps.indexOf('subscribe') == -1) ? 'Follow' : 'Followed' }}</a>
+
+													    		<a ng-if="instaAlreadyFollowed" class="ng-animate social-button-grey social-button social-button-instagram"
+													    		href="javascript:;" target="_blank"
+													    		><i class="fa fa-instagram"></i> Followed </a>
+
+													    		<p>By clicking <span class="ig-confirm-key">Follow</span> you will be following
+													    		<span ng-if="track.artist_name != 'Sore Thumb Media' "> "{{track.artist_name | capitalize}}"
+													    		</span>
+													    		<span ng-if="track.artist_name == 'Sore Thumb Media' "> 'STM'
+													    		</span>
+													    		</p>
+
+													    	</div><!-- /.inner-tab -->
+													    </div>
+													</div>
+							        			</div><!-- /.col-xs-12 -->
+							        		</div><!-- /.row -->
+							        	</div><!-- /.download-track -->
+							      	</div>
+							    </div>
+							  </div>
+							</div> <!-- / Download terms popup panel -->
+					</div><!-- /.col-xs-12 -->
+				</div><!-- /.row -->
+
+				<!--<div ng-if="typeTrack" class='speaker' data-audio="audio" data-autoplay="true" data-pauseothers="true" jplayer-single>
+				</div>-->
+
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- <a class="collapsed {{ downloadTermsCompleted ? 'green-button' : 'red-button' }}"
+						ng-class="{video_margin : !typeTrack}"
+						 role="button"
+						 ng-click="downloadTermsCompleted ? downloadTrack() : showGating()"
+						 data-toggle="collapse"
+						 data-parent="#accordion"
+						 aria-expanded="false"
+						 href="">
+						 <i class="{{(downloadTermsCompleted) ? 'fa fa-unlock-alt' : 'fa fa-lock'}}"></i>
+						  Download track
+					  	</a> -->
+					  	<a ng-if="!!track.artist_name && track.artist_name != 'Sore Thumb Media'"
+					  	class="collapsed  {{ downloadTermsCompleted ? 'download2-btn' : 'download1-btn'}}"
+						ng-class="{video_margin : !typeTrack}"
+						 role="button"
+						 ng-click="downloadTermsCompleted ? downloadTrack() : showGating()"
+						 data-toggle="collapse"
+						 data-parent="#accordion"
+						 aria-expanded="false"
+						 href="">
+						 <i class="{{ downloadTermsCompleted ? 'fa fa-unlock-alt' : 'fa fa-lock'}}"></i>
+						  Download
+					  	</a>
+					  	<a ng-if="track.artist_name == 'Sore Thumb Media'" class="collapsed {{ downloadTermsCompleted ? 'download-btn1' : 'download-btn'}} "
+						ng-class="{video_margin : !typeTrack}"
+						 role="button"
+						 ng-click=" downloadTermsCompleted ? downloadTrack() : showGating()"
+						 data-toggle="collapse"
+						 data-parent="#accordion"
+						 aria-expanded="false"
+						 href="">
+						 <i class="{{ downloadTermsCompleted ? 'fa fa-unlock-alt' : 'fa fa-lock'}}"></i>
+						  Download
+					  	</a>
+					  	<a ng-if="track.artist_name == 'Sore Thumb Media'"
+				  		 class="collapsed goback-btn"
+				  		 ui-sref="app.single_streamline({streamlineId : track.streamlines_slug})"
+						 role="button"
+						 href="javascript:;"><i class="fa fa-music" aria-hidden="true"></i> STREAM</a>
+
+
+						<!-- <a class="collapsed red-button" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" ng-hide="!terms || downloadTermsCompleted" id="downloadBtn" onclick="return false;" ><i class="fa fa-lock"></i> Download track</a> -->
+
+
+
+					</div><!-- /.col-xs-12 -->
+				</div><!-- /.row -->
+			</div><!-- /.track-wrapper -->
+<!-- 			<div class="row">
+				<div class="col-md-12 text-center source_social"> -->
+					<!-- <div class="heading">
+						<span>{{ globalObj.appName }}</span>
+					</div> -->
+					<!-- <ul>
+						<li><a ng-href="{{ globalObj.socialLinks.soundcloud }}" target="_blank"><i class="fa fa-soundcloud"></i></a></li>
+						<li class="fb_social"><a ng-href="{{ globalObj.socialLinks.facebook }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+						<li><a ng-href="{{ globalObj.socialLinks.twitter }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+						<li><a ng-href="{{ globalObj.socialLinks.youtube }}" target="_blank"><i class="fa fa-youtube"></i></a></li>
+						<li><a ng-href="{{ globalObj.socialLinks.instagram }}" target="_blank"><i class="fa fa-instagram"></i></a></li>
+					</ul> -->
+				<!-- </div> -->
+			</div>
+		</div><!-- /.col-md-6 col-md-offset-3 -->
+	</div><!-- /.row -->
+</div><!-- /.container -->
+
+<div class="container single-track-container">
+	<div class="row">
+		<div class="col-md-12 source_social pull-bottom mb-sm">
+			<ul>
+				<li><a ng-href="{{ globalObj.socialLinks.soundcloud }}" target="_blank"><i class="fa fa-soundcloud"></i></a></li>
+				<li class="fb_social"><a ng-href="{{ globalObj.socialLinks.facebook }}" target="_blank"><i class="fa fa-facebook"></i></a></li>
+				<li><a ng-href="{{ globalObj.socialLinks.twitter }}" target="_blank"><i class="fa fa-twitter"></i></a></li>
+				<li><a ng-href="{{ globalObj.socialLinks.youtube }}" target="_blank"><i class="fa fa-youtube"></i></a></li>
+				<li><a ng-href="{{ globalObj.socialLinks.instagram }}" target="_blank"><i class="fa fa-instagram"></i></a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="commentModal">
+  <div data-ng-include=" 'frontweb/tpl/artist/modals/add-comment-modal.html' "></div>
+</script>
+
+<script type="text/ng-template" id="tweetModal">
+  <div data-ng-include=" 'frontweb/tpl/artist/modals/add-tweet-modal.html' "></div>
+</script>
+
+<script type="text/ng-template" id="GetEmailModal">
+  <div data-ng-include=" 'frontweb/tpl/artist/modals/get-email-modal.html' "></div>
+</script>
+
+<div id="fb-root"></div>
+<script type="text/javascript">
+	setTimeout(function(){
+
+		(function(d, s, id) {
+	          var js, fjs = d.getElementsByTagName(s)[0];
+	          if (d.getElementById(id)) return;
+	          js = d.createElement(s); js.id = id;
+	          js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId="+window.globalObj.facebook;
+	          fjs.parentNode.insertBefore(js, fjs);
+	    }(document, 'script', 'facebook-jssdk'));
+
+	},1000);
+</script>

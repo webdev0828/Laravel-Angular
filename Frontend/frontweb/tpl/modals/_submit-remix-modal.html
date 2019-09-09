@@ -1,0 +1,58 @@
+<div class="landing-page-modals ">
+	<div class="modal fade" id="submitYourRemixModal" tabindex="-1" role="dialog" aria-labelledby="submitYourRemixModalLabel">
+	  	<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+			        <h2 class="modal-title" id="submitYourRemixModalLabel">Submit Your Remix</h2>
+		      	</div>
+		      	<div class="modal-body">
+		        	<h3>Number of submissions remaining for this competition</h3>
+
+		        	<span class="number-counter">1</span>
+
+		        	<h3>Before you send your remix, your track must:</h3>
+		        	<ul>
+		        		<li>Be private on Soundcloud (with download enabled).</li>
+		        		<li>Not have been circulated, sent to any other record labels, promotional channels etc.</li>
+		        		<li>Include samples only from the stem pack and 100% royalty free samples</li>
+		        		<li>Not be uploaded to Soundcloud until the winners have been announced. Otherwise, you will be disqualified from the competition</li>
+		        	</ul>
+
+		        	<h3>Select remix to submit</h3>
+
+		        	<form ng-submit="submitRemixForm.$valid && submitRemix(track, currentCompetition.id)" name="submitRemixForm" id="submitRemixForm" novalidate>
+		        		<input type="hidden" name="competitio_id" ng-model="currentCompetition.id">
+		        		<!-- <select name="account-type" id="accountType">
+		        			<option value="" disabled selected hidden>Demo track name here</option>
+		        			<option value="author">Demo track name here</option>
+		        			<option value="user">Demo track name here</option>
+		        		</select> -->
+
+		        		<select ng-model="track.soundcloud_tracks" name="trackName" id="accountType" class="form-control sc-tracks" required>
+		                    <option value="" disabled selected hidden> Select Track </option>
+		                    <option ng-repeat="tracks in soundCloudTracks track by $index" value="{{tracks.sc_id}}" >{{tracks.track_name}}</option>
+		            	</select>
+		            	<span class="text-red" ng-if="submitRemixForm.$submitted">
+			                <div ng-if="submitRemixForm.trackName.$error.required" class="error mt-none">
+			                	<span>Please select remix track.</span>
+			            	</div>
+			            </span>
+
+						<div class="checkbox-wrapper">
+							<div class="checkbox-input">
+								<input type="checkbox" ng-model="termCheck" ng-true-value="1" ng-false-value="0" ng-init="termCheck=0" value="None" id="submit-remixterms-and-conditions" name="check" />
+								<label class="label-asset" for="submit-remixterms-and-conditions"></label>
+							</div><!-- /.checkbox-input -->
+							<label class="checkbox-label" for="submit-remixterms-and-conditions">
+			        			I have read and accepted the <a ui-sref="app.page.terms" href="javascript:;" target="_blank">terms and conditions</a>
+			        		</label>
+						</div><!-- /.checkbox-wrapper -->
+
+		        		<input ng-disabled="form.$invalid  || termCheck == 0" ng-class="{'disabled-submit-demo':form.$invalid || isSubmitting || termCheck == 0}" type="submit" value="{{ isSubmitting ? 'Processing...' : 'Submit remix' }}" />
+		        	</form>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>
+</div>

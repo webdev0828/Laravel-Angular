@@ -1,0 +1,71 @@
+<div ng-class="{'top-25':_user.isExist == '1' || (_user.Isrejected && !canSubmit)}" class="modal fade custom-modal signup" id="submitDemoModal" tabindex="-1" role="dialog" aria-labelledby="joinUsUserModalLabel" ng-controller="AuthCtrl">
+	  	<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+		      	</div>
+		      	<div class="modal-body">
+		        	<form ng-submit="signupForm.$valid && (connect && soundCloudTracks.length > 0 ) && submitTrackDemo(user)" name="signupForm" id="signupForm" novalidate >
+		        		<div ng-if="(_user.user_type=='stm_user' && _user.isArtist == '0') || (canSubmit  && submitted)">
+		        			<button type="button"  ng-click="connectSc()" class="connect-soundcloud no-animate no-border-radius" ng-class="{'button-grey': ( connect || !canSubmit || _user.isExist == '1') && !_user.isArtist == '0'}" ng-disabled="!_user.isArtist == '0' && ( connect || !canSubmit || _user.isExist == '1')">
+		        			<i class="fa fa-soundcloud"></i> 
+		        			<span>{{ connect ? 'Connected' : 'Connect to SoundCloud' }}</span>
+		        			</button>
+			        		
+			        		<span class="text-red" ng-if="signupForm.$submitted && !connect">
+				                <div class="error">
+				                	<span>Please connect to soundcloud.</span>
+				            	</div>
+				            </span>
+
+			        		<span class="text-red" ng-if="connect && !soundCloudTracks.length && !loading">
+				                <div class="error">
+				                	<span>Soundcloud tracks not found.</span>
+				            	</div>
+				            </span>
+		        		</div>
+		        	
+		        		<div>
+		        			<div ng-if="(_user.user_type=='stm_user' && _user.isArtist == '0') || (canSubmit  && submitted)">
+		        				<h3>Select A Track</h3>
+				        		<p>Sore Thumb Media is a quality controlled platform. For you to obtain an artist profile we will need to hear your sounds first. Please select your best track to date from the list below. You will be notified if you are accepted as an artist. Until then, check out what we have to offer across the site!</p>
+				        		<p class="note">Please note: If your demo is not accepted, you may not submit a track to us for 2 months.</p>
+		        			</div>
+
+			        		<h3 ng-if="_user.Isrejected && !canSubmit" class="text-red mt-none" >
+								<div class='time-to'>
+									<h3 class="mt-none">You can submit a demo after</h3>
+<!-- 								    <span countdown='' date="{{ _user.expireDate }}">&nbsp;</span> -->
+								  </div>
+							</h3>
+							<h3 class="mt-none"><span class="count-down-timer" ng-if="_user.Isrejected && !canSubmit" countdown='' date="{{ _user.expireDate }}">&nbsp;</span></h3>
+							
+							<h3 class="mt-none text-red" ng-if="_user.isExist == '1'">You have already submitted a demo. Please check email for approval status.</h3>
+							<div ng-if="(_user.user_type=='stm_user' && _user.isArtist == '0') || (canSubmit  && submitted)">
+								<select  ng-model="user.soundcloud_track" name="trackName"
+								id="trackName" class="form-control sc-tracks" ng-options="tracks as tracks.title for tracks in soundCloudTracks" required ng-change = "update(track)" ng-disabled="!(connect && soundCloudTracks.length > 0)">
+				                  <option value="" disabled selected hidden>Select Track</option>
+				                </select>
+				                <span class="text-red" ng-if="signupForm.$submitted">
+					                <div ng-if="signupForm.trackName.$error.required" class="error">
+					                	<span>Please select track.</span>
+					            	</div>
+					             </span>
+
+								<p class="text-red">PLEASE BE AWARE</p>
+								<p>- <!-- Artists with 20,000+ Soundcloud followers will not be able to use the platform until the next phase of Sore Thumb Media has been introduced. That being said, you will still be eligible to use our gating services. -->If we believe you are over qualified to use the platform as an artist, we will not be able to accept you until the next phase of Sore Thumb Media has been introduced.</p>
+								<p>- Even though we are a multi-genre music platform, we currently do not accept Hip-Hop, Rap, R&B or Acoustic</p>
+
+								<input type="submit" ng-disabled="!_user.isArtist == '0' && form.$invalid && (!canSubmit || _user.isExist == '1' || isSubmitting ? true : false)" value="{{ isSubmitting ? 'Processing...' : 'Submit' }}" />
+							</div>
+		        		</div>
+		        		<!-- <span ng-if ="isSubmitting" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> -->
+		        	</form>
+		        		<span class="footer" ng-if="(_user.user_type=='stm_user' && _user.isArtist == '0') || (canSubmit  && submitted)">
+			        		We will never post to Facebook without your permission. By creating an account, you agree to our <a ui-sref="app.page.terms" target="_blank" class="animsition-link">Terms</a> and <a ui-sref="app.page.privacy" target="_blank" class="animsition-link">Privacy Policy</a>.
+			        	</span>
+		        	</span>
+		      	</div>
+		    </div>
+	 	</div>
+	</div>

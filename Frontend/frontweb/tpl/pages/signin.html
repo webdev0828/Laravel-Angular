@@ -1,0 +1,96 @@
+<div class="">
+
+	<div class="background-blur-image"></div><!-- /.background-blur-image -->
+
+	<!-- Navigation -->
+    <nav class="navbar navbar-default wow fadeInDown" data-wow-duration="1s" role="navigation">
+        <h2 class="hide">Main navigation</h2><!-- /.hide -->
+        <div class="container single-track-container">
+            <div class="navbar-header page-scroll">
+                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button> -->
+                <a class="page-scroll" ui-sref="app.page.dashboard"><img ng-src="{{cropimage('frontweb/assets/images/stm_logo.png',254)}}" alt="Sore Thumb Media Throbbing with talent" /></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-if="_user">
+                        <a ng-if="_user && _user.user_type =='stm_user'" ui-sref="app.user.profile"> Go back to profile
+                        </a>
+                        <a ng-if="_user && _user.user_type =='artist'" ui-sref="app.artist.tracks({slug:_user.slug})"> Go back to profile
+                        </a>
+                    </li>
+                    <li ng-if="!_user">
+                        <a ui-sref="index"> Go back to profile
+                        </a>
+                    </li>
+                </ul>
+            </div> -->
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+
+    <div class="container">
+    	<div class="row">
+    		<div class="col-xs-12">
+    			<div class="">
+					<div class="row">
+		        		<div class="col-xs-12">
+							<div class="custom-sign-in-modal">
+							  	<div class="custom-modal-dialog" role="document">
+								    <div class="custom-modal-content">
+								      	<div class="modal-header custom-modal-header">
+									        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+									        <h2 class="modal-title" id="signInModalLabel">Sign In</h2>
+								      	</div>
+								      	<div class=" custom-modal-body">
+								        	<a ng-click="facebookSignin()" target="_blank" class="sign-up-facebook default-pointer"><i class="fa fa-facebook"></i> <span>Sign in with Facebook</span></a>
+
+								        	<h3>Or Sign In With Email Below</h3>
+								        	<form  ng-submit="signinForm.$valid && signin(user)" name="signinForm" id="signinForm" novalidate >
+								        		<span class="text-red" ng-if="signinForm.$submitted">
+									                <div ng-if="error" class="error"  style="font-size:12px">{{ error }}</div>
+									            </span>
+
+								        		<input type="email" name="email" ng-model="user.email" placeholder="Email" required/>
+								        		<span class="text-red" ng-if="signinForm.$submitted">
+								        			{{ error = ''}}
+									                <div class="error" ng-if="signinForm.email.$error.required">
+									                	Please enter email.
+									                </div>
+									            	<div>
+									                	<div class="error" ng-if="signinForm.email.$error.email">
+									                		{{ error =''}}
+									                		Please enter valid email.
+									                	</div>
+									            	</div>
+									            </span>
+
+								        		<input type="password" name="password" ng-model="user.password" placeholder="Password" required/>
+								        		<span class="text-red" ng-if="signinForm.$submitted">
+									                <div class="error" ng-if="signinForm.password.$error.required">
+									                	Please enter password.
+									                </div>
+									            </span>
+								        		<input type="submit" ng-disabled="form.$invalid || isSubmitting ? true : false" value="{{ isSubmitting ? 'Processing...' : 'Sign in' }}" />
+								        		<a id="forgotPasswordModalShow" ui-sref="forgotpwd" class="forgotten-password">Forgotten password</a>
+								        	</form>
+
+								        	<span class="have-an-account">Don't have an account? <a ui-sref="signup">Signup</a></span>
+								      	</div>
+								    </div> <!--/ .custom-sign-in-modal -->
+							 	</div>
+							</div>
+		        		</div><!-- /.col-xs-12 -->
+    				</div><!-- /.row -->
+    			</div><!-- /.subscriptions-box -->
+    		</div><!-- /.col-xs-12 -->
+    	</div><!-- /.row -->
+    </div><!-- /.container -->
+</div><!-- /.animsition -->

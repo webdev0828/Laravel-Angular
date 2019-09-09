@@ -1,0 +1,130 @@
+<div class="background-image background-cover"
+ng-style="{'background-image': 'url('+_defaults.default_banner_image+')'}">
+  <div class="vertical-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>Dashboard</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="hero-video">
+  <div id="video_embed_container" class='video_embed_container'>
+    <iframe id="video_dashboard" src="https://player.vimeo.com/video/176598626?api=1&background=1&autoplay=1&loop=1"></iframe>
+  </div>
+</div> -->
+
+<div class="about-stm">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2>Welcome to Sore Thumb Media. Select one of the sections below to explore what Sore Thumb Media has to offer and discover your next favourite artist.</h2>
+      </div><!-- /.col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 -->
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</div><!-- /.about-stm -->
+
+<section id="dashboard">
+  <h2 class="hide">Dashboard page</h2><!-- /.hide -->
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-sm-4">
+        <a ui-sref="app.page.discover" >
+          <div class="subpage-link background-cover"
+          ng-style="{'background-image': 'url('+_defaults.default_dashboard_images[0]+')'}">
+            <div class="opacity-mask">
+              <div class="vertical-center">
+                <h3>Discover</h3>
+              </div><!-- /.vertical-center -->
+            </div><!-- /.opacity-mask -->
+          </div><!-- /.subpage-link background-cover -->
+        </a>
+      </div><!-- /.col-sm-4 -->
+
+      <div class="col-sm-4">
+        <a ui-sref="app.page.music_videos" class="">
+          <div class="subpage-link background-cover"
+          ng-style="{'background-image': 'url('+_defaults.default_dashboard_images[1]+')'}">
+            <div class="opacity-mask">
+              <div class="vertical-center">
+                <h3>Music Videos</h3>
+              </div><!-- /.vertical-center -->
+            </div><!-- /.opacity-mask -->
+          </div><!-- /.subpage-link background-cover -->
+        </a>
+      </div><!-- /.col-sm-4 -->
+
+      <div class="col-sm-4">
+        <a ui-sref="app.page.remix_competitions" >
+          <div class="subpage-link background-cover"
+          ng-style="{'background-image': 'url('+_defaults.default_dashboard_images[2]+')'}">
+            <div class="opacity-mask">
+              <div class="vertical-center">
+                <h3>Remix competitions</h3>
+              </div><!-- /.vertical-center -->
+            </div><!-- /.opacity-mask -->
+          </div><!-- /.subpage-link background-cover -->
+        </a>
+      </div><!-- /.col-sm-4 -->
+
+    </div><!-- /.row -->
+
+    <div class="row">
+
+        <div class="col-sm-4">
+          <!-- ui-sref="app.page.music_videos"  -->
+          <!-- ui-sref="app.artist.everything({slug:'stm-artist'})" -->
+        <a ui-sref="app.artist.tracks({'slug': globalObj.stm_artist_link})">
+          <div class="subpage-link background-cover"
+          ng-style="{'background-image': 'url('+_defaults.default_dashboard_images[5]+')'}">
+            <div class="opacity-mask">
+              <div class="vertical-center">
+                <h3>STM Releases</h3>
+              </div><!-- /.vertical-center -->
+            </div><!-- /.opacity-mask -->
+          </div><!-- /.subpage-link background-cover -->
+        </a>
+      </div><!-- /.col-sm-4 -->
+
+      <div class="col-sm-4">
+        <a ng-if="!_user" ng-click="reset();" onClick="$('#signInModal').modal()" href="javascript:;">
+          <div class="subpage-link background-cover"
+          ng-style="{'background-image': 'url('+_defaults.default_dashboard_images[3]+')'}">
+            <div class="opacity-mask">
+              <div class="vertical-center">
+                <h3>Follow feed</h3>
+              </div><!-- /.vertical-center -->
+            </div><!-- /.opacity-mask -->
+          </div><!-- /.subpage-link background-cover -->
+        </a>
+        <a ng-if="_user" ui-sref="app.page.activities">
+          <div class="subpage-link background-cover"
+          ng-style="{'background-image': 'url('+_defaults.default_dashboard_images[3]+')'}">
+            <div class="opacity-mask">
+              <div class="vertical-center">
+                <h3>Follow feed</h3>
+              </div><!-- /.vertical-center -->
+            </div><!-- /.opacity-mask -->
+          </div><!-- /.subpage-link background-cover -->
+        </a>
+      </div><!-- /.col-sm-4 -->
+
+      <div class="col-sm-4">
+        <a ui-sref="app.page.stm_news" class="animsition-link">
+          <div class="subpage-link background-cover"
+          ng-style="{'background-image': 'url('+_defaults.default_dashboard_images[4]+')'}">
+            <div class="opacity-mask">
+              <div class="vertical-center">
+                <h3>STM News</h3>
+              </div><!-- /.vertical-center -->
+            </div><!-- /.opacity-mask -->
+          </div><!-- /.subpage-link background-cover -->
+        </a>
+      </div><!-- /.col-sm-4 -->
+
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section><!-- /#dashboard -->

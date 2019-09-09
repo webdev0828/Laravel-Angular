@@ -1,0 +1,631 @@
+<div class="loading" ng-init="loadingTrack = 'false'" ng-if="loadingTrack"></div>
+<div class="modals base-font" id="createModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="createModalLabel">{{streamline.action == 'add' ?  'Create New Streamline' : 'Edit Streamline'}}</h4>
+        </div>
+        <div ng-init="getRemixCampaigns();"></div>
+
+        <div ng-switch="stepName">
+            <div ng-switch-when="first">
+                <div class="modal-body">
+                    <div class="form-wrapper">
+                        <form name="streamlineForm" id="streamlineForm" ng-submit="streamlineForm.$valid && moveSecondStep()" novalidate>
+                            <label>Enter Soundcloud Track URL</label>
+                            <input type="text" name="track_link" id="track_link" class="mb-lg-10" ng-model="streamline.track_link" placeholder="Enter the URL To Track / Album" http-prefix ng-pattern="checkUrl2" required ng-blur="getMainInfo(streamline.track_link)" />
+                            <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                <span ng-if="streamlineForm.track_link.$error.required">Please input URL.</span>
+                            </span>
+
+                            <!-- Upload Your Streamline Artwork Part -->
+                            <div ng-if="image_source" class="streamline-info-part clearfix">
+                                <div class="stream-track-image">
+                                    <img ng-src="{{ image_source }}" class="streamline_img_height" id="streamline_image" />
+                                </div>
+                                <div class="stream-track-info">
+                                    <span class="streamline-info">{{artistName}} - {{audioName}}</span>
+                                    <br />
+                                    <span class="streamline-artist">Artist : {{artistName}}</span>
+                                </div>
+                            </div>
+
+                            <!-- Next Button Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="buttons-wrapper">
+                                        <button type="submit" class="red-button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div ng-switch-when="second">
+                <div class="modal-body">
+                    <div class="form-wrapper">
+                        <form name="streamlineForm" id="streamlineForm" ng-submit="streamlineForm.$valid && moveThirdStep()" novalidate>
+                            <!-- Spotify Part -->
+                            <div  class="social spotify social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-spotify"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/spotify.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.spotify == true ? true : false" ng-model="streamline.spotify"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.spotify ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.spotify" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-disabled="!streamline.spotify" type="text" name="spotify_link" id="spotify_link" class="mb-sm-3 artist-links" ng-required="streamline.spotify" ng-model="streamline.sp_link" placeholder="Enter the URL To track/audio on Spotify" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.spotify || streamline.sp_link == '' || streamline.sp_link == null}" href="{{streamline.sp_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.spotify_link.$error.required">Please input URL for Spotify.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Soundcloud Part -->
+                            <div  class="social soundcloud social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-soundcloud"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/soundcloud.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.soundcloud == true ? true : false" ng-model="streamline.soundcloud"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.soundcloud ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.soundcloud" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.soundcloud" ng-disabled="!streamline.soundcloud" type="text" name="soundcloud_link" id="soundcloud_link" class="mb-sm-3 artist-links" ng-model="streamline.sc_link" placeholder="Enter the URL To track/audio on SoundCloud" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.soundcloud || streamline.sc_link == '' || streamline.sc_link == null}" href="{{streamline.sc_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.soundcloud_link.$error.required">Please input URL for Soundcloud.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Youtube Part -->
+                            <div  class="social youtube social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-youtube"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/youtube.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.youtube == true ? true : false" ng-model="streamline.youtube"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.youtube ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.youtube" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.youtube" ng-disabled="!streamline.youtube" type="text" name="youtube_link" id="youtube_link" class="mb-sm-3 artist-links" ng-model="streamline.yt_link" placeholder="Enter the URL To track/audio on youtube" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.youtube || streamline.yt_link == '' || streamline.yt_link == null}" href="{{streamline.yt_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.youtube_link.$error.required">Please input URL for Youtube.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Apple Part -->
+                            <div  class="social apple-music social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/apple-music.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.apple == true ? true : false" ng-model="streamline.apple"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.apple ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.apple" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.apple" ng-disabled="!streamline.apple" type="text" name="apple_link" id="apple_link" class="mb-sm-3 artist-links" ng-model="streamline.apple_link" placeholder="Enter the URL To track/audio on Apple Music" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.apple || streamline.apple_link == '' || streamline.apple_link == null}" href="{{streamline.apple_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.apple_link.$error.required">Please input URL for Apple Music.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Tidal Part -->
+                            <div  class="social tidal social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/tidal.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.tidal == true ? true : false" ng-model="streamline.tidal"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.tidal ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.tidal" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.tidal" ng-disabled="!streamline.tidal" type="text" name="tidal_link" id="tidal_link" class="mb-sm-3 artist-links" ng-model="streamline.tidal_link" placeholder="Enter the URL To track/audio on Tidal" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.tidal || streamline.tidal_link == '' || streamline.tidal_link == null}" href="{{streamline.tidal_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.tidal_link.$error.required">Please input URL for Tidal.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Deezer Part -->
+                            <div  class="social deezer social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/deezer.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.deezer == true ? true : false" ng-model="streamline.deezer"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.deezer ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.deezer" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.deezer" ng-disabled="!streamline.deezer" type="text" name="deezer_link" id="deezer_link" class="mb-sm-3 artist-links" ng-model="streamline.deezer_link" placeholder="Enter the URL To track/audio on Deezer" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.deezer || streamline.deezer_link == '' || streamline.deezer_link == null}" href="{{streamline.deezer_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.deezer_link.$error.required">Please input URL for Deezer.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Amazon Part -->
+                            <div  class="social amazon social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-amazon"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/amazon-music.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.amazon == true ? true : false" ng-model="streamline.amazon"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.amazon ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.amazon" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.amazon" ng-disabled="!streamline.amazon" type="text" name="amazon_link" id="amazon_link" class="mb-sm-3 artist-links" ng-model="streamline.amazon_link" placeholder="Enter the URL To track/audio on Amazon" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.amazon || streamline.amazon_link == '' || streamline.amazon_link == null}" href="{{streamline.amazon_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.amazon_link.$error.required">Please input URL for Amazon.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- iTune Part -->
+                            <div  class="social apple-itune social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/itunes.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.itune == true ? true : false" ng-model="streamline.itune"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.itune ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.itune" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.itune" ng-disabled="!streamline.itune" type="text" name="itune_link" id="itune_link" class="mb-sm-3 artist-links" ng-model="streamline.itune_link" placeholder="Enter the URL To track/audio on iTune" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.itune || streamline.itune_link == '' || streamline.itune_link == null}" href="{{streamline.itune_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.itune_link.$error.required">Please input URL for iTune.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- GooglePlay Part -->
+                            <div  class="social google-play social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/google-play.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.googleplay == true ? true : false" ng-model="streamline.googleplay"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.googleplay ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.googleplay" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.googleplay" ng-disabled="!streamline.googleplay" type="text" name="gp_link" id="gp_link" class="mb-sm-3 artist-links" ng-model="streamline.gp_link" placeholder="Enter the URL To track/audio on GooglePlay" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.googleplay || streamline.gp_link == '' || streamline.gp_link == null}" href="{{streamline.gp_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.gp_link.$error.required">Please input URL for Google Play.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Beatport Part -->
+                            <div  class="social beatport social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/beatport.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.beatport == true ? true : false" ng-model="streamline.beatport"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.beatport ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.beatport" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.beatport" ng-disabled="!streamline.beatport" type="text" name="beatport_link" id="beatport_link" class="mb-sm-3 artist-links" ng-model="streamline.beatport_link" placeholder="Enter the URL To track/audio on BeatPort" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.beatport || streamline.beatport_link == '' || streamline.beatport_link == null}" href="{{streamline.beatport_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.beatport_link.$error.required">Please input URL for Beatport.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Amazon Mp3 Part -->
+                            <div  class="social amazon-mp3 social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/amazon-mp3.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.amazonmp3 == true ? true : false" ng-model="streamline.amazonmp3"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.amazonmp3 ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.amazonmp3" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.amazonmp3" ng-disabled="!streamline.amazonmp3" type="text" name="amazon_mp3_link" id="amazon_mp3_link" class="mb-sm-3 artist-links" ng-model="streamline.amazon_mp3_link" placeholder="Enter the URL To track/audio on Amazon MP3" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.amazonmp3 || streamline.amazon_mp3_link == '' || streamline.amazon_mp3_link == null}" href="{{streamline.amazon_mp3_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.amazon_mp3_link.$error.required">Please input URL for Amazon MP3.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Bandcamp Part -->
+                            <div  class="social bandcamp social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/bandcamp.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.bandcamp == true ? true : false" ng-model="streamline.bandcamp"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.bandcamp ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.bandcamp" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.bandcamp" ng-disabled="!streamline.bandcamp" type="text" name="bandcamp_link" id="bandcamp_link" class="mb-sm-3 artist-links" ng-model="streamline.bandcamp_link" placeholder="Enter the URL To track/audio on BandCamp" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.bandcamp || streamline.bandcamp_link == '' || streamline.bandcamp_link == null}" href="{{streamline.bandcamp_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.bandcamp_link.$error.required">Please input URL for Bandcamp.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Juno Part -->
+                            <div  class="social juno social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/junodownload.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.juno == true ? true : false" ng-model="streamline.juno"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.juno ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.juno" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.juno" ng-disabled="!streamline.juno" type="text" name="juno_link" id="juno_link" class="mb-sm-3 artist-links" ng-model="streamline.juno_link" placeholder="Enter the URL To track/audio on Juno" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.juno || streamline.juno_link == '' || streamline.juno_link == null}" href="{{streamline.juno_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.juno_link.$error.required">Please input URL for Juno.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- TrackItDown Part -->
+                            <div  class="social trackitdown social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo" src="/logo/trackitdown.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.trackitdown == true ? true : false" ng-model="streamline.trackitdown"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.trackitdown ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.trackitdown" class="row social-cont">
+                                    <div class="col-md-10 social-link">
+                                        <input ng-required="streamline.trackitdown" ng-disabled="!streamline.trackitdown" type="text" name="trackitdown_link" id="trackitdown_link" class="mb-sm-3 artist-links" ng-model="streamline.trackitdown_link" placeholder="Enter the URL To track/audio on TrackItDown" http-prefix ng-pattern="checkUrl2">
+                                    </div>
+                                    <div class="col-md-2 social-action">
+                                        <a target="_blank" ng-class="{'disabled' : !streamline.trackitdown || streamline.trackitdown_link == '' || streamline.trackitdown_link == null}" href="{{streamline.trackitdown_link}}" class="social-open">Open</a>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.trackitdown_link.$error.required">Please input URL for TrackItDown.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- STM Part -->
+                            <div  class="social stm social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo pull-left" src="/logo/stm_logo.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.stm == true ? true : false" ng-model="streamline.stm"  button-alter autocomplete="off">
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.stm ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.stm" class="row social-cont">
+                                    <div class="col-md-12 social-link">
+                                        <select ng-model="streamline.stm_track_id"
+                                                name="trackName"
+                                                id="trackName"
+                                                ng-disabled="!streamline.stm"
+                                                ng-required="streamline.stm"
+                                                class="form-control sc-tracks"
+                                                ng-selected="streamline.stm_track_id"
+                                                ng-options="campaign.id as campaign.track_name for campaign in remixCampaigns" required>
+                                            <option value="" disabled selected hidden>Select Campaign (REMIX CAMPAIGN ONLY)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row social-cont">
+                                    <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.trackName.$error.required">Please select STM Track.</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Customizable Part -->
+                            <div  class="social custom-social social-view">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!--<i class="fa fa-apple"></i>
+                                        <div class="clearfix"></div>-->
+                                        <img class="social-logo pull-left" src="/logo/custom.png" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="option pull-right">
+                                            <input type="checkbox" name="checkbox-social" id="checkbox-social" ng-init="streamline.custom == true ? true : false" ng-model="streamline.custom"  button-alter autocomplete="off" />
+                                        </div>
+                                        <span for="checkbox-social" class="pull-right social-status">{{streamline.custom ? 'Enabled' : 'Disabled'}}</span>
+                                    </div>
+                                </div>
+                                <div ng-show="streamline.custom" class="row social-cont">
+                                    <div class="col-md-12 social-link">
+                                        <input ng-required="streamline.custom" ng-disabled="!streamline.custom" type="text" name="custom_title" id="custom_title" class="artist-links" ng-model="streamline.custom_title" placeholder="Enter the Title" />
+                                    </div>
+                                    <div class="row social-cont">
+                                        <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                            <span ng-if="streamlineForm.custom_title.$error.required">Please enter Title.</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-12 social-link">
+                                        <div class="col-md-10 social-link">
+                                            <input ng-required="streamline.custom" ng-disabled="!streamline.custom" type="text" name="custom_link" id="custom_link" class="mb-sm-3 artist-links" ng-model="streamline.custom_link" placeholder="Enter the URL To track/audio" http-prefix ng-pattern="checkUrl2">
+                                        </div>
+                                        <div class="col-md-2 social-action">
+                                            <a target="_blank" ng-class="{'disabled' : !streamline.custom || streamline.custom_link == '' || streamline.custom_link == null}" href="{{streamline.custom_link}}" class="social-open">Open</a>
+                                        </div>
+                                    </div>
+                                    <div class="row social-cont">
+                                        <span class="text-danger" ng-show="streamlineForm.$submitted">
+                                            <span ng-if="streamlineForm.custom_link.$error.required">Please input Link..</span>
+                                        </span>
+                                    </div>
+                                    <!--<div class="col-md-12 social-link">
+                                        <input ng-required="streamline.custom" ng-disabled="!streamline.custom" ng-if="streamline.action=='add'" type="file" id="custom-social-artwork" file-model ng-model="streamline.custom_art_file" class="mb-sm-3" name="custom_art_file" accept='image/*' onchange="angular.element(this).scope().setFile(this)" >
+                                        <input ng-required="streamline.custom" ng-disabled="!streamline.custom" ng-if="streamline.action=='edit'" ng-show="showArtwork" type="file" id="custom-social-artwork" file-model ng-model="streamline.custom_art_file" class="mb-sm-3 upload_artwork" name="custom_art_file" accept='image/*' onchange="angular.element(this).scope().setFile(this)">
+
+                                        <div class="mt-lg-10 mb-lg-10" ng-show="streamline.action != 'add' && streamline.custom" >
+                                            <span class="file-upload-buttons default-pointer" ng-click="showArtwork = !showArtwork;!showArtwork ? clearFileInput('artwork') : '' "> {{ showArtwork ? 'Cancel' : 'Change Artwork'}} </span>
+                                        </div>
+
+                                        <img ng-show="streamline.custom" ng-if="custom_image_source" ng-src="{{ custom_image_source }}" class="campaign_img_height" id="custom_artwork_image" name="custom_artwork_image" />
+                                        <span class="text-danger" ng-if="streamlineForm.$submitted">
+                                            <span ng-if="streamlineForm.custom_art_file.$error.required && !imageSizeValidation">Please select track artwork file.</span>
+                                            <span class="text-danger" ng-if="error_artwork_file && !streamline.custom_art_file">
+                                                Please select track artwork file.
+                                            </span>
+                                        </span>
+                                    </div>-->
+                                </div>
+                            </div>
+
+                            <!-- Next Button Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="buttons-wrapper">
+                                        <button type="submit" class="red-button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div ng-switch-when="third">
+                <div class="modal-body">
+                    <div class="form-wrapper">
+                        <form name="streamlineForm" id="streamlineForm" ng-submit="!imageSizeValidation && !BackImageError && streamlineForm.$valid && addStreamline(streamline)" novalidate>
+                            <div class="page-background">
+                                <label>Please Choose A Page Background Or Upload Your Own <span class="text-red"> * </span></label>
+                                <data-dashboard-owl id="owl-demo" class="owl-carousel owl-theme" data-options="{navigation: false, pagination: true, rewindNav : false,singleItem : true}">
+                                    <div owl-dashboard-item="" name="background_img" ng-repeat="image in images" class="item radio-btn" ng-click="streamline.bg_file = image" ng-model="streamline.bg_file" ng-required="!streamline.background">
+                                        <input type="radio" class="hidden mb-sm-3" ng-checked="streamline.bg_file == image" ng-model="streamline.bg_file" id="{{$index}}" name="radio-btn">
+                                        <label for="{{$index}}">
+                                            <img ng-src="{{ cropimage(image , 110,110) }}" class="campaign-banner" alt=""/>
+                                        </label>
+                                    </div>
+                                    <span class="text-danger" ng-if="streamlineForm.$submitted">
+                                        <span ng-if="streamlineForm.background_img.$error.required">Please choose your page background.</span>
+                                    </span>
+                                </data-dashboard-owl>
+                            </div>
+                            <label for="upload-own-background">  Upload Your Page Background <span class="text-red"> * </span></label>
+                            <label class="check-label font11">RECOMMENDED SIZE 1600px X 615px</label>
+
+                            <input ng-if="streamline.action=='add'" type="file" class="mb-sm-3" name="background" file-model ng-model="streamline.background" accept='image/*' ng-required="!streamline.bg_file" onchange="angular.element(this).scope().setBackground(this)"/>
+                            <input ng-show="showPageBackground" type="file" class="mb-sm-3 upload_background" name="background" file-model ng-model="streamline.background" accept='image/*' ng-required="!streamline.bg_file" onchange="angular.element(this).scope().setBackground(this)"/>
+
+                            <div class="mt-lg-10 mb-lg-10" ng-show="streamline.action != 'add' " >
+                                <span class="file-upload-buttons default-pointer" ng-click="showPageBackground = !showPageBackground;!showPageBackground ? clearFileInput('page-background') : '' "> {{ showPageBackground ? 'Cancel' : 'Change'}} </span>
+                            </div>
+                            <img ng-if="image_source_background" ng-src="{{ image_source_background }}" class="campaign_img_height" id="streamline_image"/><br>
+
+                            <span class="text-danger" ng-if="streamlineForm.$submitted">
+                                <span ng-if="streamlineForm.background.$error.required && !BackImageError  && completed !='true'">Please select your page background.</span>
+                            </span>
+
+                            <!--<div class="row">
+                                <div class="col-md-12">
+                                    <input class="check-status" id="blur"  ng-true-value="1" ng-false-value="0" type="checkbox" name="blur" ng-model="streamline.blur">
+                                    <label for="blur" class="check-label ie-label-padding font11">Blur Background</label>
+                                </div>
+                            </div>-->
+
+                            <!-- Next Button Part -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="buttons-wrapper">
+                                        <button type="button" class="black-button" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+                                        <button type="submit" class="red-button">Save Streamline</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div ng-init="getFavourites()">
+  <div ng-include=" 'frontweb/tpl/artist/sub-navbar2.html' " include-replace></div>
+  <!-- <div class="pull-right">
+    <select class="form-control no-border-radius base-font" name="fav_type" ng-change="changeTrack(favouriteType)" ng-model="favouriteType">
+      <option value="track">Tracks</option>
+      <option value="campaign">Campaigns</option>
+      <option value="video">Videos</option>
+      <option value="remix">Competition Remix</option>
+      
+    </select>
+  </div> -->
+
+ 
+  <section id="videos" class="admin-everything">
+    <div class="row">
+      <div class="col-xs-12" ng-show="favouriteTracks">
+        <div class="flexbox" ng-if="favouriteTracks.length">
+          <div class="video-track-constant" ng-repeat="track in favouriteTracks">
+         
+            <div class="player-icon">
+              <img class="image-size" image-error="{{ _defaults.default_track_image }}" ng-src="{{ cropimage(track.cover_image,500,500) }}" alt="" image-preload="" />
+              <span>
+                <a ng-show="track.id != _currentTrack.id || track.type != _currentTrack.type" href="javascript:;" ng-click="playTrack(track, track.track_type)">
+                  <i class="fa fa-play-circle player-play-circle"></i>
+                </a>
+              </span>  
+              <a ng-if="loadingTrack && track.id == _currentTrack.id && track.type == _currentTrack.type" href="javascript:;" class="image-buffer"><img class="loader-track" ng-src="frontweb/assets/images/ajax-loader.gif"></a>
+              <a ng-if="track.id == _currentTrack.id && !loadingTrack && track.type == _currentTrack.type" href="javascript:;" ng-click="pauseTrack(track)">
+              <i class="fa fa-pause-circle player-pause-circle"></i>
+              </a>
+            </div>
+            <div class="assets">
+              <div class="row">
+                <div class="col-xs-7">
+                  <span title="{{ track.artist_name }} " class="author default-pointer artist-name-truncate" ui-sref="app.artist.tracks({slug:track.artist_slug})">{{track.artist_name}}</span>
+                </div><!-- /.col-xs-7 -->
+                <div class="col-xs-5">
+                  <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{ track.play_count}}</span>
+                </div><!-- /.col-xs-5 -->
+              </div><!-- /.row -->
+              <div class="">
+                <div class="row">
+                  <div class="col-xs-12">
+                      <h3 class="track-name-truncate" ng-class="{'blue-btn':track.track_name.length>26}" title="{{ track.track_name }} ">
+                        <a ng-class="{'first-link':track.track_name.length>26} "> {{track.track_name}} </a>
+                      </h3>
+                  </div><!-- /.col-xs-12 -->
+                </div><!-- /.row -->
+                <div class="row">
+                  <div class="col-xs-12 fix-genre-height">
+                    <ul class="tags">
+                      
+                      <li>
+                        <li ng-if="track.track_genres">
+                          <a ui-sref="app.page.discover({ genre : track.track_genres_slug })" href="javascript:;" title="{{ track.track_genres }}" class="genres-truncate">{{track.track_genres}}</a>
+                        </li>
+
+                        <li ng-if="track.track_sub_genres">
+                          <a ui-sref="app.page.discover({ genre : track.track_sub_genres_slug })" href="javascript:;" title="{{ track.track_sub_genres }}" class="genres-truncate">{{track.track_sub_genres}}</a>
+                        </li>
+
+                        <li ng-if="track.track_moods">
+                          <a ui-sref="app.page.discover({ mood : track.track_moods_slug })" href="javascript:;" title="{{ track.track_moods }}" class="genres-truncate">{{track.track_moods}}</a>
+                        </li>
+
+                      </li>
+                    </ul><!-- /.tags -->
+                  </div><!-- /.col-xs-12 -->
+                </div><!-- /.row -->
+              </div>
+              <div class="clearfix"></div><!-- /.clearfix -->
+              <div class="buttons">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <div class="download">
+                      <a target="_blank" ng-if="track.track_type == 'track'" ui-sref="app.single_track({trackId : track.slug})"><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+                      <a target="_blank" ng-if="track.track_type == 'campaign'" ui-sref="app.single_campaign({trackId : track.slug})"><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+
+                    </div><!-- /.download -->
+                  </div><!-- /.col-xs-4 -->
+                  <div class="col-xs-8">
+                    <div class="add pull-right">
+                      <a href="javascript:;" ng-if="track.track_type == 'track'" ng-click="_playlistTrackIds.indexOf(track.id) >= 0 ? removePlaylistTrack(track, 'track') : addPlaylistlModal1(track, 'track')"><img ng-src="{{_playlistTrackIds.indexOf(track.id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                      <a href="javascript:;" ng-if="track.track_type == 'campaign'" ng-click="_playlistCampaignIds.indexOf(track.id) >= 0 ? removePlaylistTrack(track, 'campaign') : addPlaylistlModal1(track, 'campaign')"><img ng-src="{{_playlistCampaignIds.indexOf(track.id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                      <a href="javascript:;" ng-if="track.track_type == 'remix'" ng-click="_playlistRemixIds.indexOf(track.id) >= 0 ? removePlaylistTrack(track, 'remix') : addPlaylistlModal1(track, 'remix')"><img ng-src="{{_playlistRemixIds.indexOf(track.id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                      <!-- <a href="javascript:;" ng-click="addPlaylistlModal1(track, 'campaign')"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+                    </div> <!-- /.add -->
+                    <div class="love pull-right">
+                      <a href="javascript:;" ng-if="artist.slug == _user.slug" ng-click="deletefavouriteTrack(track, $index, track.track_type)"><i class="text-red fa fa-heart fa-lg"></i> {{track.favourite_count}}</a>
+                      <a href="javascript:;" ng-if="artist.slug != _user.slug && track.track_type == 'track'" ng-click="addInFavourites(track, track.track_type)"><i ng-class="{'text-red fa fa-heart fa-lg' : _favTrackIds.indexOf(track.id) >= 0, 'fa fa-heart-o fa-lg' : _favTrackIds.indexOf(track.id) < 0}"></i> {{track.favourite_count}}</a>
+                      <a href="javascript:;" ng-if="artist.slug != _user.slug && track.track_type == 'campaign'" ng-click="addInFavourites(track, track.track_type)"><i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(track.id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(track.id) < 0}"></i> {{track.favourite_count}}</a>
+                      <a href="javascript:;" ng-if="artist.slug != _user.slug && track.track_type == 'remix'" ng-click="addInFavourites(track, track.track_type)"><i ng-class="{'text-red fa fa-heart fa-lg' : _favRemixIds.indexOf(track.id) >= 0, 'fa fa-heart-o fa-lg' : _favRemixIds.indexOf(track.id) < 0}"></i> {{track.favourite_count}}</a>
+                      <!-- <a href="javascript:;" ng-click="deletefavouriteTrack(track, $index, 'campaign')"><i class="text-red fa fa-heart fa-lg"></i> {{track.favourite_count}}</a> -->
+                    </div><!-- /.love -->
+                  </div><!-- /.col-xs-8 -->
+                </div><!-- /.row -->
+              </div><!-- /.buttons -->
+              <div class="clearfix"></div><!-- /.clearfix -->
+            </div><!-- /.assets -->
+          </div><!-- /.video-track -->
+          <div class="video-track-constant"></div><!-- /.video-track-constant -->
+        </div><!-- /.flexbox -->
+        <div ng-if="!favouriteTracks.length" class="base-font"><div class="clearfix">&nbsp;</div> No tracks </div>
+      </div><!-- /.col-xs-12 -->
+    </div><!-- /.row -->
+    <div ng-if="loading" class="text-center base-font">
+      <div class="clearfix">&nbsp;</div>
+      Loading...
+    </div>
+    <div infinite-scroll="loadMoreFavouritesTracks()" ></div> 
+  </section><!-- /#videos -->
+
+
+</div>

@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">Playlist</h4>
+</div>
+<form method="post" name="sendEmail" id="sendEmail" ng-submit="sendEmail.$valid && sendMessage()" class="form-horizontal" accept-charset="UTF-8" novalidate>
+   
+    <div class="modal-body">
+
+    <section id="playlistTable" class="table-view">
+    	<div class="table-header">
+      		<div class="row">
+        		<div class="col-md-7 col-xs-7">
+          			<span class="title">Playlist Name</span>
+        		</div>
+        		<div class="col-md-5 col-xs-5 text-center">
+          			<span class="title">Actions</span>
+        		</div>
+      		</div><!-- /.row -->
+    	</div><!-- /.table-header -->
+    	<div class="table-body my">
+    		<form name="viewPlaylist" id="viewPlaylist">
+    			<div ng-if="playlistData.length" class="table-row" ng-repeat="list in playlistData.slice(((playlistCurrentPage-1)*itemsPerPage), ((playlistCurrentPage)*itemsPerPage))">
+          		<div class="row">
+            			<div class="col-md-7 col-xs-7" ng-init="list.editing=false">
+              			<span ng-model="list.name" ng-class="{edit:list.editing}" name="playlist" contenteditable="{{list.editing}}">{{list.name}}</span>
+              			<span ng-if="list.error.name" class="text-red pages-error">{{ list.error.name }}</span>
+            			</div>
+            			<div class="col-md-5 col-xs-5 text-center">
+            				<button type="button" ng-show="list.editing" ng-click="updatePlaylistName(list)" class="form-btn btn-red">save</button>
+						        <button type="button" ng-show="list.editing" ng-click="list.editing=false; list.name = old.name; list.error.name = '' " class="form-btn btn-black">Cancel</button>
+                		<!-- <div ng-show="editing" class="clearfix">&nbsp;</div> -->
+
+                		<div ng-hide="list.editing" class="link-margin">
+                			   <a href="javascript:;" ng-click="list.editing = true; old.name = list.name; oldValue(list);"><i class="fa fa-pencil-square-o fa-lg"></i></a>&nbsp;
+                  			<a href="javascript:;" ng-click="deletePlaylist(list, $index + (playlistCurrentPage - 1) *10)" class="text-danger"><i class="fa fa-times fa-lg"></i></a>
+                		</div>
+            			</div>
+          		</div><!-- /.row -->
+        		</div><!-- /.table-row -->	
+            
+    		</form>
+       	
+    	</div><!-- /.table-body -->
+      <uib-pagination
+        total-items="playlistData.length"
+        ng-model="playlistCurrentPage"
+        class="pull-right"
+        max-size="maxSize"  
+        previous-text="&lsaquo;" 
+        next-text="&rsaquo;" 
+        first-text="&laquo;" 
+        last-text="&raquo;"
+        ng-show= "playlistData.length > 10">
+      </uib-pagination>
+
+      <div ng-if="!playlistData.length"> <div class="clearfix">&nbsp;</div> No Playlist </div>
+      <div class="clearfix"></div>
+  	</section><!-- /#runing-campaigns -->
+    </div>
+</form>

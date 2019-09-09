@@ -1,0 +1,88 @@
+<div ng-include=" 'frontweb/tpl/artist/sub-navbar2.html' " include-replace></div>
+<section id="videos" class="admin-everything" ng-init="getVideos()">
+  <div class="row">
+    <div class="col-xs-12" ng-show="videoTracks">
+      <div class="flexbox flexbox-height" ng-if="videoTracks.length">
+        <div class="video-track-constant video-cover-fixed-width" ng-repeat="track in videoTracks">
+
+        <div class="video-youtube" ng-bind-html="track.url | youtubevideo:340"> </div>
+
+          <!-- <img class="image-size" image-error="{{ _defaults.default_track_image }}" ng-src="{{ cropimage(track.artwork_file ? track.artwork_file : _defaults.default_track_image, 244, 244) }}" alt="" /> -->
+          <div class="assets">
+            <div class="row">
+              <div class="col-xs-7">
+                <span title="{{ track.artist_name }} " class="author default-pointer artist-name-truncate" ui-sref="app.artist.tracks({slug:track.artist_slug})">{{track.artist_name}}</span>
+                <!-- <span class="author">{{track.artist_name | cut:true:10:' ...'}}</span> -->
+              </div><!-- /.col-xs-7 -->
+              <div class="col-xs-5">
+                <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{ track.campaign.play_count }} </span>
+              </div><!-- /.col-xs-5 -->
+            </div><!-- /.row -->
+            <div class="">
+              <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="track-name-truncate"  ng-class="{'blue-btn':track.campaign.track_name.length>26}" title="{{ track.campaign.track_name }} ">
+                      <a ng-class="{'first-link':track.campaign.track_name.length>26} " > {{track.campaign.track_name }} </a>
+                    </h3>
+                </div><!-- /.col-xs-12 -->
+              </div><!-- /.row -->
+              <div class="row">
+                <div class="col-xs-12 fix-genre-height">
+                  <ul class="tags">
+                    <!-- <li ng-repeat="genres in track.video_genres">
+                      <a href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name}}</a>
+                    </li> -->
+                    <li>
+                      <!-- <a ng-if="track.video_genres" href="javascript:;" title="{{ track.video_genres.name }}" class="genres-truncate">{{track.video_genres.name }}</a>
+                        <a ng-if="track.video_sub_genres" href="javascript:;" title="{{ track.video_sub_genres.name }}" class="genres-truncate">{{track.video_sub_genres.name }}</a>
+                        <a ng-if="track.video_moods" href="javascript:;" title="{{ track.video_moods.name }}" class="genres-truncate">{{track.video_moods.name }}</a> -->
+                      <li ng-repeat="genres in track.campaign.track_genres">
+                        <a ui-sref="app.page.discover({ genre : genres.slug })" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                      </li>
+                      <li ng-repeat="genres in track.campaign.track_sub_genres">
+                        <a ui-sref="app.page.discover({ genre : genres.slug })" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                      </li>
+                      <li ng-repeat="genres in track.campaign.campaign_moods">
+                        <a ui-sref="app.page.discover({ mood : genres.slug })" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                      </li>
+                    </li>
+                  </ul><!-- /.tags -->
+                </div><!-- /.col-xs-12 -->
+              </div><!-- /.row -->
+            </div>
+            <div class="clearfix"></div><!-- /.clearfix -->
+            <div class="buttons">
+              <div class="row">
+                <div class="col-xs-4">
+                  <div class="download">
+                    <a target="_blank" ui-sref="app.single_campaign({trackId :track.campaign.slug})"><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+                  </div><!-- /.download -->
+                </div><!-- /.col-xs-4 -->
+                <div class="col-xs-8">
+                  <div class="add pull-right">
+                    <a href="javascript:;" ng-click="_playlistCampaignIds.indexOf(track.track_id) >= 0 ? removePlaylistTrack(track.campaign, 'campaign') : addPlaylistlModal1(track.campaign, 'campaign')"><img ng-src="{{_playlistCampaignIds.indexOf(track.track_id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                    <!-- <a href="javascript:;" ng-if="_user"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+                  </div> <!-- /.add -->
+                  <div class="love pull-right">
+                    <a href="javascript:;" ng-if="_user" ng-click="addInFavourites(track.campaign, 'campaign')"><i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(track.track_id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(track.track_id) < 0}"></i> {{track.campaign.favourite_count}}</a>
+                    <!-- <a href="javascript:;"><i class="fa fa-heart-o fa-lg"></i> 0 </a> -->
+                  </div><!-- /.love -->
+                </div><!-- /.col-xs-8 -->
+              </div><!-- /.row -->
+            </div><!-- /.buttons -->
+            <div class="clearfix"></div><!-- /.clearfix -->
+          </div><!-- /.assets -->
+        </div><!-- /.video-track -->
+        <div class="video-track-constant"></div><!-- /.video-track-constant -->
+         <div ng-if="!videoTracks.length" class="h-300 text-center base-font"><div class="clearfix ">&nbsp;</div> No tracks </div>
+      </div><!-- /.flexbox -->
+      
+     <!--  <div ng-if="!videoTracks.length" class="base-font"><div class="clearfix ">&nbsp;</div> No tracks </div> -->
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row -->
+  <div ng-if="loading" class="text-center base-font">
+    <div class="clearfix">&nbsp;</div>
+    Loading...
+  </div>
+  <div infinite-scroll="loadMoreVideos()" ></div>
+</section><!-- /#videos -->

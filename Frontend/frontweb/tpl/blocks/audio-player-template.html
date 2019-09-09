@@ -1,0 +1,154 @@
+<div class="player-fixed-bottom no-animate">
+  <div class="container-fixed">
+    <div class="col pull-right track-hide-show" ng-if="player.currentTrack">
+      <a ng-click="hidePlayer()">
+        <i ng-show="PlayerShow" class="fa fa-caret-down track-hide" title="Player hide" aria-hidden="true"></i>
+      </a>
+      <a ng-click="showPlayer()">
+        <i ng-show="Playerhide" class="fa fa-caret-up track-show" title="Player show" aria-hidden="true"></i>
+      </a>
+    </div>
+
+    <div id="stm_player" class="jp-jplayer" ></div>
+    <div ng-show="PlayerShow" id="stm_container_1" class="jp-audio cssFade " role="application" aria-label="media player" ng-if="player.currentTrack">
+      <div class="row">
+        <div class="col-md-4 col-sm-3">
+          <div class="row">
+            <div class="col-md-7 col-sm-4">
+              <div class="song">
+                <div class="row">
+                  <div class="col-md-3">
+                    <a target="_blank" ui-sref="app.single_campaign({trackId:player.currentTrack.slug})"><img id="" class="audioImage" ng-src="{{ cropimage(player.currentTrack.cover_image ? player.currentTrack.cover_image : _defaults.default_track_image, 40, 40) }}" alt="" image-error="{{_defaults.default_track_image}}"></a>
+                  </div>
+                  <div class="col-md-9 hidden-sm">
+                    <span class="author default-pointer" ui-sref="app.artist.tracks({slug:player.currentTrack.artist_slug})"
+                    >{{player.currentTrack.artist_name}}</span>
+                    <h2 class="stm-title" ui-sref="app.single_campaign({trackId:player.currentTrack.slug})" title="{{player.currentTrack.track_name}}">{{player.currentTrack.track_name | cut:true:10:'...'}}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 col-sm-8">
+              <ul class="player-buttons-left pull-right">
+                <li><span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" class="svg" /> {{player.currentTrack.play_count}}</span></li>
+                <li class="hidden-sm stm-shuffle" ng-class="{'shuffle-active' : player.isShuffle} "><a href="javascript:;"><img src="frontweb/assets/images/icon_shuffle.svg" alt="Shuffle icon" class="svg red" /></a></li>
+                <!-- <li class="hidden-sm stm-repeat" ng-class="{'repeat-active' : player.isRepeat} "><a href="javascript:;"><img src="frontweb/assets/images/icon_repeat.svg" alt="Repeat icon" class="svg red" /></a></li> -->
+                <li class="hidden-sm stm-repeat " ><a href="javascript:;"><img src="frontweb/assets/images/icon_repeat.svg" alt="Repeat icon" class="svg red" /></a></li>
+                <li class="hidden-sm stm-repeat-off repeat-active"><a href="javascript:;"><img src="frontweb/assets/images/icon_repeat.svg" alt="Repeat icon" class="svg red" /></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="player">
+            <div class="row">
+              <div class="col-sm-3 col-xs-3">
+                <span id="starttime" class="time start-time">&nbsp;</span>
+              </div>
+              <div class="col-sm-6 col-xs-6">
+                <div class="player-buttons-wrapper">
+                  <ul class="player-buttons">
+                    <li class="stm-previous"><a href="javascript:;" ng-class="{'disabled-link' : !player.hasPrevious}" ><img src="frontweb/assets/images/icon_back-player.svg" alt="Back player" class="back-button svg" /></a></li>
+                    <li class="stm-play"><a href="javascript:;"><img src="frontweb/assets/images/icon_play-player.svg" alt="Play player" class="play-button svg " /></a></li>
+                    <li class="stm-pause"><a href="javascript:;"><i class="fa fa-pause pause-track" aria-hidden="true"></i></a></li>
+                    <li class="stm-next" ><a href="javascript:;" ng-class="{'disabled-link' : !player.hasNext}" ><img src="frontweb/assets/images/icon_back-player.svg" alt="Next player" class="next-button svg" /></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-sm-3 col-xs-3">
+                <span id="end-time" class="time pull-right end-time">&nbsp;</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <div ng-style="{display: player.error ? 'none' : 'block'}" class="stm-progress">
+                  <div class="stm-seek-bar">
+                    <div class="stm-play-bar">
+                      <div class="stm-ball"></div>
+                    </div>
+                  </div>
+                </div>
+                <span class="text-red track-url" ng-show="player.error">Error loading media: File could not be played</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-3">
+          <div class="row">
+            <div class="col-lg-7 col-md-6">
+              <ul class="player-buttons-right player-set">
+                <li class="stm-mute volume "><a href="javascript:;"><img src="frontweb/assets/images/icon_volume.svg" alt="Volume button player" class="svg " /></a></li>
+                <li class="stm-unmute volume active "><a href="javascript:;"><img src="frontweb/assets/images/volume-mute-new.png" alt="Volume button player" class="svg " /></a></li>
+                <li class="hidden-sm volume-seekbar stm-volume-bar">
+                  <span class="level stm-volume-bar-value"></span>
+                  <span class="bg"></span>
+                </li>
+                <li class="hidden-sm">
+                  <a href="javascript:;" ng-if="user && player.currentTrack.track_type == 'track'" ng-click="addInFavourites(player.currentTrack, 'campaign')">
+                    <i ng-class="{'text-red fa fa-heart fa-lg love' : _favCampaignIds.indexOf(player.currentTrack.campaign_id) >= 0, 'fa fa-heart-o fa-lg love' : _favCampaignIds.indexOf(player.currentTrack.campaign_id) < 0}"></i>
+                  </a>
+
+                  <a href="javascript:;" ng-if="user && player.currentTrack.track_type == 'remix'" ng-click="addInFavourites(player.currentTrack, player.currentTrack.track_type)">
+                    <i ng-class="{'text-red fa fa-heart fa-lg love' : _favRemixIds.indexOf(player.currentTrack.id) >= 0, 'fa fa-heart-o fa-lg love' : _favRemixIds.indexOf(player.currentTrack.id) < 0}"></i>
+                  </a>
+
+                  <a href="javascript:;" ng-if="user && player.currentTrack.track_type == 'campaign'" ng-click="addInFavourites(player.currentTrack, player.currentTrack.track_type)">
+                    <i ng-class="{'text-red fa fa-heart fa-lg love' : _favCampaignIds.indexOf(player.currentTrack.id) >= 0, 'fa fa-heart-o fa-lg love' : _favCampaignIds.indexOf(player.currentTrack.id) < 0}"></i>
+                  </a>
+
+                  <a href="javascript:;" ng-if="!user" onClick="$('#signInModal').modal()" ng-controller ="AuthCtrl" ng-click="reset()">
+                    <i ng-class="'fa fa-heart-o fa-lg love'"></i>
+                    <!-- <img src="frontweb/assets/images/icon_heart.svg" alt="Heart icon" class="svg" /> -->
+                  </a>
+                  <!-- <a href="javascript:;" ng-if="user" ng-click="_favTrackIds.indexOf(player.currentTrack.id) < 0 && addInFavourites(player.currentTrack, 'track')">
+                    <span>
+                      <i  ng-class="{'text-red fa fa-heart fa-lg love' : _favTrackIds.indexOf(player.currentTrack.id) >= 0}"></i>
+                    <img ng-if="_favTrackIds.indexOf(player.currentTrack.id) < 0" src="frontweb/assets/images/icon_heart.svg" alt="Heart icon" class="svg" />
+                    </span>
+
+                  </a>
+                  <a href="javascript:;" ng-if="!user" onClick="$('#signInModal').modal()">
+                    <img src="frontweb/assets/images/icon_heart.svg" alt="Heart icon" class="svg" />
+                  </a> -->
+                  <!-- <i class="fa fa-plus-square" aria-hidden="true"></i> -->
+                </li>
+                <li class="hidden-sm">
+                  <a href="javascript:;" ng-if="user && player.currentTrack.track_type == 'track'" ng-click="_playlistCampaignIds.indexOf(player.currentTrack.campaign_id) >= 0 ? removePlaylistTrack(player.currentTrack, 'campaign') : addPlaylistlModal1(player.currentTrack, 'campaign')">
+                    <img ng-src="{{_playlistCampaignIds.indexOf(player.currentTrack.campaign_id) >= 0 ? 'frontweb/assets/images/icon_red_plus-player.svg' : 'frontweb/assets/images/icon_white_plus.svg'}}" alt="Plus player icon" class="svg stm-plus" />
+                  </a>
+
+                  <a href="javascript:;" ng-if="user && player.currentTrack.track_type == 'campaign'" ng-click="_playlistCampaignIds.indexOf(player.currentTrack.id) >= 0 ? removePlaylistTrack(player.currentTrack, 'campaign') : addPlaylistlModal1(player.currentTrack, 'campaign')">
+                    <img ng-src="{{_playlistCampaignIds.indexOf(player.currentTrack.id) >= 0 ? 'frontweb/assets/images/icon_red_plus-player.svg' : 'frontweb/assets/images/icon_white_plus.svg'}}" alt="Plus player icon" class="svg stm-plus" />
+                  </a>
+
+                  <a href="javascript:;" ng-if="user && player.currentTrack.track_type == 'remix'" ng-click="_playlistRemixIds.indexOf(player.currentTrack.id) >= 0 ? removePlaylistTrack(player.currentTrack, 'remix') : addPlaylistlModal1(player.currentTrack, 'remix')">
+                    <img ng-src="{{_playlistRemixIds.indexOf(player.currentTrack.id) >= 0 ? 'frontweb/assets/images/icon_red_plus-player.svg' : 'frontweb/assets/images/icon_white_plus.svg'}}" alt="Plus player icon" class="svg stm-plus" />
+                  </a>
+
+
+                  <!-- <a href="javascript:;" ng-if="user"  ng-click="addPlaylistlModal1(player.currentTrack, 'track')">
+                    <img src="frontweb/assets/images/icon_plus-player.svg" alt="Add button player" class="svg stm-plus" />
+                  </a> -->
+                  <a href="javascript:;" ng-if="!user" onClick="$('#signInModal').modal()" ng-controller ="AuthCtrl" ng-click="reset()">
+                    <img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg stm-plus" />
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+            <div class="col-lg-5 col-md-6">
+              <a target="_blank" ng-if="player.currentTrack.track_type == 'track'" class="red-button pull-left stm-track-download" ui-sref="app.single_track({trackId:player.currentTrack.slug})" >
+                <img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" />
+                Download
+              </a>
+              <a target="_blank" ng-if="player.currentTrack.track_type == 'campaign'" class="red-button pull-left stm-track-download" ui-sref="app.single_campaign({trackId:player.currentTrack.slug})" >
+                <img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" />
+                Download
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

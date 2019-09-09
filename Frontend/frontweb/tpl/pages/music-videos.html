@@ -1,0 +1,287 @@
+<div ng-controller="PageVideosCtrl" class="music_video">
+<!-- <div ng-controller="PageVideosCtrl" ng-init="musicVideoPage()"> -->
+
+  <div class="background-image background-cover" ng-style="{'background-image': 'url('+_defaults.default_banner_image+')'}">
+    <div class="vertical-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>Music Videos</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- <div class="hero-video">
+      <div id="video_embed_container" class='video_embed_container'>
+        <iframe id="video_dashboard" src="https://player.vimeo.com/video/178018783?api=1&background=1&autoplay=1&loop=1"></iframe>
+      </div>
+    </div> -->
+
+  <div class="about-stm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <h2>Immerse yourself further into music and watch all music video's which have been created for the very best Sore Thumb Media releases.</h2>
+        </div><!-- /.col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div><!-- /.about-stm -->
+
+  <div class="parallax-window banner" data-parallax="scroll" data-bleed="10" data-image-src="frontweb/assets/images/homepage/bgd_artists-say.jpg" ng-init="getSpotlightVideo()">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <section id="banner-music-videos" class="banner-inner">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2>Spotlight Music Video</h2>
+              </div><!-- /.col-xs-12 -->
+            </div><!-- /.row -->
+            <div class="row " ng-if="spotlightVideo">
+              <div class="row-height">
+                <div class="col-md-8 col-sm-height col-sm-top custom-padding">
+                  <!-- <div class="background-cover" ng-if="!spotlightVideo.artwork_file" ng-style="{'background-image': 'url('+_defaults.default_track_image+')'}"></div><!-- /.background-cover -->
+                  <div class="video-youtube video-font" ng-bind-html="spotlightVideo.url | youtubevideo:330">
+                  <div class="">
+                  </div>
+                    <!-- <div class="remix-image-size background-cover" ng-style="spotlightVideo.artwork_file ? {'background-image': 'url('+spotlightVideo.artwork_file+')'} : {'background-image': 'url('+_defaults.default_track_image+')'}"></div> -->
+                  </div>
+                </div><!-- /.col-md-8 col-sm-height col-sm-top -->
+                <div class="col-md-4 col-sm-height col-sm-top">
+                  <div class="video-track-constant video_spotlight">
+                    <div class="assets">
+                      <div class="spotlight-fixed-size">
+                        <div class="row">
+                          <div class="col-xs-7">
+                            <span title="{{ spotlightVideo.artist_name }}"  class="author default-pointer artist-name-truncate" ui-sref="app.artist.tracks({slug:spotlightVideo.artist_slug})">{{spotlightVideo.artist_name}}</span>
+                          </div><!-- /.col-xs-7 -->
+                          <div class="col-xs-5">
+                           <!--  <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{ spotlightVideo.campaign.play_count }} </span> -->
+                          </div><!-- /.col-xs-5 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h3 class="track-name-truncate" ng-class="{'blue-btn':spotlightVideo.campaign.track_name.length>26}" title="{{ spotlightVideo.campaign.track_name }}"  >
+                              <a ng-class="{'first-link':spotlightVideo.campaign.track_name.length>26} " >{{spotlightVideo.campaign.track_name}}</a>
+                            </h3>
+                            <!-- class="desc-size line-clamp line-clamp-9" id="style-1" -->
+                            <div class="line"></div>
+                            <div>
+                              <p class="desc-size wrap font12" data-ng-bind="spotlightVideo.description" data-ellipsis></p>
+                            </div>
+                          </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                        <div class="row">
+                          <div class="col-xs-12 fix-genre-height">
+                            <ul class="tags">
+                              <!-- <li ng-repeat="genres in spotlightVideo.video_genres">
+                                <a href="javascript:;">{{genres.name}}</a>
+                              </li> -->
+
+                              <li>
+                                <!-- <a ng-if="spotlightVideo.video_genres" href="javascript:;" title="{{ spotlightVideo.video_genres.name }}" class="genres-truncate">{{spotlightVideo.video_genres.name }}</a>
+                                <a ng-if="spotlightVideo.video_sub_genres" href="javascript:;" title="{{ spotlightVideo.video_sub_genres.name }}" class="genres-truncate">{{spotlightVideo.video_sub_genres.name }}</a>
+                                <a ng-if="spotlightVideo.video_moods" href="javascript:;" title="{{ track.video_moods.name }}" class="genres-truncate">{{spotlightVideo.video_moods.name }}</a> -->
+                                <li>
+                                  <li ng-repeat="genres in spotlightVideo.campaign.track_genres">
+                                    <a ng-click="setGenre(genres.id)" href="javascript:;" >{{genres.name }}</a>
+                                  </li>
+                                  <li ng-repeat="genres in spotlightVideo.campaign.track_sub_genres">
+                                    <a ng-click="setSubGenre(genres)" href="javascript:;" >{{genres.name }}</a>
+                                  </li>
+                                  <li ng-repeat="genres in spotlightVideo.campaign.campaign_moods">
+                                    <a ng-click="setMood(genres.id)" href="javascript:;" >{{genres.name }}</a>
+                                  </li>
+                                </li>
+                              </li>
+                            </ul><!-- /.tags -->
+                          </div><!-- /.col-xs-12 -->
+                        </div><!-- /.row -->
+                      </div>
+                        <div class="buttons buttons-margin">
+                          <div class="row">
+                            <div class="col-xs-4">
+                              <div class="download">
+                                <a target="_blank" ui-sref="app.single_campaign({trackId : spotlightVideo.campaign.slug})"><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+                                <!-- <a ui-sref="app.single_video({trackId:spotlightVideo.slug})"><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a> -->
+                              </div><!-- /.download -->
+                            </div><!-- /.col-xs-4 -->
+                            <div class="col-xs-8">
+                              <div class="add pull-right">
+                                <a href="javascript:;" ng-if="_user" ng-click="_playlistCampaignIds.indexOf(spotlightVideo.track_id) >= 0 ? removePlaylistTrack(spotlightVideo.campaign, 'campaign') : addPlaylistlModal1(spotlightVideo.campaign, 'campaign')"><img ng-src="{{_playlistCampaignIds.indexOf(spotlightVideo.track_id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                                <!-- <a href="javascript:;" ng-if="_user"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a> -->
+                                <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a>
+                              </div><!-- /.add -->
+                              <div class="love pull-right">
+                                <a href="javascript:;" ng-if="_user" ng-click="addInFavourites(spotlightVideo.campaign, 'campaign')"><i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(spotlightVideo.track_id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(spotlightVideo.track_id) < 0}"></i> {{spotlightVideo.campaign.favourite_count}}</a>
+                                <!-- <a href="javascript:;" ng-if="_user"><i class="fa fa-heart-o fa-lg"></i> 0 </a> -->
+                                <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()"><img src="frontweb/assets/images/icon_heart.svg" alt="Heart icon" class="svg" /> {{spotlightVideo.favourite_count}} </a>
+                              </div><!-- /.love -->
+                            </div><!-- /.col-xs-8 -->
+                          </div><!-- /.row -->
+                        </div><!-- /.buttons -->
+                        <div class="clearfix"></div><!-- /.clearfix -->
+                    </div><!-- /.assets -->
+                  </div><!-- /.video-track -->
+                </div><!-- /.col-md-4 col-sm-height col-sm-top -->
+              </div><!-- /.row-height -->
+            </div><!-- /.row -->
+            <div ng-if="!spotlightVideo" class="text-center text-gray font-raleway">Spotlight Video not found</div>
+          </section><!-- /#banner-music-videos -->
+        </div><!-- /.col-md-10 col-md-offset-1 -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
+  </div><!-- /.banner -->
+
+  <section id="music-videos" ng-init="videoPage('DESC')">
+    <h2 class="hide">Music videos page</h2><!-- /.hide -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="filter">
+            <div class="clearfix"></div><!-- /.clearfix -->
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <span class="menu visible-xs">Menu</span>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                    <span class="dropdown-title">Filter by:</span>
+                    <div class="clearfix visible-xs"></div><!-- /.clearfix visible-xs -->
+                    <li class="dropdown">
+                      <a href="javascript:;" class="dropdown-toggle text-uppercase"  ng-dropdown-multiselect="" options="genersData"  search-filter="customFilter" selected-model="genersModel" extra-settings="genersSettings" translation-texts="genersCustomTexts" events="genersEvents" ></a>
+                    </li>
+
+                    <div class="clearfix visible-xs"></div><!-- /.clearfix visible-xs -->
+                    <li class="dropdown">
+                      <a href="javascript:;" class="dropdown-toggle text-uppercase"  ng-dropdown-multiselect="" options="moodsData" search-filter="customFilter" selected-model="moodsModel" extra-settings="moodsSettings" translation-texts="moodsCustomTexts" events="moodsEvents" ></a>
+                    </li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                    <div class="clearfix visible-xs"></div>
+                    <li ng-if="loading"><a href="javascript:;"><img src="frontweb/assets/images/loading-animation-7.gif" alt="Loading" class="data-loader"></a></li>
+                    <li class="dropdown">
+                      <a href="javascript:;" class="dropdown-toggle text-uppercase"  ng-dropdown-multiselect="" options="filterData" search-filter="customFilter" selected-model="filterModel" extra-settings="filterSettings" translation-texts="filterCustomTexts" events="filterEvents" data-toggle="dropdown" aria-expanded="false" ng-init="dataFilter"></a>
+                    </li>
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+          </div><!-- /.filter -->
+        </div><!-- /.col-xs-12 -->
+      </div><!-- /.row -->
+      <div class="row" ng-if="subGenres.length">
+        <div class="col-xs-12">
+          <div class="filter-tags">
+            <h2>Sub-genre</h2>
+            <ul class="tags">
+              <li ng-class="{'active': selected == null} " ng-click="select();"><a href="javascript:;"> All </a></li>
+              <li ng-repeat="subGenre in subGenres" ng-click="select($index, subGenre);" ng-class="{active: $index == selected}">
+                <a class="link" href="javascript:;" ng-click="getTracks('ELECTRO')">{{ subGenre.name }}</a>
+              </li>
+            </ul><!-- /.tags -->
+            <div class="clearfix"></div><!-- /.clearfix -->
+          </div><!-- /.filter-tags -->
+        </div><!-- /.col-xs-12 -->
+      </div><!-- /.row -->
+      <div class="row video-gap">
+          <div ng-repeat="video in videos | orderBy: campaign.dataFilter" class="video-cover-fixed-width">
+            <!--<div class="video-cover-fixed-width">-->
+              <div class="video-track">
+                <!-- <img src="frontweb/assets/images/img_video-1.jpg" alt="" /> -->
+                <div class="video-cover-fixed-size">
+                  <div class="youtube_video" ng-bind-html="video.url | youtubevideo:312"> </div>
+                  <!-- <img class="" ng-src="{{video.artwork_file}}" image-error="frontweb/assets/images/img_video-1.jpg" alt="" /> -->
+                </div>
+                <div class="assets video-cover-fixed-assets">
+                  <div class="row">
+                    <div class="col-xs-9">
+                      <span class="author default-pointer artist-name-truncate" ui-sref="app.artist.tracks({slug:video.artist_slug})">{{video.artist_name}}</span>
+                    </div><!-- /.col-xs-9 -->
+                    <div class="col-xs-3">
+                      <!-- <span class="player-counter"><img src="frontweb/assets/images/icon_play.svg" alt="Play icon" /> {{ video.campaign.play_count }}</span> -->
+                    </div><!-- /.col-xs-3 -->
+                  </div><!-- /.row -->
+                  <div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <h3>
+                          {{video.campaign.track_name}}
+                          <!-- <a class="color-black">{{video.track_name}}</a> -->
+                        </h3>
+                      </div><!-- /.col-xs-12 -->
+                    </div><!-- /.row -->
+                    <!-- <div class="row" ng-if="video.description">
+                        <div class="col-xs-12">
+                            <p id="style-1" class="desc-size-video">
+                                {{video.description}}
+                            </p>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                      <div class="col-xs-12 fix-genre-height">
+                        <ul class="tags">
+                          <li>
+                          <li ng-repeat="genres in video.campaign.track_genres">
+                            <a ng-click="setGenre(genres.id)" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                          </li>
+                          <li ng-repeat="genres in video.campaign.track_sub_genres">
+                            <a ng-click="setSubGenre(genres)" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                          </li>
+                          <li ng-repeat="genres in video.campaign.campaign_moods">
+                            <a ng-click="setMood(genres.id)" href="javascript:;" title="{{ genres.name }}" class="genres-truncate">{{genres.name }}</a>
+                          </li>
+                          </li>
+                          <li ng-show="!video.video_genres.length">
+                            <a href="javascript:;" class="border-none">&nbsp;</a>
+                          </li>
+                        </ul><!-- /.tags -->
+                      </div><!-- /.col-xs-12 -->
+                    </div><!-- /.row -->
+                  </div>
+                  <div class="clearfix"></div><!-- /.clearfix -->
+                  <div class="buttons">
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <div class="download">
+                          <a target="_blank" ui-sref="app.single_campaign({trackId : video.campaign.slug})"><img src="frontweb/assets/images/icon_download.svg" alt="Download icon" class="svg" /></a>
+                        </div><!-- /.download -->
+                      </div><!-- /.col-xs-4 -->
+                      <div class="col-xs-8">
+                        <div class="add pull-right">
+                          <a href="javascript:;" ng-if="_user" ng-click="_playlistCampaignIds.indexOf(video.track_id) >= 0 ? removePlaylistTrack(video.campaign, 'campaign') : addPlaylistlModal1(video.campaign, 'campaign')"><img ng-src="{{_playlistCampaignIds.indexOf(video.track_id) >= 0 ? 'frontweb/assets/images/icon_plus.svg' : 'frontweb/assets/images/icon_plus-player.svg'}}" alt="Plus player icon" class="svg" /></a>
+                          <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()"><img src="frontweb/assets/images/icon_plus-player.svg" alt="Plus player icon" class="svg" /></a>
+                        </div><!-- /.add -->
+                        <div class="love pull-right">
+                          <a href="javascript:;" ng-if="!_user" ng-controller ="AuthCtrl" ng-click="reset()" onClick="$('#signInModal').modal()"><img src="frontweb/assets/images/icon_heart.svg" alt="Heart icon" class="svg" /> 0 <!-- {{video.campaign.favourite_count}} --> </a>
+                          <a href="javascript:;" ng-if="_user" ng-click="addInFavourites(video.campaign, 'campaign')"><i ng-class="{'text-red fa fa-heart fa-lg' : _favCampaignIds.indexOf(video.track_id) >= 0, 'fa fa-heart-o fa-lg' : _favCampaignIds.indexOf(video.track_id) < 0}"></i> {{video.campaign.favourite_count}}</a>
+                        </div><!-- /.love -->
+                      </div><!-- /.col-xs-8 -->
+                    </div><!-- /.row -->
+                  </div><!-- /.buttons -->
+                  <div class="clearfix"></div><!-- /.clearfix -->
+                </div><!-- /.assets -->
+              </div><!-- /.video-track -->
+            <!--</div>-->
+          </div><!-- /.col-sm-6 -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+    <!-- <div ng-if="loading" class="text-center base-font">
+      Loading...
+    </div> -->
+    <div ng-if="!videos.length && !loading" class="h-300 text-center base-font"> Music Video's not found  </div>
+    <div infinite-scroll="loadMoreVideos()" ></div>
+  </section><!-- /#dashboard -->
+  <!-- <div ng-if="!videos.length" class="h-300 text-center base-font"> No Videos Found  </div> -->
+</div>

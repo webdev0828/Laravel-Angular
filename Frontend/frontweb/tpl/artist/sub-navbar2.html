@@ -1,0 +1,29 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navigation" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button><span class="menu visible-xs">Menu</span>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="main-navigation">
+      <ul class="nav navbar-nav">
+        <!-- <li ui-sref-active="active"><a ui-sref="app.artist.everything({slug:artist.slug})">Everything</a></li> -->
+        <li ui-sref-active="active"><a ui-sref="app.artist.tracks({slug:artist.slug})">Tracks</a></li>
+        <!-- <li ui-sref-active="active" ng-if="appScope.videoReleaseCount && appScope.videoReleaseCount > 0"><a ui-sref="app.artist.videos({slug:artist.slug})">Videos</a></li> -->
+        <!-- <li ui-sref-active="active"><a ui-sref="app.artist.remix({slug:artist.slug})">Remix</a></li> -->
+        <!-- <li ui-sref-active="active"><a ui-sref="app.artist.activity({slug:artist.slug})">Follow Feed</a></li> -->
+        <li ui-sref-active="active" ng-if="artist.slug == _user.slug"><a ui-sref="app.artist.playlists({slug:artist.slug})">Playlists</a></li>
+        <li ui-sref-active="active"><a ui-sref="app.artist.favourites({slug:artist.slug})">Favourites</a></li>
+        <li ui-sref-active="active"><a ui-sref="app.artist.followings({slug:artist.slug})">Following</a></li>
+        <li ui-sref-active="active"><a ui-sref="app.artist.fans({slug:artist.slug})">Fans</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

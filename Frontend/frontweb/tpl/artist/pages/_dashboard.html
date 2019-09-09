@@ -1,0 +1,268 @@
+<div ng-init="getTracksData();getDemoTracks()" id="dashboard_ctrl">
+  <div ng-include=" 'frontweb/tpl/artist/sub-navbar.html' " include-replace></div>
+  <div class="landing-page-modals">
+    <div data-ng-include=" 'frontweb/tpl/modals/repostDemoTrackModal.html' "></div>
+  </div>
+  <section id="socials">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul>
+          <li>
+            <div class="vertical-center">
+              <i class="fa fa-soundcloud"></i>
+
+              <!-- <input type="checkbox" name="checkbox-social" checked> -->
+              <input type="checkbox" name="checkbox-social" ng-model="state.soundcloud" btn-switch ng-change="" ng-disabled="_oauthConfig.soundcloud == '' || loading" ng-checked="state.soundcloud == true" autocomplete="off" button-switch-change="socialStateChange('soundcloud', state.soundcloud)" >
+            </div><!-- /.vertical-center -->
+          </li>
+          <li>
+            <div class="vertical-center">
+              <i class="fa fa-twitter"></i>
+              <input type="checkbox" name="checkbox-social" ng-model="state.twitter" btn-switch button-switch-change="socialStateChange('twitter', state.twitter)" ng-disabled="_oauthConfig.twitter == '' || loading" ng-checked="state.twitter == true" autocomplete="off">
+            </div><!-- /.vertical-center -->
+          </li>
+          <li>
+            <div class="vertical-center">
+              <i class="fa fa-facebook"></i>
+              <input type="checkbox" name="checkbox-social" ng-model="state.facebook" btn-switch  button-switch-change="socialStateChange('facebook', state.facebook)" ng-disabled="_oauthConfig.facebook == '' || loading" ng-checked="state.facebook == true" autocomplete="off">
+            </div><!-- /.vertical-center -->
+          </li>
+          <li>
+            <div class="vertical-center">
+              <i class="fa fa-youtube"></i>
+               <input type="checkbox" name="checkbox-social" ng-model="state.youtube" btn-switch  button-switch-change="socialStateChange('youtube', state.youtube)" ng-disabled="_oauthConfig.youtube == '' || loading" ng-checked="state.youtube == true" autocomplete="off">
+            </div><!-- /.vertical-center -->
+          </li>
+          <li>
+            <div class="vertical-center">
+              <i class="fa fa-instagram"></i>
+              <input type="checkbox" name="checkbox-social" ng-model="state.instagram" btn-switch  button-switch-change="socialStateChange('instagram', state.instagram)" ng-disabled="_oauthConfig.instagram == '' || loading" ng-checked="state.instagram == true" autocomplete="off">
+            </div><!-- /.vertical-center -->
+          </li>
+        </ul>
+      </div><!-- /.col-xs-12 -->
+    </div><!-- /.row -->
+  </section><!-- /#socials -->
+
+  <div class="row" id="network-lock">
+    <div class="col-xs-12">
+      <section id="runing-campaigns">
+
+        <!-- <a ng-click="openCampaignModal(track,'add')" href="" class="create-campaign pull-right">
+          Create
+        </a> -->
+        <!-- <button class="btn btn-red pull-right" ng-click="openCampaignModal('add')">Add Campaign</button> -->
+
+
+        <a href="javascript:;" class="pull-right" ng-click="openCampaignModal(null,'add')"><h2 class="font font14 red-color-btn">Create Campaign</h2></a>
+        <h2>Your Running Campaigns</h2>
+        <div class="table-header">
+          <div class="row">
+            <div class="col-md-3">
+              <span>Campaign Name</span>
+            </div><!-- /.col-md-4 -->
+            <div class="col-md-2 text-center">
+              <span>Date Created</span>
+            </div><!-- /.col-md-3 -->
+            <div class="col-md-1 text-center">
+              <span>Type</span>
+            </div><!-- /.col-md-1 -->
+            <div class="col-md-1 text-center">
+              <span>Status</span>
+            </div><!-- /.col-md-1 -->
+            <div class="col-md-1 text-center">
+              <span>Visits</span>
+            </div><!-- /.col-md-1 -->
+            <div class="col-md-2 text-center">
+              <span>Downloads</span>
+            </div><!-- /.col-md-2 -->
+            <div class="col-md-2 text-center">
+              <span>Actions</span>
+            </div><!-- /.col-md-2 -->
+          </div><!-- /.row -->
+        </div><!-- /.table-header -->
+        <div class="table-body" ng-if="campaigns.length">
+          <div class="table-row" ng-repeat="campaign in campaigns">
+            <div class="row">
+              <div class="col-md-3">
+                <span>{{ campaign.track_name }}</span>
+              </div><!-- /.col-md-4 -->
+              <div class="col-md-2 text-center">
+                <span ng-bind="formatDate(campaign.created_at) | date:'MMM dd/yyyy'"></span>
+              </div><!-- /.col-md-3 -->
+              <div class="col-md-1 text-center">
+                <span>{{campaign.type == 'original' ? 'Original' : 'Remix' | capitalize}}</span>
+              </div><!-- /.col-md-1 -->
+              <div class="col-md-1 text-center">
+                <span>{{campaign.status == '1' ? 'Published' : '-' | capitalize}}</span>
+              </div><!-- /.col-md-1 -->
+              <div class="col-md-1 text-center">
+                <span> {{ campaign.visit_count }} </span>
+              </div><!-- /.col-md-1 -->
+              <div class="col-md-2 text-center">
+                <span>{{ campaign.download_count ? campaign.download_count : 0  }}</span>
+              </div><!-- /.col-md-2 -->
+              <div class="col-md-2">
+                <ul class="manage-links">
+                  <li ng-if="campaign.status == '1'" >
+                    <a ui-sref="app.single_campaign({trackId : campaign.slug})">
+                      <i class="fa fa-link"></i>
+                    </a>
+                  </li>
+                  
+                  <li><a href="javascript:;" ng-click="openCampaignModal(campaign,'edit');"><i class="fa fa-pencil-square-o"></i></a></li>
+                  <li><a href="javascript:;" ng-click="deleteCampaignTrack(campaign.id, $index)"><i class="fa fa-times"></i></a></li>
+                </ul><!-- /.manage-links -->
+              </div><!-- /.col-md-2 -->
+            </div><!-- /.row -->
+          </div><!-- /.table-row -->
+        </div><!-- /.table-body -->
+
+        <uib-pagination
+          ng-change="getCampaigns()"
+          class="pull-right"
+          ng-model="campaignsCurrentPage"
+          total-items="totalCampaigns"
+          max-size="maxSize"  
+          previous-text="&lsaquo;" 
+          next-text="&rsaquo;" 
+          first-text="&laquo;" 
+          last-text="&raquo;"
+          ng-show= "totalCampaigns > 10">
+        </uib-pagination>
+
+
+        <div ng-if="!campaigns.length" class="text-center">
+           <div class="table-body">
+            <div class="row">
+                <div ng-if="!campaigns" class="col-md-12">
+                  <span> Loading </span>
+                </div>
+                <div ng-if="!campaigns.length && campaigns.length ==0 " class="col-md-12">
+                  <span> No Campaigns Running</span>
+                </div>
+            </div>
+           </div>
+        </div>
+        <div class="clearfix"></div>
+      </section><!-- /#runing-campaigns -->
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row -->
+
+  <div class="row">
+    <div class="col-xs-12">
+      <section id="your-soundcloud-tracks">
+        <!-- <a  href="javascript:;" class="pull-right" ng-click="resetRepostForm();getDemoTracks()" onClick="$('#repostModal').modal()"><h2 class="font font14">Repost Demo Track</h2></a> -->
+        <div class="title-wrapper">
+          <h2 class="pull-left">Your Demo Tracks</h2><!-- /.pull-left -->
+          <!-- <a href="javascript:;" class="refresh pull-right"><i class="fa fa-refresh"></i> Refresh</a> -->
+          <div class="clearfix"></div><!-- /.clearfix -->
+          <div class="table-header">
+            <div class="row">
+              <div class="col-md-1">
+                <span>#</span>
+              </div><!-- /.col-md-1 -->
+              <div class="col-md-6">
+                <span>Track Name</span>
+              </div><!-- /.col-md-9 -->
+              <div class="col-md-2">
+                <span>Type</span>
+              </div><!-- /.col-md-9 -->
+              <div class="col-md-3">
+                <span>Status</span>
+              </div><!-- /.col-md-2 -->
+              <!-- <div class="col-md-2">
+                <span>Repost</span>
+              </div> -->
+              
+            </div><!-- /.row -->
+          </div><!-- /.table-header -->
+          <div class="table-body" ng-if="demoTracks.length">
+            <div class="table-row" ng-repeat="track in demoTracks">
+              <div class="row">
+                <div class="col-md-1">
+                  <span>{{$index+1 + (demoTracksCurrentPage - 1) *10}}</span>
+                </div><!-- /.col-md-1 -->
+                <div class="col-md-6">
+                  <span>{{track.track_name}} <!-- <a href="javascript:;">[FREE DOWNLOAD]</a> --></span>
+                </div><!-- /.col-md-9 -->
+                <div class="col-md-2">
+                  <span>{{track.isSignupTrack?'Quality Control':(track.type | spaceless | capitalize) }} </span>
+                </div><!-- /.col-md-9 -->
+                <div class="col-md-3">
+                  <span>{{track.status | capitalize}}</span>
+                </div><!-- /.col-md-2 -->
+                <!-- <div class="col-md-2">
+                  <span ng-if="track.repost_track_id == null"> - </span>
+                  <span ng-if="track.repost_track_id != null">Repost</span>
+                </div> -->
+                
+              </div><!-- /.row -->
+            </div><!-- /.table-row -->
+          </div><!-- /.table-body -->
+          <div ng-if="!demoTracks.length" class="text-center">
+           <div class="table-body">
+            <div class="row">
+                <div ng-if="!demoTracks" class="col-md-12">
+                  <span> Loading</span>
+                </div>
+                <div ng-if="!demoTracks.length && demoTracks.length == 0" class="col-md-12">
+                  <span> No Demo Tracks</span>
+                </div>
+            </div>
+           </div>
+            
+          </div>
+        </div><!-- /.title-wrapper -->
+        <uib-pagination
+          ng-change="getTrackDemos()"
+          class="pull-right"
+          ng-model="demoTracksCurrentPage"
+          total-items="totalDemoTracks"
+          max-size="maxSize"  
+          previous-text="&lsaquo;" 
+          next-text="&rsaquo;" 
+          first-text="&laquo;" 
+          last-text="&raquo;"
+          ng-show= "totalDemoTracks > 10">
+        </uib-pagination>
+        <div class="clearfix"></div>  
+      </section><!-- /#your-demo-tracks -->
+      
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row -->
+
+  <section id="stats">
+    <div class="row">
+      <div class="col-md-7">
+        <h2>Your Visitors</h2>
+        <br/>
+        <!-- <img src="frontweb/assets/images/admin/img_your-visitors.png" alt="Stats image" /> -->
+        <canvas id="line" class="chart chart-line" chart-data="lineChart"
+        chart-labels="lineLabels" chart-series="lineSeries" 
+        chart-dataset-override="datasetOverride" chart-click="onClick" chart-options="optionsLine">
+        </canvas>
+        <!-- <div id="legendDiv">
+          <ul class="line-legend">
+            <li><span style="background-color:rgba(151,187,205,1)"></span>Candidates</li>
+          </ul>
+        </div>  -->
+      </div><!-- /.col-md-8 -->
+      <div class="col-md-5" ng-if="doughnutChart.length">
+        <h2 class="fanbase">Your Fanbase</h2>
+        <p class="fanbaselabel">Social media growth while using your Sore Thumb Media fan gates only</p>
+        <br/><br/><br/>
+        <!-- <img src="frontweb/assets/images/admin/img_your-fanbase.png" alt="Fan bas image" /> -->
+        <canvas id="doughnut" class="chart chart-doughnut"
+          chart-data="doughnutChart" chart-labels="doughnutLabel" chart-colours="colors" chart-options="optionsDoughnut" height="261px"><!-- chart-legend="true" -->
+        </canvas>
+      </div><!-- /.col-md-4 -->
+    </div><!-- /.row -->
+  </section><!-- /#stats -->
+</div>
+<!-- <canvas id="doughnut" class="chart chart-doughnut"
+          chart-data="data1" chart-labels="labels1">
+        </canvas> -->
+<script type="text/ng-template" id="campaignModal">
+  <div data-ng-include=" 'frontweb/tpl/artist/modals/add-campaign-modal.html' "></div>
+</script>
