@@ -1,0 +1,890 @@
+@font-face {
+  font-family: 'WorkSans-Light';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/WorkSans-Light.ttf");
+}
+
+@font-face {
+  font-family: 'WorkSans-Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/WorkSans-Medium.ttf");
+}
+
+
+
+@font-face {
+  font-family: 'WorkSans-Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/WorkSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: 'WorkSans-SemiBold';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/WorkSans-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: 'WorkSans-Bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/WorkSans-Bold.ttf");
+}
+
+
+#signInModal .modal-content{
+	background:none!important;
+	min-height: 649px!important;
+}
+
+#signInModal .modal-dialog{
+	margin-top:4px!important;
+	background: url("../assets/images/homepage/sign-in-bg.png")!important;
+}
+
+#signInModal .modal-dialog .modal-content .modal-body{
+	padding-top:30px!important;
+}
+
+#joinUsUserModal .modal-body{
+	padding-top:0px!important;
+}
+
+@media (min-width: 1220px){
+	.modal-dialog {
+	    width: 576px!important;
+	    margin: 0px auto;
+	}
+	#joinUsUserModal .modal-dialog{
+		width: 880px!important;
+	}
+
+	#signupForm #lname, #signupForm #town{
+		margin-left: 0px!important;
+	}
+
+	#signinForm .password{
+		width: 308px!important;
+		margin: 15px 94px 0!important;
+		padding: 15.5px 15px!important;		
+	}
+
+	#signinForm .email{
+		width: 308px!important;
+		margin: 58px 94px 0!important;
+		padding: 15.5px 15px!important;		
+	}
+
+	form#signupForm{
+		margin:15px 100px!important;
+	}
+
+	#signupForm button.signup_btn{
+		margin: 44px auto 0!important;
+	}
+
+	#customPlayers .container{
+		width: 940px;
+	}
+
+	#link-me .container{
+		width: 850px;
+	}
+
+	#customPlayers .container{
+		margin: 0px 222px!important;
+		padding-bottom: 40px;
+	}
+}
+
+@media (max-width: 1220px) and (min-width: 991px){
+	.modal-dialog {
+	    width: 576px!important;
+	    margin: 0px auto;
+	}
+
+	#joinUsUserModal .modal-dialog{
+		width: 880px!important;
+	}
+
+	#signupForm #fname, #signupForm #country{
+		width: 100%;
+	}
+
+	#signupForm #lname, #signupForm #town{
+		width: 100%;
+		margin-left: 0px!important;
+	}
+
+	form#signupForm{
+		margin:15px 100px!important;
+	}
+
+	#signupForm button.signup_btn{
+		margin: 44px auto 0!important;
+	}
+
+	#signupForm .start-input{
+		margin-top:10px!important;
+	}
+
+	#customPlayers .container{
+		margin: 0px 100px!important;
+		width: 870px!important;
+	}
+
+	.stmNew-discover .stmNew-txtBox {
+	    top: 30%!important;
+	    right: 7%!important;
+	}
+
+	.stmNew-preview .stmNew-txtBox{
+		right: 7%!important;
+	}
+
+	#customPlayers .container{
+		margin: 0px auto!important;
+	}
+
+	#link-me .container{
+		margin: 0px auto!important;
+		width: 850px!important
+	}
+
+	#teamPartners .stmNew-contactBtn{
+		right: 31%!important;
+	}
+
+	#teamPartners h2{
+		right: 40%!important;
+	}
+}
+@media (min-width: 768px) and (max-width: 991px){
+	.modal-dialog {
+	    width: 576px!important;
+	    margin: 0px auto;
+	}
+
+	#joinUsUserModal .modal-dialog{
+		width: 680px!important;
+	}
+
+	#signupForm #fname{
+		width: 115%!important;
+		margin-top:0px!important;
+	}
+
+	#signupForm #country{
+		width: 115%!important;
+	}
+
+	#signupForm #lname, #signupForm #town{
+		width: 115%!important;
+		margin-left: 100px!important;
+	}
+
+	#joinUsUserModal .modal-header img{
+		width: 30%!important;
+	}
+
+	#signupForm #name, #signupForm .email, #signupForm #password, #signupForm .confirm_password{
+		width: 65%!important;
+		margin-left: 84px!important;
+	}
+
+	#signupForm{
+		margin-left: 10px!important;
+	}
+
+	#signupForm button.signup_btn{
+		margin: 20px auto 0!important;
+	}
+
+	#signupForm select#accountType{
+		margin-left: 90px!important;
+	}
+
+	#signupForm .start-input{
+		margin-top:20px!important;
+	}
+
+	.stmNew-preview .stmNew-txtBox{
+		top:30%!important;
+		right:3%!important;
+	}
+
+	.customPlayers .container{
+		margin: 0px auto!important;
+	}
+
+	.stmNew-discover .stmNew-txtBox{
+		top:20%!important;
+	}
+
+	#teamPartners h2{
+		top:30%!important;
+		right: 37%!important;
+	}
+
+	#teamPartners .stmNew-contactBtn{
+		top: 70%!important;
+		right: 25px!important;
+	}
+}
+
+@media (min-width: 589px) and (max-width: 768px){
+	.modal-dialog {
+	    width: 500px;
+	    margin: 0px auto;
+	}
+
+	#joinUsUserModal .modal-dialog{
+		width: 480px!important;
+	}
+
+	#signupForm #fname{
+		width: 85%!important;
+		margin-top:0px!important;
+	}
+
+	#signupForm #country{
+		width: 85%!important;
+	}
+
+	#signupForm #lname, #signupForm #town{
+		width: 85%!important;
+	}
+
+	#joinUsUserModal .modal-header img{
+		width: 30%!important;
+	}
+
+	#signupForm #name, #signupForm .email, #signupForm #password, #signupForm .confirm_password{
+		width: 84%!important;
+	}
+
+	#signupForm{
+		margin-left: 10px!important;
+	}
+
+	#signupForm button.signup_btn{
+		margin: 20px auto 0!important;
+	}
+
+	#trackName{
+		width: 70%!important;
+	}
+
+	#joinUsUserModal .select-track{
+		margin:35px!important;
+	}
+
+	#joinUsUserModal span.footer{
+		margin:10px!important;
+	}
+
+	#joinUsUserModal #user_avatar{
+		margin-top: 10px!important;
+	}
+
+	#signupForm select#accountType{
+		margin-left: -10px!important;
+	}
+
+	#signupForm .start-input{
+		margin-top:20px!important;
+	}
+}
+
+@media (min-width: 440px) and (max-width: 589px){
+	.modal-dialog {
+	    width: 380px;
+	    margin: 0px auto;
+	}
+	#joinUsUserModal .modal-dialog{
+		width: 400px!important;
+	}
+	#signupForm #fname, #signupForm #country{
+		width: 115%;
+	}
+
+	#signupForm #lname, #signupForm #town{
+		width: 115%;
+		margin-left: 0px!important;
+	}
+
+	#joinUsUserModal .modal-header img{
+		width: 30%!important;
+	}
+
+	#joinUsUserModal span.footer{
+		margin:20px!important;
+	}
+
+	#joinUsUserModal .select-track{
+		margin: 0px 9%!important;
+	}
+
+	#joinUsUserModal #user_avatar{
+		margin-top: 10px!important;
+	}
+
+	#signupForm .start-input{
+		margin-top:20px!important;
+	}
+}
+
+.stmNew-bannerMenImg{
+	position: absolute;
+    right: -4px;
+    bottom: -3px;
+    max-width: 307px;
+}    
+
+#signInModal .modal-dialog .modal-content .modal-header, #joinUsUserModal .modal-dialog .modal-content .modal-header{
+	border-bottom: none!important;
+	padding-top:12px!important;
+}
+
+#signInModal .modal-dialog .modal-content .modal-header h2, #joinUsUserModal .modal-dialog .modal-content .modal-header h2{
+	font-family: WorkSans-Light!important;
+	font-size: 30px!important;
+	font-weight: 100!important;
+	line-height: 45px!important;
+}
+
+#signInModal .modal-dialog .modal-content .modal-header img{
+	padding-top:7px;
+}
+
+#signInModal .modal-dialog .modal-content .modal-body .sign-up-facebook{
+	width: 192px!important;
+	padding:10px 10px 10px!important;
+	background: #3A559F!important;
+	/*padding: 11px 15px;
+	text-align: center;
+	word-spacing: -2px;*/
+}
+
+#joinUsUserModal .modal-dialog .modal-content .modal-body .sign-up-facebook{
+	width: 192px!important;
+	padding: 11px 15px;
+	text-align: center;
+	word-spacing: -2px;
+}
+
+#signInModal .modal-dialog .modal-content .modal-body .sign-up-facebook span, #joinUsUserModal .modal-dialog .modal-content .modal-body .sign-up-facebook span{
+	font-family: WorkSans-Light!important;
+	font-size: 12px!important;
+	min-width: 132px!important;
+	letter-spacing: -0.52px!important;
+}
+
+#signInModal .modal-dialog .modal-content .modal-body .sign-up-facebook i{
+	font-size: 16px!important;
+	margin-right: 0px!important;
+    float: left!important;
+    margin-left: 10px!important;
+}
+
+#signinForm{
+	margin:0 15px!important;
+}
+
+#signinForm input.email{
+	margin-top: 58px!important;	
+    font-family: WorkSans-Light!important;
+    font-size: 12px!important;    
+    background:rgba(65, 65, 65, 0.5)!important;
+}
+
+#signinForm input.password{
+	margin-top: 16px!important;
+    font-family: WorkSans-Light!important;
+    font-size: 12px!important;
+    background:rgba(65, 65, 65, 0.5)!important;
+}
+
+#signupForm input{
+	line-height: 45px!important;
+    padding-top: 0px!important;
+    padding-bottom: 0px!important;
+}   
+
+.landing-page-modals #signInModal .modal-dialog .modal-content .modal-body .forgotten-password{
+	margin-top:10px!important;
+	font-family: WorkSans-Light;
+	font-size: 12px;
+	letter-spacing: -0.52px!important;
+}
+
+.landing-page-modals #signInModal .modal-dialog .modal-content .modal-body .have-an-account{
+	margin-top: 72px;
+	font-family: WorkSans-Regular;
+	font-size: 16px;
+	letter-spacing: -0.7px!important;
+}
+
+.landing-page-modals #signInModal .modal-dialog .modal-content .modal-body .have-an-account a{
+	text-decoration: none!important;
+}
+
+#joinUsUserModal .modal-content{
+	background:none!important;
+/*	min-height: 649px!important;*/
+}
+
+#joinUsUserModal .modal-dialog{
+	background: url("../assets/images/homepage/sign-up-bg.png")!important;
+}
+
+#signInModalLabel{
+	margin-top:-10px!important;
+}
+
+#signupForm select#accountType{
+	max-width: 192px!important;
+	border:2px solid #FC5F60!important;
+	font-family: WorkSans-Light!important;
+	font-size: 14px!important;
+	background: #121213!important
+	opacity: 1!important;
+	padding-top: 17px!important;
+	padding-bottom: 17px!important;
+	background: #262934!important;
+}
+
+#signupForm select#accountType:visited{
+	border:1px solid #FC5F60!important;
+
+}
+
+#signupForm #fname{
+	margin-right: 0px!important;
+	width: 66%;
+}
+
+#signupForm #country{
+	margin-right: 0px!important;
+	width: 66%;
+	background: #262934!important;
+	border:1px solid #FC5F60!important;
+	padding-bottom: 0px!important;
+	padding-top:0px!important;
+	font-size: 12px!important;
+	font-family: WorkSans-Light!important;
+	line-height: 41px!important;
+}
+
+#signupForm #lname, #signupForm #town{
+	width: 66%;
+}
+
+#signupForm input{
+	margin-top: 15px!important;
+	/*background: #656565!important;*/
+	/*background:rgba(80, 71, 71, 0.36)!important;*/
+	background:rgba(65, 65, 65, 0.5)!important;
+    font-family: WorkSans-Light!important;
+    font-size: 12px!important;
+}
+
+#signinForm button.signin_btn{
+	margin-top:43px!important;
+	min-width: 214px;
+	font-family: WorkSans-Regular;
+	font-size: 15px!important;
+	color: white;
+	line-height: 43px!important;
+	border:1px solid #FC5F5F!important;
+	background-color: #121213!important;
+	letter-spacing: -0.65px!important;
+}
+
+#signupForm button.signup_btn{
+	min-width: 214px;
+	font-family: WorkSans-Regular;
+	font-size: 15px!important;
+	color: white;
+	line-height: 43px!important;
+	border:1px solid #FC5F5F!important;
+	background-color: #121213!important;
+	letter-spacing: -0.65px!important;
+	opacity: 1!important;
+}
+
+#signupForm #image{
+	opacity: 0!important;
+}
+
+#signupForm .start-input{
+	margin-top: 35px;
+}
+
+#joinUsUserModal .have-an-account{
+	font-family: WorkSans-Regular!important;
+	font-size: 13px!important;
+	margin-top:18px!important;
+	letter-spacing: -0.57px!important;
+}
+
+#joinUsUserModal .have-an-account a{
+	text-decoration: none!important;
+}
+
+#joinUsUserModal .footer{
+	margin: 20px 182px!important;
+	font-family: WorkSans-Light!important;
+	font-size: 13px!important;
+	letter-spacing: -0.57px!important;
+}
+
+.connect-soundcloud{
+	width: 252px!important;
+	margin-top:22px!important;
+	padding:2px 10px 5px!important;
+}
+
+
+
+.connect-soundcloud span{
+	font-family: WorkSans-Bold!important;
+	font-size: 12px!important;
+	letter-spacing: 0.48px!important;
+	float: left!important;
+	margin-top:13px!important;
+}
+
+.connect-soundcloud i{
+	float: left!important;
+	font-size: 27px!important;
+	background-color: white!important;
+    color: #f7540e!important;
+    font-size: 18px!important;
+    padding: 8px 5px!important;
+    border-radius: 50%!important;
+    vertical-align: text-bottom!important;
+}
+
+
+#trackName{
+	font-family: WorkSans-Regular!important;
+    font-size: 13px!important;
+    margin: 7px auto!important;
+    width: 252px!important;
+}
+
+.select-track{
+	margin:0 23%!important;
+}
+
+.select-track p{
+	font-family: WorkSans-Regular!important;
+	font-size: 12px!important;
+	color: #FC5F60!important;
+	letter-spacing: -0.52px!important;
+}
+
+.select-track select{
+	border: 1px solid #FC5F60!important;
+}
+
+#joinUsUserModal #user_avatar{
+	margin-top: 31px;
+	border-radius: 50%;
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+input.choose_image {
+  border: 2px solid gray;
+  color: white;
+  padding: 0px 7px!important;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: bold;
+  font-family: WorkSans-Light!important;
+  border: 1px solid #FC5F60!important;
+  line-height: 29px!important;
+  letter-spacing: -0.58px!important;
+  margin-top:0px!important;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+/*#signInModal .modal-dialog .modal-content .modal-body input:not([type=checkbox]){
+	margin: 15px 94px 0!important;
+}*/
+
+#stmNew-modifiedDesign .stmNew-nav.signUpBtn{
+	margin-right: -30px!important;
+}
+
+#stmNew-modifiedDesign .stmNew-nav.mainNavBtn .stmNew-navBtn.home-nav, #stmNew-modifiedDesign .stmNew-nav.signUpBtn .stmNew-navBtn.home-signup{
+	padding: 8px 6px!important;
+	width: 103px;
+	font-family: WorkSans-Regular!important;
+	font-size: 16px!important;
+}
+
+#stmNew-modifiedDesign .stmNew-nav.mainNavBtn{
+	margin-right: -47px!important;
+}
+
+.homepage .navbar-default{
+	padding: 10px 0px!important;
+}
+
+.homepage .navbar-default .navbar-header a img{
+	margin-left: 16px!important;
+	margin-top: 0px!important;
+}
+
+.stmNew-banner{
+	border:none;
+}
+
+.stmNew-banner .container{
+	padding-top: 209px;
+	padding-bottom: 149px;
+}
+
+#stmNew-modifiedDesign div.stmNew-bannerInfo{
+	padding-left: 115px;
+	max-width: 450px;
+}
+
+#stmNew-modifiedDesign div.stmNew-bannerInfo h2{
+	font-family: WorkSans-Light!important;
+	margin-bottom: 15px;
+}
+
+#stmNew-modifiedDesign div.stmNew-bannerInfo h2 span{
+	font-family: WorkSans-Bold!important;
+}
+
+#stmNew-modifiedDesign div.stmNew-bannerInfo p{
+	font-family: WorkSans-Light!important;
+	letter-spacing: -0.97px;
+}
+
+#stmNew-modifiedDesign div.stmNew-bannerInfo p span{
+	font-family: WorkSans-Bold!important;
+}
+
+#stmNew-modifiedDesign div.stmNew-bannerInfo div a.stmNew-btnDefault{
+	font-family: WorkSans-Light!important;
+}
+
+#stmNew-modifiedDesign div.stmNew-banner div.stmNew-logoWatermark{
+	bottom:230px;
+}
+
+#stmNew-modifiedDesign div.stmNew-banner div.stmNew-logoWatermark img{
+	max-width: none;
+	width: 337px;
+	height: 337px;
+}
+
+.stmNew-joinUs{
+	padding-bottom: 90px;
+}
+
+.stmNew-joinUs h5{
+	font-size: 24px;
+	font-family: WorkSans-Light;
+	letter-spacing: -1.29px;
+	max-width: 864px;
+    margin: 0px auto;
+}
+
+.stmNew-joinUs a{
+	padding: 15px 31px;
+	margin-top:79px;
+	font-size: 17px;
+	font-family: WorkSans-Regular;
+	letter-spacing: 0.41px;
+}
+
+.stmNew-preview{
+	position: relative;
+	/*border-bottom: 7px solid #FC5F60;*/
+}
+
+.stmNew-preview .stmNew-txtBox{
+	position: absolute;
+    position: absolute;
+    top: 40%;
+    right: 18%;
+    max-width: 328px;
+    padding-left: 0px;
+}
+
+.stmNew-txtBox 	h3{
+	font-family: WorkSans-Bold;
+	font-size: 39px;
+	letter-spacing: -0.61px;
+	color: white;
+}
+
+.stmNew-txtBox 	p{
+	font-family: WorkSans-Light;
+	font-size: 18px;
+	letter-spacing: 0.19px;
+	color: white;
+	letter-spacing: 0.21px;
+}
+
+.stmNew-txtBox 	p span{
+	font-family: WorkSans-Bold	;
+	font-size: 18px;
+	letter-spacing: 0.19px;
+	color: #FC5F60;
+}
+
+#customPlayers, #link-me{
+	background: black;
+	margin-top:-3px;
+	border-top: 7px solid #FC5F60;
+	border-bottom: 7px solid #FC5F60;
+}
+
+#customPlayers .stmNew-imgBox, #link-me .stmNew-imgBox{
+	padding-top: 30px;
+}
+
+.stmNew-discover .stmNew-txtBox{
+	top: 53%;
+	right: 13%
+	width: 374px;
+}
+
+.stmNew-discover .discover-signup{
+	margin-top: 60px;
+	margin-left: 10px;
+	font-family: WorkSans-Regular;
+	font-size: 20px;
+	letter-spacing: -0.76px;
+	color: #DADADA;
+}
+
+#link-me .container{
+	padding-top: 18px;
+    padding-right: 22px;
+}
+
+#testimonials{
+	background: none!important;
+	background: url("../assets/images/homepage/selection.png")!important;
+} 
+
+#testimonials .stmNew-testimonialsInner{
+	background: none!important;
+}
+
+#testimonials .artist{
+	font-family: WorkSans-Medium;
+	font-size: 23px;
+	letter-spacing: 0.36px;
+	width: 120%;
+}
+
+#testimonials .carouseltext{
+	color: white;
+	font-family: WorkSans-Light;
+	font-family: 20px;
+	letter-spacing: -0.21px;
+}
+
+#testimonials .carouseltext span{
+	font-family: WorkSans-Bold;
+	color: #FC5F60;
+}
+
+#carousel-artists-say a{
+	font-family: WorkSans-Regular;
+    font-size: 20px;
+    letter-spacing: -0.76px;
+    color: #DADADA;
+}
+
+#teamPartners{
+	position: relative;
+}
+
+#teamPartners h2{
+	font-family: WorkSans-Medium;
+    font-size: 29px;
+    letter-spacing: -1.51px;
+    position: absolute!important;
+    top: 62px;
+    right: 44%;
+}
+
+#teamPartners .stmNew-contactBtn{
+	position: absolute;
+	top: 75%;
+	right:35%;
+}
+
+#teamPartners a{
+	font-family: WorkSans-Regular;
+	font-size: 18px;
+	letter-spacing: -0.68px;
+}
+
+.homepage #footer{
+	padding: 15px 0px!important;
+	margin-top:-2px;
+	border-top: 6px solid #FC5F60;
+}
+
+.stmNew-numbersSecInner{
+	background: #000!important;
+	padding: 92px 0px;
+}
+
+.stmNew-numbersBox{
+	box-shadow: 0px -6px 10px 2px rgba(171, 67, 67, 0.8);
+}
+
+.stmNew-numbersBoxOver p{
+	color: white;
+	font-family: WorkSans-Regular;
+	font-size: 12px;
+	letter-spacing: -0.38px;
+}
+
+.stmNew-numbersBoxOver h3{
+	color: white;
+	font-family: WorkSans-Light;
+	font-size:24px;
+	letter-spacing: -0.76px;
+}
+
+#footer span{
+	float: left;
+	font-family: WorkSans-Regular;
+	font-size:13px;
+	letter-spacing: -1.08px;
+	color: #8e8e8e;
+}
+
+#footer ul{
+	float: right;
+}
+	
